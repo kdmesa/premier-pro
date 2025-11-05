@@ -1,7 +1,30 @@
 import { Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.jpg";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSectionClick = (sectionId: string) => {
+    // If we're already on the homepage, just scroll
+    if (location.pathname === '/') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to homepage first, then scroll after a short delay
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  };
+
   return (
     <footer className="bg-navy text-navy-foreground py-12 px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
@@ -21,16 +44,37 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-3">Quick Links</h4>
               <ul className="space-y-2 text-navy-foreground/80">
-                <li><a href="#how-it-works" className="hover:text-primary transition-colors">How It Works</a></li>
-                <li><a href="#services" className="hover:text-primary transition-colors">Services</a></li>
-                <li><a href="#reviews" className="hover:text-primary transition-colors">Reviews</a></li>
+                <li>
+                  <button 
+                    onClick={() => handleSectionClick('how-it-works')} 
+                    className="hover:text-primary transition-colors text-left"
+                  >
+                    How It Works
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => handleSectionClick('services')} 
+                    className="hover:text-primary transition-colors text-left"
+                  >
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => handleSectionClick('reviews')} 
+                    className="hover:text-primary transition-colors text-left"
+                  >
+                    Reviews
+                  </button>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-3">Legal</h4>
               <ul className="space-y-2 text-navy-foreground/80">
-                <li><a href="#" className="hover:text-primary transition-colors">Terms & Conditions</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
+                <li><Link to="/terms-and-conditions" className="hover:text-primary transition-colors">Terms &amp; Conditions</Link></li>
+                <li><Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
           </div>
@@ -38,7 +82,7 @@ const Footer = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-navy-foreground/20">
           <p className="text-navy-foreground/80 mb-4 md:mb-0">
-            © 2024 Premier Pro Cleaners. All rights reserved.
+            © 2025 Premier Pro Cleaners. All rights reserved.
           </p>
           
           <div className="flex gap-4">

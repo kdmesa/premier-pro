@@ -18,7 +18,7 @@ import { CalendarIcon, Clock, Loader2, CheckCircle, CheckCircle2, ArrowRight, Cr
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import styles from "./BookingPage.module.css";
 
@@ -797,8 +797,8 @@ export default function BookingPage() {
                   
                   <p className="text-center text-sm text-muted-foreground mt-4">
                     By booking, you agree to our{' '}
-                    <a href="#" className="text-primary hover:underline">Terms of Service</a> and{' '}
-                    <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
+                    <Link to="/terms-and-conditions" className="text-primary hover:underline">Terms of Service</Link> and{' '}
+                    <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>.
                   </p>
                 </div>
               </form>
