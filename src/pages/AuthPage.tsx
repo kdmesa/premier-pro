@@ -12,9 +12,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Loader2, Mail, Lock, User, ArrowRight, Phone, MapPin } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Loader2, Mail, Lock, User, ArrowRight, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import logo from "@/assets/logo.png";
 
@@ -37,8 +44,15 @@ const signupSchema = z.object({
   path: ["confirmPassword"],
 });
 
+// Forgot password schema
+const forgotPasswordSchema = z.object({
+  email: z.string().email("Please enter a valid email"),
+});
+
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -61,6 +75,14 @@ export default function AuthPage() {
       address: "",
       password: "",
       confirmPassword: "",
+    },
+  });
+
+  // Forgot password form
+  const forgotPasswordForm = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
     },
   });
 
@@ -119,6 +141,35 @@ export default function AuthPage() {
       });
     }
   }
+
+  // Handle forgot password submission
+  async function onForgotPasswordSubmit(values: z.infer<typeof forgotPasswordSchema>) {
+    try {
+      // Simulate API call to send reset email
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setResetEmailSent(true);
+      
+      toast({
+        title: "Reset Email Sent!",
+        description: `We've sent a password reset link to ${values.email}`,
+      });
+      
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send reset email. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }
+
+  // Handle closing forgot password dialog
+  const handleCloseForgotPassword = () => {
+    setShowForgotPassword(false);
+    setResetEmailSent(false);
+    forgotPasswordForm.reset();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
@@ -194,9 +245,13 @@ export default function AuthPage() {
                       <input type="checkbox" className="rounded border-border" />
                       <span className="text-muted-foreground">Remember me</span>
                     </label>
-                    <a href="#" className="text-primary hover:underline">
+                    <button 
+                      type="button"
+                      onClick={() => setShowForgotPassword(true)}
+                      className="text-primary hover:underline"
+                    >
                       Forgot password?
-                    </a>
+                    </button>
                   </div>
 
                   <Button 
@@ -366,9 +421,9 @@ export default function AuthPage() {
 
                   <div className="text-sm text-muted-foreground">
                     By signing up, you agree to our{' '}
-                    <a href="#" className="text-primary hover:underline">Terms of Service</a>
+                    <Link to="/terms-and-conditions" className="text-primary hover:underline">Terms of Service</Link>
                     {' '}and{' '}
-                    <a href="#" className="text-primary hover:underline">Privacy Policy</a>
+                    <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>
                   </div>
 
                   <Button 
@@ -393,6 +448,103 @@ export default function AuthPage() {
             )}
 
           </div>
+
+          {/* Forgot Password Dialog */}
+          <Dialog open={showForgotPassword} onOpenChange={handleCloseForgotPassword}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold">
+                  {resetEmailSent ? "Check Your Email" : "Reset Password"}
+                </DialogTitle>
+                <DialogDescription>
+                  {resetEmailSent 
+                    ? "We've sent you a password reset link. Please check your email and follow the instructions."
+                    : "Enter your email address and we'll send you a link to reset your password."}
+                </DialogDescription>
+              </DialogHeader>
+
+              {resetEmailSent ? (
+                <div className="space-y-6 py-4">
+                  <div className="flex justify-center">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-8 h-8 text-primary" />
+                    </div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Didn't receive the email? Check your spam folder or
+                    </p>
+                    <button
+                      onClick={() => {
+                        setResetEmailSent(false);
+                        forgotPasswordForm.reset();
+                      }}
+                      className="text-primary hover:underline text-sm font-medium"
+                    >
+                      try another email address
+                    </button>
+                  </div>
+                  <Button
+                    onClick={handleCloseForgotPassword}
+                    className="w-full"
+                  >
+                    Close
+                  </Button>
+                </div>
+              ) : (
+                <Form {...forgotPasswordForm}>
+                  <form onSubmit={forgotPasswordForm.handleSubmit(onForgotPasswordSubmit)} className="space-y-4 py-4">
+                    <FormField
+                      control={forgotPasswordForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Address</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+                              <Input
+                                type="email"
+                                placeholder="you@example.com"
+                                className="pl-10 h-11"
+                                {...field}
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="flex gap-3 pt-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleCloseForgotPassword}
+                        className="flex-1"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={forgotPasswordForm.formState.isSubmitting}
+                        className="flex-1"
+                      >
+                        {forgotPasswordForm.formState.isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          "Send Reset Link"
+                        )}
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              )}
+            </DialogContent>
+          </Dialog>
 
           {/* Footer Text */}
           <p className="text-center text-sm text-muted-foreground mt-6">
