@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Clock, Loader2, CheckCircle, CheckCircle2, ArrowRight } from "lucide-react";
+import { CalendarIcon, Clock, Loader2, CheckCircle, CheckCircle2, ArrowRight, CreditCard, Wallet, Lock, ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
@@ -34,6 +35,17 @@ const formSchema = z.object({
   time: z.string().min(1, "Please select a time"),
   notes: z.string().optional(),
 });
+
+// Payment form schema for online payment
+const paymentSchema = z.object({
+  cardNumber: z.string().min(16, "Card number must be 16 digits").max(19),
+  cardName: z.string().min(2, "Name on card is required"),
+  expiryDate: z.string().regex(/^(0[1-9]|1[0-2])\/([0-9]{2})$/, "Invalid expiry date (MM/YY)"),
+  cvv: z.string().min(3, "CVV must be 3 digits").max(4),
+});
+
+type PaymentMethod = "cash" | "online" | null;
+type BookingStep = "details" | "payment" | "success";
 
 const services = [
   { 
@@ -78,7 +90,7 @@ const services = [
     description: "Deep carpet cleaning service",
     price: 150, 
     duration: "2-3 hours",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4b1ff?w=400&h=300&fit=crop",
+    image: "https://blog.woodenstreet.com/images/data/image_upload/1651836491carpet-cleaning-tip-and-trick-banner.jpg",
     features: ["Steam cleaning", "Stain removal", "Deodorizing", "Dries in 4-6 hours"]
   },
   { 
@@ -103,8 +115,12 @@ const availableTimes = [
 export default function BookingPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState<BookingStep>("details");
+  const [bookingData, setBookingData] = useState<z.infer<typeof formSchema> | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   
-  // Initialize form with react-hook-form and zod
+  // Initialize booking form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -118,33 +134,106 @@ export default function BookingPage() {
     },
   });
 
-  // Handle form submission
+  // Initialize payment form
+  const paymentForm = useForm<z.infer<typeof paymentSchema>>({
+    resolver: zodResolver(paymentSchema),
+    defaultValues: {
+      cardNumber: "",
+      cardName: "",
+      expiryDate: "",
+      cvv: "",
+    },
+  });
+
+  // Handle booking form submission - move to payment step
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setBookingData(values);
+    setCurrentStep("payment");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Get service price
+  const getServicePrice = (serviceName: string) => {
+    const service = services.find(s => s.name === serviceName);
+    return service?.price || 0;
+  };
+
+  // Calculate total
+  const calculateTotal = () => {
+    if (!bookingData) return { subtotal: 0, tax: 0, total: 0 };
+    const subtotal = getServicePrice(bookingData.service);
+    const tax = subtotal * 0.08; // 8% tax
+    const total = subtotal + tax;
+    return { subtotal, tax, total };
+  };
+
+  // Handle cash payment
+  const handleCashPayment = async () => {
+    setIsProcessing(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Show success message
+      await new Promise(resolve => setTimeout(resolve, 1500));
       toast({
         title: "Booking Confirmed!",
-        description: `Your ${values.service} has been scheduled for ${format(values.date, 'PPP')} at ${values.time}.`,
+        description: "You've selected cash payment. Please have the exact amount ready on the service date.",
       });
-      
-      // Redirect to home page after 2 seconds
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-      
+      setCurrentStep("success");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       toast({
         title: "Error",
-        description: "There was an error processing your booking. Please try again.",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsProcessing(false);
     }
-  }
+  };
 
-  if (form.formState.isSubmitSuccessful) {
+  // Handle online payment
+  const handleOnlinePayment = async (values: z.infer<typeof paymentSchema>) => {
+    setIsProcessing(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      toast({
+        title: "Payment Successful!",
+        description: "Your payment has been processed successfully.",
+      });
+      setCurrentStep("success");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      toast({
+        title: "Payment Failed",
+        description: "Your payment could not be processed. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Format card number
+  const formatCardNumber = (value: string) => {
+    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    const matches = v.match(/\d{4,16}/g);
+    const match = (matches && matches[0]) || "";
+    const parts = [];
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4));
+    }
+    return parts.length ? parts.join(" ") : value;
+  };
+
+  // Format expiry date
+  const formatExpiryDate = (value: string) => {
+    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    if (v.length >= 2) {
+      return v.slice(0, 2) + "/" + v.slice(2, 4);
+    }
+    return v;
+  };
+
+  // Success Screen
+  if (currentStep === "success") {
     return (
       <div className="min-h-screen">
         <Navigation />
@@ -172,6 +261,267 @@ export default function BookingPage() {
     );
   }
 
+  // Payment Screen
+  if (currentStep === "payment" && bookingData) {
+    const { subtotal, tax, total } = calculateTotal();
+    
+    return (
+      <div className="min-h-screen">
+        <Navigation />
+        <div className={styles.bookingContainer}>
+          <div className="container mx-auto px-4 py-16 max-w-5xl">
+            <div className={styles.header}>
+              <h1 className={styles.title}>Complete Your Payment</h1>
+              <p className={styles.subtitle}>
+                Choose your preferred payment method to confirm your booking
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Booking Summary */}
+              <div className="md:col-span-1">
+                <div className={styles.summaryCard}>
+                  <h3 className={styles.summaryTitle}>Booking Summary</h3>
+                  <div className={styles.summaryItem}>
+                    <strong>Service:</strong> {bookingData.service}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Date:</strong> {format(bookingData.date, "PPP")}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Time:</strong> {bookingData.time}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Address:</strong> {bookingData.address}
+                  </div>
+                  <div className={styles.divider}></div>
+                  <div className={styles.priceRow}>
+                    <span>Service Fee:</span>
+                    <span>${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className={styles.priceRow}>
+                    <span>Tax (8%):</span>
+                    <span>${tax.toFixed(2)}</span>
+                  </div>
+                  <div className={styles.divider}></div>
+                  <div className={styles.totalRow}>
+                    <span>Total:</span>
+                    <span>${total.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Methods */}
+              <div className="md:col-span-2">
+                <div className={styles.paymentCard}>
+                  <h3 className={styles.paymentTitle}>Select Payment Method</h3>
+
+                  {/* Payment Options */}
+                  <div className={styles.paymentMethods}>
+                    <div
+                      className={`${styles.paymentOption} ${paymentMethod === "cash" ? styles.selected : ""}`}
+                      onClick={() => setPaymentMethod("cash")}
+                    >
+                      <div className={styles.paymentOptionHeader}>
+                        <Wallet className="h-6 w-6" />
+                        <div>
+                          <h4 className={styles.paymentOptionTitle}>Cash Payment</h4>
+                          <p className={styles.paymentOptionDesc}>Pay when service is completed</p>
+                        </div>
+                      </div>
+                      {paymentMethod === "cash" && <CheckCircle2 className="h-5 w-5 text-primary" />}
+                    </div>
+
+                    <div
+                      className={`${styles.paymentOption} ${paymentMethod === "online" ? styles.selected : ""}`}
+                      onClick={() => setPaymentMethod("online")}
+                    >
+                      <div className={styles.paymentOptionHeader}>
+                        <CreditCard className="h-6 w-6" />
+                        <div>
+                          <h4 className={styles.paymentOptionTitle}>Online Payment</h4>
+                          <p className={styles.paymentOptionDesc}>Pay securely with credit/debit card</p>
+                        </div>
+                      </div>
+                      {paymentMethod === "online" && <CheckCircle2 className="h-5 w-5 text-primary" />}
+                    </div>
+                  </div>
+
+                  {/* Cash Payment Details */}
+                  {paymentMethod === "cash" && (
+                    <div className={styles.paymentDetails}>
+                      <div className={styles.cashInfo}>
+                        <h4 className={styles.infoTitle}>💵 Cash Payment Instructions</h4>
+                        <ul className={styles.infoList}>
+                          <li>Payment is due upon completion of service</li>
+                          <li>Please have exact amount ready: <strong>${total.toFixed(2)}</strong></li>
+                          <li>Our cleaner will provide a receipt</li>
+                          <li>Gratuity is appreciated but not required</li>
+                        </ul>
+                      </div>
+                      <Button
+                        onClick={handleCashPayment}
+                        disabled={isProcessing}
+                        className="w-full h-12 text-base mt-4"
+                      >
+                        {isProcessing ? (
+                          <>
+                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                            Confirming...
+                          </>
+                        ) : (
+                          <>
+                            Confirm Cash Payment
+                            <CheckCircle2 className="ml-2 h-5 w-5" />
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Online Payment Form */}
+                  {paymentMethod === "online" && (
+                    <div className={styles.paymentDetails}>
+                      <div className={styles.securityBadge}>
+                        <Lock className="h-4 w-4" />
+                        <span>Secure Payment - Your information is encrypted</span>
+                      </div>
+
+                      <Form {...paymentForm}>
+                        <form onSubmit={paymentForm.handleSubmit(handleOnlinePayment)} className="space-y-4">
+                          <FormField
+                            control={paymentForm.control}
+                            name="cardNumber"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Card Number</FormLabel>
+                                <FormControl>
+                                  <div className="relative">
+                                    <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                    <Input
+                                      placeholder="1234 5678 9012 3456"
+                                      className="pl-10"
+                                      maxLength={19}
+                                      {...field}
+                                      onChange={(e) => {
+                                        const formatted = formatCardNumber(e.target.value);
+                                        field.onChange(formatted);
+                                      }}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={paymentForm.control}
+                            name="cardName"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Name on Card</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="JOHN DOE" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                              control={paymentForm.control}
+                              name="expiryDate"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Expiry Date</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      placeholder="MM/YY"
+                                      maxLength={5}
+                                      {...field}
+                                      onChange={(e) => {
+                                        const formatted = formatExpiryDate(e.target.value);
+                                        field.onChange(formatted);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={paymentForm.control}
+                              name="cvv"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>CVV</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      type="password"
+                                      placeholder="123"
+                                      maxLength={4}
+                                      {...field}
+                                      onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, "");
+                                        field.onChange(value);
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          <Button
+                            type="submit"
+                            disabled={isProcessing}
+                            className="w-full h-12 text-base mt-6"
+                          >
+                            {isProcessing ? (
+                              <>
+                                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                Processing Payment...
+                              </>
+                            ) : (
+                              <>
+                                Pay ${total.toFixed(2)}
+                                <Lock className="ml-2 h-5 w-5" />
+                              </>
+                            )}
+                          </Button>
+                        </form>
+                      </Form>
+                    </div>
+                  )}
+
+                  {!paymentMethod && (
+                    <div className={styles.selectPrompt}>
+                      <p>Please select a payment method to continue</p>
+                    </div>
+                  )}
+                </div>
+
+                <Button
+                  variant="ghost"
+                  onClick={() => setCurrentStep("details")}
+                  className="mt-4"
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Booking Details
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Booking Details Form
   return (
     <div className="min-h-screen">
       <Navigation />
