@@ -1,0 +1,346 @@
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { 
+  Search, 
+  Download,
+  Eye,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  DollarSign,
+  TrendingUp,
+  UserPlus
+} from "lucide-react";
+
+// Mock data
+const customersData = [
+  {
+    id: "CUST001",
+    name: "John Doe",
+    email: "john@example.com",
+    phone: "(555) 123-4567",
+    address: "123 Main St, Chicago, IL",
+    joinDate: "2024-01-15",
+    totalBookings: 12,
+    totalSpent: "$1,450",
+    status: "active",
+    lastBooking: "2024-11-05"
+  },
+  {
+    id: "CUST002",
+    name: "Jane Smith",
+    email: "jane@example.com",
+    phone: "(555) 234-5678",
+    address: "456 Oak Ave, Chicago, IL",
+    joinDate: "2024-02-20",
+    totalBookings: 8,
+    totalSpent: "$980",
+    status: "active",
+    lastBooking: "2024-11-08"
+  },
+  {
+    id: "CUST003",
+    name: "Mike Johnson",
+    email: "mike@example.com",
+    phone: "(555) 345-6789",
+    address: "789 Business Blvd, Chicago, IL",
+    joinDate: "2024-03-10",
+    totalBookings: 15,
+    totalSpent: "$2,100",
+    status: "active",
+    lastBooking: "2024-11-09"
+  },
+  {
+    id: "CUST004",
+    name: "Sarah Williams",
+    email: "sarah@example.com",
+    phone: "(555) 456-7890",
+    address: "321 Pine St, Chicago, IL",
+    joinDate: "2024-04-05",
+    totalBookings: 5,
+    totalSpent: "$650",
+    status: "active",
+    lastBooking: "2024-10-28"
+  },
+  {
+    id: "CUST005",
+    name: "David Brown",
+    email: "david@example.com",
+    phone: "(555) 567-8901",
+    address: "654 Elm Dr, Chicago, IL",
+    joinDate: "2024-05-12",
+    totalBookings: 3,
+    totalSpent: "$420",
+    status: "inactive",
+    lastBooking: "2024-09-15"
+  },
+];
+
+const Customers = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCustomer, setSelectedCustomer] = useState<typeof customersData[0] | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
+
+  const filteredCustomers = customersData.filter((customer) => {
+    const matchesSearch = 
+      customer.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.phone.includes(searchTerm);
+    
+    return matchesSearch;
+  });
+
+  const handleViewDetails = (customer: typeof customersData[0]) => {
+    setSelectedCustomer(customer);
+    setShowDetails(true);
+  };
+
+  const getStatusBadge = (status: string) => {
+    return status === "active" ? (
+      <Badge className="bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400">
+        Active
+      </Badge>
+    ) : (
+      <Badge variant="secondary">Inactive</Badge>
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Stats */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Total Customers
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{customersData.length}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              <span className="text-green-600">+12%</span> from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Active Customers
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {customersData.filter(c => c.status === "active").length}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {((customersData.filter(c => c.status === "active").length / customersData.length) * 100).toFixed(0)}% of total
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Avg. Bookings/Customer
+            </CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {(customersData.reduce((acc, c) => acc + c.totalBookings, 0) / customersData.length).toFixed(1)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Per customer lifetime
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Header Actions */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search customers..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Button 
+          variant="outline"
+          className="transition-all hover:text-white"
+          onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = ''}
+        >
+          <UserPlus className="h-4 w-4 mr-2" />
+          Add Customer
+        </Button>
+      </div>
+
+      {/* Customers Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>All Customers ({filteredCustomers.length})</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Customer ID
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Name
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Contact
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Join Date
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Bookings
+                  </th>
+                  <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Total Spent
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Status
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredCustomers.map((customer) => (
+                  <tr key={customer.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                    <td className="py-3 px-4 text-sm font-medium">{customer.id}</td>
+                    <td className="py-3 px-4">
+                      <div className="text-sm font-medium">{customer.name}</div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="text-sm">{customer.email}</div>
+                      <div className="text-xs text-muted-foreground">{customer.phone}</div>
+                    </td>
+                    <td className="py-3 px-4 text-sm">{customer.joinDate}</td>
+                    <td className="py-3 px-4 text-sm text-center font-medium">{customer.totalBookings}</td>
+                    <td className="py-3 px-4 text-sm font-medium text-right">{customer.totalSpent}</td>
+                    <td className="py-3 px-4 text-center">{getStatusBadge(customer.status)}</td>
+                    <td className="py-3 px-4 text-center">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleViewDetails(customer)}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Customer Details Dialog */}
+      <Dialog open={showDetails} onOpenChange={setShowDetails}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Customer Details - {selectedCustomer?.id}</DialogTitle>
+            <DialogDescription>
+              View customer information and booking history
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedCustomer && (
+            <div className="space-y-6">
+              {/* Customer Info */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm">Personal Information</h3>
+                <div className="grid gap-3 bg-muted/50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">{selectedCustomer.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">{selectedCustomer.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">{selectedCustomer.address}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">Member Since</span>
+                  </div>
+                  <p className="text-lg font-bold">{selectedCustomer.joinDate}</p>
+                </div>
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">Last Booking</span>
+                  </div>
+                  <p className="text-lg font-bold">{selectedCustomer.lastBooking}</p>
+                </div>
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">Total Bookings</span>
+                  </div>
+                  <p className="text-lg font-bold">{selectedCustomer.totalBookings}</p>
+                </div>
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <DollarSign className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">Total Spent</span>
+                  </div>
+                  <p className="text-lg font-bold">{selectedCustomer.totalSpent}</p>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <Button className="flex-1" style={{ background: 'linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)', color: 'white' }}>
+                  <Mail className="h-4 w-4 mr-2" />
+                  Send Email
+                </Button>
+                <Button variant="outline" className="flex-1">
+                  <Calendar className="h-4 w-4 mr-2" />
+                  View Bookings
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default Customers;
