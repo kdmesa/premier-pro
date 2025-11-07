@@ -1,21 +1,24 @@
+'use client'
+
 import { Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/logo.jpg";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleSectionClick = (sectionId: string) => {
     // If we're already on the homepage, just scroll
-    if (location.pathname === '/') {
+    if (pathname === '/') {
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
       // Navigate to homepage first, then scroll after a short delay
-      navigate('/');
+      router.push('/');
       setTimeout(() => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -73,8 +76,8 @@ const Footer = () => {
             <div>
               <h4 className="font-semibold mb-3">Legal</h4>
               <ul className="space-y-2 text-navy-foreground/80">
-                <li><Link to="/terms-and-conditions" className="hover:text-primary transition-colors">Terms &amp; Conditions</Link></li>
-                <li><Link to="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms-and-conditions" className="hover:text-primary transition-colors">Terms &amp; Conditions</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
           </div>

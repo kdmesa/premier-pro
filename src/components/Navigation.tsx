@@ -1,18 +1,20 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/logo.png";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleSectionClick = (sectionId: string) => {
-    if (location.pathname !== '/') {
+    if (pathname !== '/') {
       // If not on home page, navigate to home first, then scroll
-      navigate('/');
+      router.push('/');
       setTimeout(() => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -33,8 +35,8 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-3 cursor-pointer">
-            <img src={logo} alt="Premier Pro Cleaners" className="h-12 w-12" />
+          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+            <img src="/images/logo.png" alt="Premier Pro Cleaners" className="h-12 w-12" />
             <span className="text-xl font-bold gradient-text">Premier Pro Cleaners</span>
           </Link>
           
@@ -65,10 +67,10 @@ const Navigation = () => {
               Contact
             </button>
             <Button variant="outline" size="sm" asChild>
-              <Link to="/login">Login</Link>
+              <Link href="/login">Login</Link>
             </Button>
             <Button asChild size="sm">
-              <Link to="/book-now">Book Now</Link>
+              <Link href="/book-now">Book Now</Link>
             </Button>
           </div>
 
@@ -110,10 +112,10 @@ const Navigation = () => {
             </button>
             <div className="flex flex-col space-y-2 pt-2">
               <Button variant="outline" size="sm" asChild>
-                <Link to="/login">Login</Link>
+                <Link href="/login">Login</Link>
               </Button>
               <Button size="sm" asChild>
-                <Link to="/book-now">Get Started</Link>
+                <Link href="/book-now">Get Started</Link>
               </Button>
             </div>
           </div>

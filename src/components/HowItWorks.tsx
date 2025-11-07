@@ -1,26 +1,23 @@
 import { Calendar, CheckCircle, Smile } from "lucide-react";
-import bookAppointment from "@/assets/book-appointment.jpg";
-import getConfirmation from "@/assets/get-confirmation.jpg";
-import relaxSitDone from "@/assets/relax-sit-done.jpg";
 
 const steps = [
   {
     title: "Book Appointment",
     description: "Use our simple platform to book an appointment with verified top providers.",
     icon: Calendar,
-    image: bookAppointment,
+    image: "/images/book-appointment.jpg",
   },
   {
     title: "Get Confirmation",
     description: "You will receive a confirmation from us when your appointment is confirmed.",
     icon: CheckCircle,
-    image: getConfirmation,
+    image: "/images/get-confirmation.jpg",
   },
   {
     title: "Relax, Sit Done!",
     description: "You are all set to see your top provider. Don't stress, we got you covered.",
     icon: Smile,
-    image: relaxSitDone,
+    image: "/images/relax-sit-done.jpg",
   },
 ];
 

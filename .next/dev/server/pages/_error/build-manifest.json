@@ -1,0 +1,23 @@
+{
+  "devFiles": [],
+  "ampDevFiles": [],
+  "polyfillFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "pages": {
+    "/_error": [
+      "static/chunks/9b3e1_next_dist_compiled_7a25d71c._.js",
+      "static/chunks/9b3e1_next_dist_shared_lib_210863aa._.js",
+      "static/chunks/9b3e1_next_dist_client_0a62d6d5._.js",
+      "static/chunks/9b3e1_next_dist_2d8e54f6._.js",
+      "static/chunks/9b3e1_next_error_be76e322.js",
+      "static/chunks/[next]_entry_page-loader_ts_2c1355b5._.js",
+      "static/chunks/9b3e1_react-dom_e1b69399._.js",
+      "static/chunks/9b3e1_3c524c58._.js",
+      "static/chunks/[root-of-the-server]__080ceacf._.js",
+      "static/chunks/OneDrive_Desktop_Premier-pro-main - Copy_pages__error_2da965e7._.js",
+      "static/chunks/turbopack-OneDrive_Desktop_Premier-pro-main - Copy_pages__error_4466acaa._.js"
+    ]
+  },
+  "ampFirstPages": []
+}

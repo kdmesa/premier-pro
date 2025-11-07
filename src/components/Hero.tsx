@@ -1,6 +1,8 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Shield, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -61,7 +63,7 @@ const Hero = () => {
               
               <div className="flex flex-col sm:flex-row justify-center gap-5 mb-12">
                 <Button asChild size="lg" className="text-lg px-10 py-6 gradient-primary hover:scale-105 transition-all shadow-xl hover:shadow-2xl rounded-full group">
-                  <Link to="/book-now">
+                  <Link href="/book-now">
                     Book Appointment
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>

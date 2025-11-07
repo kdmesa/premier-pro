@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -14,16 +16,16 @@ import {
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/orbit.png";
 
-const AdminLayout = () => {
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
     { icon: Calendar, label: "Bookings", path: "/admin/bookings" },
     { icon: Users, label: "Customers", path: "/admin/customers" },
-    { icon: Briefcase, label: "Services", path: "/admin/services" },
+    // { icon: Briefcase, label: "Services", path: "/admin/services" },
     { icon: Settings, label: "Settings", path: "/admin/settings" },
   ];
 
@@ -31,7 +33,7 @@ const AdminLayout = () => {
     // Clear authentication
     localStorage.removeItem("adminAuth");
     localStorage.removeItem("adminEmail");
-    navigate("/admin/login");
+    router.push("/admin/login");
   };
 
   // Get admin email from localStorage
@@ -43,7 +45,7 @@ const AdminLayout = () => {
       <aside
         className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 ${
           sidebarOpen ? "w-64" : "w-20"
-        } bg-card border-r border-border`}
+        } bg-white border-r border-border shadow-lg`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
@@ -51,9 +53,9 @@ const AdminLayout = () => {
             {sidebarOpen ? (
               <>
                 <div className="flex items-center gap-3">
-                  <img src={logo} alt="Logo" className="h-10 w-10" />
+                  <Image src={logo} alt="Logo" width={40} height={40} className="rounded" />
                   <div>
-                    <h2 className="font-bold text-sm" style={{ color: '#0C2B4E' }}>Orbit Booking</h2>
+                    <h2 className="font-bold text-sm text-foreground">Orbit Booking</h2>
                     <p className="text-xs text-muted-foreground">Admin Panel</p>
                   </div>
                 </div>
@@ -82,18 +84,18 @@ const AdminLayout = () => {
           <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
             {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+              const isActive = pathname === item.path;
               
               return (
                 <Link
                   key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
+                  href={item.path}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
                     isActive
-                      ? "text-white"
-                      : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                      ? "text-white shadow-lg"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   }`}
-                  style={isActive ? { background: 'linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)' } : {}}
+                  style={isActive ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
                 >
                   <Icon className="h-5 w-5 flex-shrink-0" />
                   {sidebarOpen && (
@@ -112,7 +114,7 @@ const AdminLayout = () => {
             <Button
               variant="ghost"
               onClick={handleLogout}
-              className={`w-full justify-start gap-3 text-muted-foreground hover:text-foreground ${
+              className={`w-full justify-start gap-3 text-muted-foreground hover:text-foreground hover:bg-muted ${
                 !sidebarOpen && "justify-center"
               }`}
             >
@@ -134,7 +136,7 @@ const AdminLayout = () => {
           <div className="flex items-center justify-between px-6 py-4">
             <div>
               <h1 className="text-2xl font-bold">
-                {menuItems.find((item) => item.path === location.pathname)?.label || "Dashboard"}
+                {menuItems.find((item) => item.path === pathname)?.label || "Dashboard"}
               </h1>
               <p className="text-sm text-muted-foreground">
                 Welcome back, {adminEmail.split('@')[0]}
@@ -144,9 +146,9 @@ const AdminLayout = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                onClick={() => navigate("/")}
+                onClick={() => router.push("/")}
                 className="hover:text-white transition-all"
-                onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)'}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = ''}
               >
                 View Website
@@ -157,7 +159,7 @@ const AdminLayout = () => {
 
         {/* Page Content */}
         <main className="p-6">
-          <Outlet />
+          {children}
         </main>
       </div>
     </div>

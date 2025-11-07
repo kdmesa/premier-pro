@@ -41,7 +41,7 @@ const mockConfig: LandingPageConfig = {
   id: '1',
   primary_color: '#2563eb',
   secondary_color: '#1e40af',
-  accent_color: '#3b82f6',
+  accent_color: '#00BCD4',
   business_name: 'Premier Pro Cleaners',
   business_tagline: 'Professional Cleaning Services in Chicago',
   phone: '(555) 123-4567',
