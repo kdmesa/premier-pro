@@ -3,7 +3,6 @@
 import { Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const router = useRouter();
@@ -35,7 +34,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Premier Pro Cleaners" className="h-16 w-16" />
+              <img src="/images/logo.png" alt="Premier Pro Cleaners" className="h-16 w-16" />
               <h3 className="text-2xl font-bold gradient-text">Premier Pro Cleaners</h3>
             </div>
             <p className="text-navy-foreground/80 mb-4">
