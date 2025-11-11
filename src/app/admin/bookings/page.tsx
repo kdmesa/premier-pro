@@ -30,7 +30,11 @@ import {
   AlertCircle,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  List,
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -128,6 +132,8 @@ export default function BookingsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedBooking, setSelectedBooking] = useState<typeof bookingsData[0] | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
+  const [currentDate, setCurrentDate] = useState(new Date());
   const { toast } = useToast();
 
   const filteredBookings = bookingsData.filter((booking) => {
@@ -154,8 +160,69 @@ export default function BookingsPage() {
     setShowDetails(false);
   };
 
+  // Calendar functions
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+    
+    return { daysInMonth, startingDayOfWeek, year, month };
+  };
+
+  const getBookingsForDate = (date: string) => {
+    return bookingsData.filter(booking => booking.date === date);
+  };
+
+  const formatDate = (year: number, month: number, day: number) => {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  };
+
+  const navigateMonth = (direction: 'prev' | 'next') => {
+    setCurrentDate(prev => {
+      const newDate = new Date(prev);
+      if (direction === 'prev') {
+        newDate.setMonth(newDate.getMonth() - 1);
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1);
+      }
+      return newDate;
+    });
+  };
+
+  const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentDate);
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
   return (
     <div className="space-y-6">
+      {/* View Toggle */}
+      <div className="flex items-center justify-between">
+        <div className="flex gap-2">
+          <Button
+            variant={viewMode === "calendar" ? "default" : "outline"}
+            onClick={() => setViewMode("calendar")}
+            className={viewMode === "calendar" ? "text-white" : ""}
+            style={viewMode === "calendar" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
+          >
+            <CalendarIcon className="h-4 w-4 mr-2" />
+            Calendar View
+          </Button>
+          <Button
+            variant={viewMode === "list" ? "default" : "outline"}
+            onClick={() => setViewMode("list")}
+            className={viewMode === "list" ? "text-white" : ""}
+            style={viewMode === "list" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
+          >
+            <List className="h-4 w-4 mr-2" />
+            List View
+          </Button>
+        </div>
+      </div>
+
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
         <div className="flex-1 flex gap-3">
@@ -188,8 +255,9 @@ export default function BookingsPage() {
         </Button>
       </div>
 
-      {/* Bookings Table */}
-      <Card>
+      {/* List View */}
+      {viewMode === "list" && (
+        <Card>
         <CardHeader>
           <CardTitle>All Bookings ({filteredBookings.length})</CardTitle>
         </CardHeader>
@@ -248,6 +316,122 @@ export default function BookingsPage() {
           </div>
         </CardContent>
       </Card>
+      )}
+
+      {/* Calendar View */}
+      {viewMode === "calendar" && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>{monthNames[month]} {year}</CardTitle>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => navigateMonth('prev')}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => navigateMonth('next')}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-7 gap-2">
+              {/* Day headers */}
+              {dayNames.map(day => (
+                <div key={day} className="text-center font-semibold text-sm text-muted-foreground py-2">
+                  {day}
+                </div>
+              ))}
+              
+              {/* Empty cells for days before month starts */}
+              {Array.from({ length: startingDayOfWeek }).map((_, index) => (
+                <div key={`empty-${index}`} className="aspect-square" />
+              ))}
+              
+              {/* Calendar days */}
+              {Array.from({ length: daysInMonth }).map((_, index) => {
+                const day = index + 1;
+                const dateString = formatDate(year, month, day);
+                const dayBookings = getBookingsForDate(dateString);
+                const hasBookings = dayBookings.length > 0;
+                const today = new Date();
+                const isToday = today.getDate() === day && 
+                               today.getMonth() === month && 
+                               today.getFullYear() === year;
+                
+                return (
+                  <div
+                    key={day}
+                    className={`aspect-square border rounded-lg p-2 hover:bg-muted/50 transition-colors cursor-pointer ${
+                      isToday ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20' : 'border-border'
+                    }`}
+                  >
+                    <div className="flex flex-col h-full">
+                      <div className={`text-sm font-medium mb-1 ${
+                        isToday ? 'text-cyan-600 dark:text-cyan-400' : ''
+                      }`}>
+                        {day}
+                      </div>
+                      {hasBookings && (
+                        <div className="flex-1 space-y-1 overflow-y-auto">
+                          {dayBookings.slice(0, 3).map((booking) => (
+                            <div
+                              key={booking.id}
+                              onClick={() => handleViewDetails(booking)}
+                              className={`text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity ${
+                                booking.status === 'confirmed' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
+                                booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                                booking.status === 'completed' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
+                                'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                              }`}
+                            >
+                              <div className="truncate font-medium">{booking.time}</div>
+                              <div className="truncate">{booking.service}</div>
+                            </div>
+                          ))}
+                          {dayBookings.length > 3 && (
+                            <div className="text-xs text-muted-foreground text-center">
+                              +{dayBookings.length - 3} more
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Legend */}
+            <div className="mt-6 flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-blue-100 dark:bg-blue-900/30 border border-blue-200" />
+                <span>Confirmed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-200" />
+                <span>Pending</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-green-100 dark:bg-green-900/30 border border-green-200" />
+                <span>Completed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-red-100 dark:bg-red-900/30 border border-red-200" />
+                <span>Cancelled</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Booking Details Dialog */}
       <Dialog open={showDetails} onOpenChange={setShowDetails}>

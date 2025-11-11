@@ -11,7 +11,8 @@ import {
   LogOut, 
   Menu, 
   X,
-  ChevronRight
+  ChevronRight,
+  UserCog
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/orbit.png";
@@ -25,6 +26,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
     { icon: Calendar, label: "Bookings", path: "/admin/bookings" },
     { icon: Users, label: "Customers", path: "/admin/customers" },
+    { icon: UserCog, label: "Providers", path: "/admin/providers" },
     // { icon: Briefcase, label: "Services", path: "/admin/services" },
     { icon: Settings, label: "Settings", path: "/admin/settings" },
   ];

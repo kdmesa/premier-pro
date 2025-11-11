@@ -44,20 +44,20 @@ const Hero = () => {
                 </span>
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-4 leading-[1.25] pb-2">
-                <span className="block text-primary drop-shadow-lg pb-0" style={{ WebkitTextStroke: '2px black', paintOrder: 'stroke fill' }}>
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-sans font-extrabold mb-6 leading-tight">
+                <span className="block text-primary drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
                   Thanks For
                 </span>
-                <span className="block text-primary drop-shadow-lg pb-0" style={{ WebkitTextStroke: '2px black', paintOrder: 'stroke fill' }}>
+                <span className="block text-primary drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
                   Stopping By
                 </span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 mb-3 font-light drop-shadow-md" style={{ WebkitTextStroke: '1px black', paintOrder: 'stroke fill' }}>
+              <p className="text-xl md:text-2xl text-navy mb-4 font-bold drop-shadow-[0_2px_8px_rgba(255,255,255,0.8)]">
                 Let Us Connect You With Top Providers
               </p>
               
-              <p className="text-base md:text-lg text-gray-700 dark:text-gray-200 mb-10 drop-shadow-sm" style={{ WebkitTextStroke: '0.5px black', paintOrder: 'stroke fill' }}>
+              <p className="text-base md:text-lg text-white/95 mb-10 font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] max-w-3xl mx-auto">
                 Experience hassle-free booking with instant confirmation, vetted professionals, and premium service quality.
               </p>
               
@@ -81,18 +81,18 @@ const Hero = () => {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-300/50 max-w-2xl mx-auto">
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-primary/40 max-w-2xl mx-auto">
                 <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
-                  <div className="text-3xl md:text-4xl font-bold gradient-text mb-2 drop-shadow-md">10K+</div>
-                  <div className="text-xs md:text-sm text-gray-700 dark:text-gray-200 font-medium" style={{ WebkitTextStroke: '0.5px black', paintOrder: 'stroke fill' }}>Happy Clients</div>
+                  <div className="text-3xl md:text-4xl font-bold text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] mb-2">10K+</div>
+                  <div className="text-xs md:text-sm text-navy font-bold drop-shadow-[0_2px_6px_rgba(255,255,255,0.8)] bg-white/90 px-3 py-1 rounded-full inline-block">Happy Clients</div>
                 </div>
                 <div className="animate-scale-in" style={{ animationDelay: '0.3s' }}>
-                  <div className="text-3xl md:text-4xl font-bold gradient-text mb-2 drop-shadow-md">500+</div>
-                  <div className="text-xs md:text-sm text-gray-700 dark:text-gray-200 font-medium" style={{ WebkitTextStroke: '0.5px black', paintOrder: 'stroke fill' }}>Pro Cleaners</div>
+                  <div className="text-3xl md:text-4xl font-bold text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] mb-2">500+</div>
+                  <div className="text-xs md:text-sm text-navy font-bold drop-shadow-[0_2px_6px_rgba(255,255,255,0.8)] bg-white/90 px-3 py-1 rounded-full inline-block">Pro Cleaners</div>
                 </div>
                 <div className="animate-scale-in" style={{ animationDelay: '0.4s' }}>
-                  <div className="text-3xl md:text-4xl font-bold gradient-text mb-2 drop-shadow-md">4.9★</div>
-                  <div className="text-xs md:text-sm text-gray-700 dark:text-gray-200 font-medium" style={{ WebkitTextStroke: '0.5px black', paintOrder: 'stroke fill' }}>Rating</div>
+                  <div className="text-3xl md:text-4xl font-bold text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] mb-2">4.9★</div>
+                  <div className="text-xs md:text-sm text-navy font-bold drop-shadow-[0_2px_6px_rgba(255,255,255,0.8)] bg-white/90 px-3 py-1 rounded-full inline-block">Rating</div>
                 </div>
               </div>
             </div>

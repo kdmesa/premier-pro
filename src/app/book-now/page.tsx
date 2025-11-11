@@ -23,6 +23,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import ServiceCard, { ServiceCustomization } from "@/components/ServiceCard";
 import styles from "./BookingPage.module.css";
 
 // Define form schema
@@ -31,6 +32,7 @@ const formSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   phone: z.string().min(10, "Please enter a valid phone number"),
   address: z.string().min(5, "Please enter a valid address"),
+  zipCode: z.string().min(5, "Please enter a valid zip code").max(10),
   service: z.string().min(1, "Please select a service"),
   date: z.date({
     required_error: "A date is required.",
@@ -48,64 +50,67 @@ const paymentSchema = z.object({
 });
 
 type PaymentMethod = "cash" | "online" | null;
-type BookingStep = "details" | "payment" | "success";
+type BookingStep = "category" | "details" | "payment" | "success";
+type ServiceCategory = "home" | "carpet" | null;
 
-const services = [
-  { 
-    id: "standard", 
-    name: "Standard Cleaning", 
-    description: "Basic cleaning for regularly maintained spaces",
-    price: 120, 
-    duration: "2-3 hours",
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop",
-    features: ["Dusting & vacuuming", "Bathroom cleaning", "Kitchen cleaning", "Floor mopping"]
-  },
-  { 
-    id: "deep", 
-    name: "Deep Cleaning", 
-    description: "Thorough cleaning for all areas",
-    price: 250, 
-    duration: "4-6 hours",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
-    features: ["Everything in Standard", "Inside appliances", "Baseboards & trim", "Window sills", "Light fixtures"]
-  },
-  { 
-    id: "move", 
-    name: "Move In/Out", 
-    description: "Complete cleaning for moving",
-    price: 350, 
-    duration: "4-8 hours",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop",
-    features: ["Everything in Deep", "Inside cabinets & drawers", "Closets cleaned", "Walls spot cleaned", "Blinds dusted"]
-  },
-  { 
-    id: "office", 
-    name: "Office Cleaning", 
-    description: "Professional workspace cleaning",
-    price: 200, 
-    duration: "3-4 hours",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
-    features: ["Desk & surface cleaning", "Trash removal", "Floor care", "Restroom cleaning"]
-  },
-  { 
-    id: "carpet", 
-    name: "Carpet Cleaning", 
-    description: "Deep carpet cleaning service",
-    price: 150, 
-    duration: "2-3 hours",
-    image: "https://blog.woodenstreet.com/images/data/image_upload/1651836491carpet-cleaning-tip-and-trick-banner.jpg",
-    features: ["Steam cleaning", "Stain removal", "Deodorizing", "Dries in 4-6 hours"]
-  },
-  { 
-    id: "custom", 
-    name: "Custom Package", 
-    description: "Tailored to your needs",
-    price: 0, 
-    duration: "Varies",
-    image: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=400&h=300&fit=crop",
-    features: ["Customizable services", "Special requests", "One-time or recurring", "Contact for quote"]
-  }
-];
+const servicesByCategory = {
+  home: [
+    { 
+      id: "standard", 
+      name: "Standard Cleaning", 
+      description: "A regular cleaning service to keep your home neat and comfortable. Includes dusting, mopping, and surface cleaning to maintain a fresh living space.",
+      price: 120, 
+      duration: "2-3 hours",
+      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop",
+    },
+    { 
+      id: "deep", 
+      name: "Deep Cleaning", 
+      description: "An intensive cleaning that reaches hidden dirt and grime. Covers floors, corners, surfaces, and areas that are often overlooked for a thoroughly refreshed home.",
+      price: 200, 
+      duration: "4-6 hours",
+      image: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=400&h=300&fit=crop",
+      features: ["Everything in standard", "Appliance cleaning", "Baseboard cleaning", "Window cleaning"]
+    },
+    { 
+      id: "move", 
+      name: "Move In/Out Cleaning", 
+      description: "A comprehensive cleaning service to prepare your home for a fresh start. Every room and surface is cleaned to ensure the space is spotless and ready for moving in or out.",
+      price: 250, 
+      duration: "6-8 hours",
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
+    },
+  ],
+  carpet: [
+    { 
+      id: "standard-carpet", 
+      name: "Standard Cleaning", 
+      description: "Basic carpet cleaning for regular maintenance",
+      price: 120, 
+      duration: "2-3 hours",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      features: ["Vacuum cleaning", "Spot treatment", "Deodorizing", "Quick dry"]
+    },
+    { 
+      id: "deep-carpet", 
+      name: "Deep Cleaning", 
+      description: "Intensive carpet cleaning with steam",
+      price: 200, 
+      duration: "3-4 hours",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      features: ["Steam cleaning", "Deep stain removal", "Sanitization", "Deodorizing"]
+    },
+    { 
+      id: "move-carpet", 
+      name: "Move In/Out Cleaning", 
+      description: "Complete carpet restoration for moving",
+      price: 250, 
+      duration: "4-6 hours",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+      features: ["Full steam cleaning", "Stain protection", "Upholstery cleaning", "Odor elimination"]
+    },
+  ],
+};
 
 const availableTimes = [
   "9:00 AM",
@@ -118,11 +123,16 @@ const availableTimes = [
 export default function BookingPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState<BookingStep>("details");
+  const [currentStep, setCurrentStep] = useState<BookingStep>("category");
+  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>(null);
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const [serviceCustomization, setServiceCustomization] = useState<ServiceCustomization | null>(null);
   const [bookingData, setBookingData] = useState<z.infer<typeof formSchema> | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [flippedCardId, setFlippedCardId] = useState<string | null>(null);
+  const [cardCustomizations, setCardCustomizations] = useState<Record<string, ServiceCustomization>>({});
   
   // Initialize booking form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -132,6 +142,7 @@ export default function BookingPage() {
       email: "",
       phone: "",
       address: "",
+      zipCode: "",
       service: "",
       time: "",
       notes: "",
@@ -149,6 +160,70 @@ export default function BookingPage() {
     },
   });
 
+  // Handle category selection
+  const handleCategorySelect = (category: ServiceCategory) => {
+    setSelectedCategory(category);
+    setCurrentStep("details");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Handle card flip
+  const handleCardFlip = (cardId: string) => {
+    // If flipping to a different card, clear the previous card's data if it wasn't confirmed
+    if (flippedCardId && flippedCardId !== cardId && selectedService?.id !== flippedCardId) {
+      setCardCustomizations(prev => {
+        const newCustomizations = { ...prev };
+        delete newCustomizations[flippedCardId];
+        return newCustomizations;
+      });
+    }
+    setFlippedCardId(cardId || null);
+  };
+
+  // Handle customization change for a specific card
+  const handleCustomizationChange = (serviceId: string, customization: ServiceCustomization) => {
+    // Only update if this card is currently flipped
+    if (flippedCardId === serviceId) {
+      setCardCustomizations(prev => ({
+        ...prev,
+        [serviceId]: customization
+      }));
+    }
+  };
+
+  // Get customization for a specific card
+  const getCardCustomization = (serviceId: string): ServiceCustomization => {
+    return cardCustomizations[serviceId] || {
+      frequency: "",
+      squareMeters: "",
+      bedroom: "",
+      bathroom: "",
+      extras: "",
+      isPartialCleaning: false,
+      excludedAreas: [],
+    };
+  };
+
+  // Handle service selection
+  const handleServiceSelect = (serviceName: string, customization?: ServiceCustomization) => {
+    if (!selectedCategory) return;
+    const services = servicesByCategory[selectedCategory];
+    const service = services.find(s => s.name === serviceName);
+    if (service && customization) {
+      setSelectedService(service);
+      setServiceCustomization(customization);
+      form.setValue("service", serviceName);
+      
+      // Scroll to customer form after a short delay
+      setTimeout(() => {
+        const formElement = document.getElementById('customer-form');
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
+  };
+
   // Handle booking form submission - move to payment step
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setBookingData(values);
@@ -158,7 +233,9 @@ export default function BookingPage() {
 
   // Get service price
   const getServicePrice = (serviceName: string) => {
-    const service = services.find(s => s.name === serviceName);
+    if (!selectedCategory) return 0;
+    const services = servicesByCategory[selectedCategory];
+    const service = services?.find(s => s.name === serviceName);
     return service?.price || 0;
   };
 
@@ -236,6 +313,62 @@ export default function BookingPage() {
     return v;
   };
 
+  // Category Selection Screen
+  if (currentStep === "category") {
+    return (
+      <div className="min-h-screen">
+        <Navigation />
+        <div className={styles.bookingContainer}>
+          <div className="container mx-auto px-4 py-16 max-w-4xl">
+            <div className={styles.header}>
+              <h1 className={styles.title}>Select Service Category</h1>
+              <p className={styles.subtitle}>
+                Choose between Home Cleaning or Carpet Cleaning
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+              {/* Home Cleaning Card */}
+              <div 
+                onClick={() => handleCategorySelect("home")}
+                className={`${styles.categoryCard} ${selectedCategory === "home" ? styles.selected : ""}`}
+              >
+                <div className={styles.categoryIcon}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                </div>
+                <h3 className={styles.categoryTitle}>Home Cleaning</h3>
+                <p className={styles.categoryDescription}>
+                  Professional cleaning services for your home including standard, deep, and move in/out cleaning
+                </p>
+              </div>
+
+              {/* Carpet Cleaning Card */}
+              <div 
+                onClick={() => handleCategorySelect("carpet")}
+                className={`${styles.categoryCard} ${selectedCategory === "carpet" ? styles.selected : ""}`}
+              >
+                <div className={styles.categoryIcon}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                  </svg>
+                </div>
+                <h3 className={styles.categoryTitle}>Carpet Cleaning</h3>
+                <p className={styles.categoryDescription}>
+                  Specialized carpet cleaning services including standard, deep, and move in/out carpet care
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Success Screen
   if (currentStep === "success") {
     return (
@@ -266,29 +399,49 @@ export default function BookingPage() {
   }
 
   // Payment Screen
-  if (currentStep === "payment" && bookingData) {
+  if (currentStep === "payment" && bookingData && selectedService && serviceCustomization) {
     const { subtotal, tax, total } = calculateTotal();
     
     return (
       <div className="min-h-screen">
         <Navigation />
         <div className={styles.bookingContainer}>
-          <div className="container mx-auto px-4 py-16 max-w-5xl">
+          <div className="container mx-auto px-4 py-16 max-w-6xl">
             <div className={styles.header}>
               <h1 className={styles.title}>Complete Your Payment</h1>
               <p className={styles.subtitle}>
-                Choose your preferred payment method to confirm your booking
+                Review your booking and complete payment
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              {/* Booking Summary */}
+              {/* Booking Summary Sidebar */}
               <div className="md:col-span-1">
                 <div className={styles.summaryCard}>
                   <h3 className={styles.summaryTitle}>Booking Summary</h3>
                   <div className={styles.summaryItem}>
-                    <strong>Service:</strong> {bookingData.service}
+                    <strong>Category:</strong> {selectedCategory === "home" ? "Home Cleaning" : "Carpet Cleaning"}
                   </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Service:</strong> {selectedService.name}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Frequency:</strong> {serviceCustomization.frequency}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Area Size:</strong> {serviceCustomization.squareMeters}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Bedroom:</strong> {serviceCustomization.bedroom}
+                  </div>
+                  <div className={styles.summaryItem}>
+                    <strong>Bathroom:</strong> {serviceCustomization.bathroom}
+                  </div>
+                  {serviceCustomization.extras && serviceCustomization.extras !== "None" && (
+                    <div className={styles.summaryItem}>
+                      <strong>Extras:</strong> {serviceCustomization.extras}
+                    </div>
+                  )}
                   <div className={styles.summaryItem}>
                     <strong>Date:</strong> {format(bookingData.date, "PPP")}
                   </div>
@@ -312,88 +465,31 @@ export default function BookingPage() {
                     <span>Total:</span>
                     <span>${total.toFixed(2)}</span>
                   </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => setCurrentStep("details")}
+                    className="w-full mt-4"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back to Details
+                  </Button>
                 </div>
               </div>
 
-              {/* Payment Methods */}
+              {/* Payment Form */}
               <div className="md:col-span-2">
                 <div className={styles.paymentCard}>
-                  <h3 className={styles.paymentTitle}>Select Payment Method</h3>
-
-                  {/* Payment Options */}
-                  <div className={styles.paymentMethods}>
-                    <div
-                      className={`${styles.paymentOption} ${paymentMethod === "cash" ? styles.selected : ""}`}
-                      onClick={() => setPaymentMethod("cash")}
-                    >
-                      <div className={styles.paymentOptionHeader}>
-                        <Wallet className="h-6 w-6" />
-                        <div>
-                          <h4 className={styles.paymentOptionTitle}>Cash Payment</h4>
-                          <p className={styles.paymentOptionDesc}>Pay when service is completed</p>
-                        </div>
-                      </div>
-                      {paymentMethod === "cash" && <CheckCircle2 className="h-5 w-5 text-primary" />}
-                    </div>
-
-                    <div
-                      className={`${styles.paymentOption} ${paymentMethod === "online" ? styles.selected : ""}`}
-                      onClick={() => setPaymentMethod("online")}
-                    >
-                      <div className={styles.paymentOptionHeader}>
-                        <CreditCard className="h-6 w-6" />
-                        <div>
-                          <h4 className={styles.paymentOptionTitle}>Online Payment</h4>
-                          <p className={styles.paymentOptionDesc}>Pay securely with credit/debit card</p>
-                        </div>
-                      </div>
-                      {paymentMethod === "online" && <CheckCircle2 className="h-5 w-5 text-primary" />}
-                    </div>
-                  </div>
-
-                  {/* Cash Payment Details */}
-                  {paymentMethod === "cash" && (
-                    <div className={styles.paymentDetails}>
-                      <div className={styles.cashInfo}>
-                        <h4 className={styles.infoTitle}>💵 Cash Payment Instructions</h4>
-                        <ul className={styles.infoList}>
-                          <li>Payment is due upon completion of service</li>
-                          <li>Please have exact amount ready: <strong>${total.toFixed(2)}</strong></li>
-                          <li>Our cleaner will provide a receipt</li>
-                          <li>Gratuity is appreciated but not required</li>
-                        </ul>
-                      </div>
-                      <Button
-                        onClick={handleCashPayment}
-                        disabled={isProcessing}
-                        className="w-full h-12 text-base mt-4"
-                      >
-                        {isProcessing ? (
-                          <>
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                            Confirming...
-                          </>
-                        ) : (
-                          <>
-                            Confirm Cash Payment
-                            <CheckCircle2 className="ml-2 h-5 w-5" />
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  )}
+                  <h3 className={styles.paymentTitle}>Payment Information</h3>
 
                   {/* Online Payment Form */}
-                  {paymentMethod === "online" && (
-                    <div className={styles.paymentDetails}>
-                      <div className={styles.securityBadge}>
-                        <Lock className="h-4 w-4" />
-                        <span>Secure Payment - Your information is encrypted</span>
-                      </div>
+                  <div className={styles.securityBadge}>
+                    <Lock className="h-4 w-4" />
+                    <span>Secure Payment - Your information is encrypted</span>
+                  </div>
 
-                      <Form {...paymentForm}>
-                        <form onSubmit={paymentForm.handleSubmit(handleOnlinePayment)} className="space-y-4">
-                          <FormField
+                  <Form {...paymentForm}>
+                    <form onSubmit={paymentForm.handleSubmit(handleOnlinePayment)} className="space-y-4 mt-4">
+                      <FormField
                             control={paymentForm.control}
                             name="cardNumber"
                             render={({ field }) => (
@@ -496,27 +592,10 @@ export default function BookingPage() {
                                 <Lock className="ml-2 h-5 w-5" />
                               </>
                             )}
-                          </Button>
-                        </form>
-                      </Form>
-                    </div>
-                  )}
-
-                  {!paymentMethod && (
-                    <div className={styles.selectPrompt}>
-                      <p>Please select a payment method to continue</p>
-                    </div>
-                  )}
+                      </Button>
+                    </form>
+                  </Form>
                 </div>
-
-                <Button
-                  variant="ghost"
-                  onClick={() => setCurrentStep("details")}
-                  className="mt-4"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Booking Details
-                </Button>
               </div>
             </div>
           </div>
@@ -526,41 +605,71 @@ export default function BookingPage() {
   }
 
   // Booking Details Form
-  return (
-    <div className="min-h-screen">
-      <Navigation />
-      <div className={styles.bookingContainer}>
-        <div className="container mx-auto px-4 py-16 max-w-4xl">
-          <div className={styles.header}>
-            <h1 className={styles.title}>Book Your Cleaning</h1>
-            <p className={styles.subtitle}>
-              Fill out the form below to schedule your professional cleaning service.
-              Our team will contact you to confirm your appointment.
-            </p>
-          </div>
+  if (currentStep === "details" && selectedCategory) {
+    const categoryServices = servicesByCategory[selectedCategory];
+    const showSummary = selectedService && serviceCustomization;
+    const { subtotal, tax, total } = showSummary ? calculateTotal() : { subtotal: 0, tax: 0, total: 0 };
+    
+    return (
+      <div className="min-h-screen">
+        <Navigation />
+        <div className={styles.bookingContainer}>
+          <div className="container mx-auto px-4 py-16 max-w-6xl">
+            <div className={styles.header}>
+              <h1 className={styles.title}>
+                {selectedCategory === "home" ? "Home Cleaning" : "Carpet Cleaning"} Booking
+              </h1>
+              <p className={styles.subtitle}>
+                {showSummary 
+                  ? `Complete your booking details for ${selectedService.name}`
+                  : "Select a service type and fill out your booking details"
+                }
+              </p>
+            </div>
 
-          <div className={styles.formContainer}>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className={styles.formGrid}>
-                {/* Name Field */}
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className={styles.formGroup}>
-                      <FormLabel className={styles.formLabel}>Full Name</FormLabel>
-                      <FormControl>
-                        <Input 
-                          className={styles.formInput}
-                          placeholder="John Doe" 
-                          {...field} 
+            {/* Service Type Selection - Always show flip cards */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">Select Services</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {categoryServices.map((service) => (
+                  <ServiceCard
+                    key={service.id}
+                    service={service}
+                    isSelected={selectedService?.id === service.id}
+                    onSelect={handleServiceSelect}
+                    flippedCardId={flippedCardId}
+                    onFlip={handleCardFlip}
+                    customization={getCardCustomization(service.id)}
+                    onCustomizationChange={handleCustomizationChange}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Customer Information Form - Always visible below service cards */}
+            <div id="customer-form" className={styles.formContainer}>
+              <h2 className="text-2xl font-bold mb-6">Customer Information</h2>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                      <div className={styles.formGrid}>
+                        {/* Name Field */}
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem className={styles.formGroup}>
+                              <FormLabel className={styles.formLabel}>Full Name</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  className={styles.formInput}
+                                  placeholder="John Doe" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
 
                 {/* Email Field */}
                 <FormField
@@ -620,63 +729,25 @@ export default function BookingPage() {
                   )}
                 />
 
-                {/* Service Selection */}
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="service"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className={styles.formLabel}>Service Type</FormLabel>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                          {services.map((service) => (
-                            <div 
-                              key={service.id} 
-                              className={cn(
-                                styles.serviceCard,
-                                field.value === service.name && styles.selected
-                              )}
-                              onClick={() => field.onChange(service.name)}
-                            >
-                              <div className={styles.serviceImageWrapper}>
-                                <img 
-                                  src={service.image} 
-                                  alt={service.name}
-                                  className={styles.serviceCardImage}
-                                  loading="lazy"
-                                />
-                              </div>
-                              <div className={styles.serviceCardContent}>
-                                <div className={styles.serviceHeader}>
-                                  <div className={styles.serviceName}>{service.name}</div>
-                                  {service.price > 0 ? (
-                                    <div className={styles.servicePrice}>${service.price}+</div>
-                                  ) : (
-                                    <div className={styles.servicePrice}>Get Quote</div>
-                                  )}
-                                </div>
-                                <div className={styles.serviceDescription}>{service.description}</div>
-                                <div className={styles.serviceDuration}>
-                                  <Clock className="h-4 w-4 mr-1 inline" />
-                                  {service.duration}
-                                </div>
-                                <div className={styles.serviceFeatures}>
-                                  {service.features.map((feature, index) => (
-                                    <div key={index} className={styles.featureItem}>
-                                      <CheckCircle2 className="h-4 w-4 text-emerald-500 mr-2 inline" />
-                                      <span>{feature}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                {/* Zip Code Field */}
+                <FormField
+                  control={form.control}
+                  name="zipCode"
+                  render={({ field }) => (
+                    <FormItem className={styles.formGroup}>
+                      <FormLabel className={styles.formLabel}>Zip Code</FormLabel>
+                      <FormControl>
+                        <Input 
+                          className={styles.formInput}
+                          placeholder="60601" 
+                          maxLength={10}
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Date Picker */}
                 <div className="col-span-full">
@@ -814,5 +885,9 @@ export default function BookingPage() {
         </div>
       </div>
     </div>
-  );
+    );
+  }
+
+  // Fallback - redirect to service selection if accessed directly
+  return null;
 }

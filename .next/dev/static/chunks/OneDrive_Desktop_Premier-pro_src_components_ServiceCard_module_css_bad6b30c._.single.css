@@ -1,0 +1,338 @@
+/* [project]/OneDrive/Desktop/Premier-pro/src/components/ServiceCard.module.css [app-client] (css) */
+.ServiceCard-module__O7R-Zq__cardContainer {
+  perspective: 1000px;
+  height: 100%;
+  min-height: 350px;
+  transition: min-height .6s;
+}
+
+.ServiceCard-module__O7R-Zq__cardContainer:has(.ServiceCard-module__O7R-Zq__card.ServiceCard-module__O7R-Zq__flipped) {
+  min-height: 450px;
+}
+
+.ServiceCard-module__O7R-Zq__card {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: transform .6s, min-height .6s;
+  position: relative;
+}
+
+.ServiceCard-module__O7R-Zq__card.ServiceCard-module__O7R-Zq__flipped {
+  min-height: 450px;
+  transform: rotateY(180deg);
+}
+
+.ServiceCard-module__O7R-Zq__card.ServiceCard-module__O7R-Zq__selected {
+  border-radius: .75rem;
+  box-shadow: 0 0 0 3px #00bcd4;
+}
+
+.ServiceCard-module__O7R-Zq__cardFront, .ServiceCard-module__O7R-Zq__cardBack {
+  backface-visibility: hidden;
+  border-radius: .75rem;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+
+.ServiceCard-module__O7R-Zq__cardFront {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  flex-direction: column;
+  transition: all .2s;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__cardFront:hover {
+  border-color: #00bcd4;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px #00bcd41f;
+}
+
+.ServiceCard-module__O7R-Zq__cardBack {
+  background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+  border: 2px solid #00bcd4;
+  flex-direction: column;
+  padding: 1.5rem;
+  display: flex;
+  overflow: hidden;
+  transform: rotateY(180deg);
+}
+
+.ServiceCard-module__O7R-Zq__serviceImageWrapper {
+  width: 100%;
+  height: 130px;
+  overflow: hidden;
+}
+
+.ServiceCard-module__O7R-Zq__serviceCardImage {
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform .3s;
+}
+
+.ServiceCard-module__O7R-Zq__cardFront:hover .ServiceCard-module__O7R-Zq__serviceCardImage {
+  transform: scale(1.05);
+}
+
+.ServiceCard-module__O7R-Zq__serviceCardContent {
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.25rem;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__serviceHeader {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: .75rem;
+  margin-bottom: .5rem;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__serviceName {
+  color: #1e293b;
+  flex-grow: 1;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.ServiceCard-module__O7R-Zq__servicePrice {
+  color: #fff;
+  white-space: nowrap;
+  background: #00bcd4;
+  border-radius: 1rem;
+  margin: 0 0 0 .5rem;
+  padding: .25rem .75rem;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.ServiceCard-module__O7R-Zq__serviceDescription {
+  color: #64748b;
+  margin-bottom: .75rem;
+  font-size: .875rem;
+  line-height: 1.4;
+}
+
+.ServiceCard-module__O7R-Zq__serviceDuration {
+  color: #475569;
+  background: #f8fafc;
+  border-radius: .5rem;
+  align-items: center;
+  width: fit-content;
+  margin-bottom: 1rem;
+  padding: .4rem .75rem;
+  font-size: .85rem;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__serviceFeatures {
+  border-top: 1px dashed #e2e8f0;
+  margin-top: auto;
+  padding-top: .75rem;
+}
+
+.ServiceCard-module__O7R-Zq__featureItem {
+  color: #475569;
+  align-items: flex-start;
+  margin-bottom: .5rem;
+  font-size: .85rem;
+  line-height: 1.4;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__featureItem:last-child {
+  margin-bottom: 0;
+}
+
+.ServiceCard-module__O7R-Zq__clickPrompt {
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, #00bcd4e6, #00bcd4b3);
+  padding: .75rem;
+  font-size: .875rem;
+  font-weight: 600;
+  transition: opacity .3s;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.ServiceCard-module__O7R-Zq__cardFront:hover .ServiceCard-module__O7R-Zq__clickPrompt {
+  opacity: 1;
+}
+
+.ServiceCard-module__O7R-Zq__backContent {
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.ServiceCard-module__O7R-Zq__backTitle {
+  color: #1e293b;
+  text-align: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-bottom: .25rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ServiceCard-module__O7R-Zq__backSubtitle {
+  color: #64748b;
+  text-align: center;
+  flex-shrink: 0;
+  margin-bottom: .75rem;
+  font-size: .8rem;
+}
+
+.ServiceCard-module__O7R-Zq__customizationForm {
+  flex-direction: column;
+  flex: 1;
+  gap: .75rem;
+  margin-bottom: .75rem;
+  padding-right: .5rem;
+  display: flex;
+  overflow: hidden auto;
+}
+
+.ServiceCard-module__O7R-Zq__customizationForm::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ServiceCard-module__O7R-Zq__customizationForm::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.ServiceCard-module__O7R-Zq__customizationForm::-webkit-scrollbar-thumb {
+  background: #00bcd4;
+  border-radius: 3px;
+}
+
+.ServiceCard-module__O7R-Zq__customizationForm::-webkit-scrollbar-thumb:hover {
+  background: #00a5b8;
+}
+
+.ServiceCard-module__O7R-Zq__formField {
+  flex-direction: column;
+  gap: .5rem;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__fieldLabel {
+  color: #1e293b;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.ServiceCard-module__O7R-Zq__selectTrigger {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: .5rem;
+  width: 100%;
+  height: 38px;
+  padding: 0 .75rem;
+  font-size: .8rem;
+  transition: all .2s;
+}
+
+.ServiceCard-module__O7R-Zq__selectTrigger:hover {
+  border-color: #00bcd4;
+}
+
+.ServiceCard-module__O7R-Zq__selectTrigger:focus {
+  border-color: #00bcd4;
+  outline: none;
+  box-shadow: 0 0 0 3px #00bcd41a;
+}
+
+.ServiceCard-module__O7R-Zq__buttonGroup {
+  flex-shrink: 0;
+  gap: .75rem;
+  margin-top: .5rem;
+  display: flex;
+}
+
+.ServiceCard-module__O7R-Zq__backButton {
+  color: #475569;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  flex: 1;
+  height: 38px;
+  font-size: .85rem;
+  font-weight: 600;
+  transition: all .2s;
+}
+
+.ServiceCard-module__O7R-Zq__backButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.ServiceCard-module__O7R-Zq__confirmButton {
+  color: #fff;
+  background: linear-gradient(90deg, #00bcd4, #00d4e8);
+  border: none;
+  flex: 2;
+  height: 38px;
+  font-size: .85rem;
+  font-weight: 600;
+  transition: all .2s;
+}
+
+.ServiceCard-module__O7R-Zq__confirmButton:hover {
+  background: linear-gradient(90deg, #00a5b8, #00bcd4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px #00bcd44d;
+}
+
+@media (max-width: 768px) {
+  .ServiceCard-module__O7R-Zq__cardContainer {
+    min-height: 380px;
+  }
+
+  .ServiceCard-module__O7R-Zq__cardContainer:has(.ServiceCard-module__O7R-Zq__card.ServiceCard-module__O7R-Zq__flipped) {
+    min-height: 520px;
+  }
+
+  .ServiceCard-module__O7R-Zq__card {
+    min-height: 380px;
+  }
+
+  .ServiceCard-module__O7R-Zq__card.ServiceCard-module__O7R-Zq__flipped {
+    min-height: 520px;
+  }
+
+  .ServiceCard-module__O7R-Zq__serviceCardContent, .ServiceCard-module__O7R-Zq__cardBack {
+    padding: 1.25rem;
+  }
+
+  .ServiceCard-module__O7R-Zq__backTitle {
+    font-size: 1.1rem;
+  }
+
+  .ServiceCard-module__O7R-Zq__buttonGroup {
+    flex-direction: column;
+  }
+
+  .ServiceCard-module__O7R-Zq__backButton, .ServiceCard-module__O7R-Zq__confirmButton {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=OneDrive_Desktop_Premier-pro_src_components_ServiceCard_module_css_bad6b30c._.single.css.map*/

@@ -4,20 +4,20 @@ globalThis.__BUILD_MANIFEST = {
   },
   "devFiles": [],
   "polyfillFiles": [
-    "static/chunks/9b3e1_next_dist_build_polyfills_polyfill-nomodule.js"
+    "static/chunks/5b025_next_dist_build_polyfills_polyfill-nomodule.js"
   ],
   "lowPriorityFiles": [],
   "rootMainFiles": [
-    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_53bd4819._.js",
-    "static/chunks/9b3e1_next_dist_compiled_react-dom_714f445a._.js",
-    "static/chunks/9b3e1_next_dist_compiled_react-server-dom-turbopack_d4703432._.js",
-    "static/chunks/9b3e1_next_dist_compiled_next-devtools_index_69e25877.js",
-    "static/chunks/9b3e1_next_dist_compiled_e208d623._.js",
-    "static/chunks/9b3e1_next_dist_client_dbfc97d0._.js",
-    "static/chunks/9b3e1_next_dist_4abccf93._.js",
-    "static/chunks/e6e78_@swc_helpers_cjs_612c55c6._.js",
-    "static/chunks/OneDrive_Desktop_Premier-pro-main - Copy_a0ff3932._.js",
-    "static/chunks/turbopack-OneDrive_Desktop_Premier-pro-main - Copy_bfa4f2f0._.js"
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_d887335d._.js",
+    "static/chunks/5b025_next_dist_compiled_react-dom_82368d6a._.js",
+    "static/chunks/5b025_next_dist_compiled_react-server-dom-turbopack_6e1d2173._.js",
+    "static/chunks/5b025_next_dist_compiled_next-devtools_index_d2b36989.js",
+    "static/chunks/5b025_next_dist_compiled_0ea68182._.js",
+    "static/chunks/5b025_next_dist_client_03f1d0bb._.js",
+    "static/chunks/5b025_next_dist_1fe447ae._.js",
+    "static/chunks/a5fcd_@swc_helpers_cjs_3a979312._.js",
+    "static/chunks/OneDrive_Desktop_Premier-pro_a0ff3932._.js",
+    "static/chunks/turbopack-OneDrive_Desktop_Premier-pro_07a36735._.js"
   ]
 };
 globalThis.__BUILD_MANIFEST.lowPriorityFiles = [

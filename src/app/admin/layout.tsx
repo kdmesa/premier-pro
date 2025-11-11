@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AdminLayout from "@/layouts/AdminLayout";
+import { Providers } from "@/app/providers";
 
 export default function AdminLayoutWrapper({
   children,
@@ -14,14 +15,16 @@ export default function AdminLayoutWrapper({
 
   // Don't protect the login page
   if (isLoginPage) {
-    return <>{children}</>;
+    return <Providers>{children}</Providers>;
   }
 
   return (
-    <ProtectedRoute>
-      <AdminLayout>
-        {children}
-      </AdminLayout>
-    </ProtectedRoute>
+    <Providers>
+      <ProtectedRoute>
+        <AdminLayout>
+          {children}
+        </AdminLayout>
+      </ProtectedRoute>
+    </Providers>
   );
 }
