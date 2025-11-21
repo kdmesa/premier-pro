@@ -15,8 +15,7 @@ import {
   Phone,
   MapPin,
   Bell,
-  Shield,
-  Palette
+  Shield
 } from "lucide-react";
 
 export default function SettingsPage() {
@@ -36,6 +35,7 @@ export default function SettingsPage() {
     smsReminders: false,
     pushNotifications: true
   });
+
 
   const handleSaveCompanyInfo = () => {
     toast({

@@ -1,6 +1,6 @@
-"use client";
+  "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,9 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Clock, Loader2, CheckCircle, CheckCircle2, ArrowRight, CreditCard, Wallet, Lock, ArrowLeft } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { CalendarIcon, Clock, Loader2, CheckCircle, CheckCircle2, ArrowRight, CreditCard, Wallet, Lock, ArrowLeft, Home, Building2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
@@ -25,13 +28,21 @@ import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import ServiceCard, { ServiceCustomization } from "@/components/ServiceCard";
 import styles from "./BookingPage.module.css";
+import { useCustomerAccount } from "@/hooks/useCustomerAccount";
 
-// Define form schema
+const optionalEmailSchema = z.union([z.string().email("Please enter a valid email"), z.literal("")]);
+const optionalPhoneSchema = z.union([z.string().min(10, "Please enter a valid phone number"), z.literal("")]);
+
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  firstName: z.string().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
+  secondaryEmail: optionalEmailSchema,
   phone: z.string().min(10, "Please enter a valid phone number"),
+  secondaryPhone: optionalPhoneSchema,
+  addressPreference: z.enum(["existing", "new"]),
   address: z.string().min(5, "Please enter a valid address"),
+  aptNo: z.union([z.string().max(20, "Apt. No. should be 20 characters or less"), z.literal("")]),
   zipCode: z.string().min(5, "Please enter a valid zip code").max(10),
   service: z.string().min(1, "Please select a service"),
   date: z.date({
@@ -39,7 +50,16 @@ const formSchema = z.object({
   }),
   time: z.string().min(1, "Please select a time"),
   notes: z.string().optional(),
+  reminderOptIn: z.boolean().default(false),
 });
+
+const BOOKING_ADDRESS_KEY = "customerBookingAddress";
+
+type StoredAddress = {
+  address: string;
+  aptNo?: string;
+  zipCode?: string;
+};
 
 // Payment form schema for online payment
 const paymentSchema = z.object({
@@ -51,10 +71,39 @@ const paymentSchema = z.object({
 
 type PaymentMethod = "cash" | "online" | null;
 type BookingStep = "category" | "details" | "payment" | "success";
-type ServiceCategory = "home" | "carpet" | null;
+type ServiceCategory = string | null;
 
-const servicesByCategory = {
-  home: [
+const DEFAULT_INDUSTRIES = ["Home Cleaning", "Carpet Cleaning"];
+
+const toIndustryKey = (label: string) =>
+  label
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const industryDetails: Record<string, { description: string; Icon: LucideIcon }> = {
+  "home-cleaning": {
+    description: "Professional cleaning services for your home including standard, deep, and move in/out cleaning.",
+    Icon: Home,
+  },
+  "carpet-cleaning": {
+    description: "Specialized carpet services including deep treatments, stain removal, and move in/out care.",
+    Icon: Building2,
+  },
+};
+
+const servicesByIndustry: Record<string, {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  duration: string;
+  image: string;
+  features?: string[];
+}[]> = {
+  "home-cleaning": [
     { 
       id: "standard", 
       name: "Standard Cleaning", 
@@ -62,6 +111,7 @@ const servicesByCategory = {
       price: 120, 
       duration: "2-3 hours",
       image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop",
+      features: ["Dusting & surfaces", "Bathroom refresh", "Light organizing"],
     },
     { 
       id: "deep", 
@@ -79,9 +129,10 @@ const servicesByCategory = {
       price: 250, 
       duration: "6-8 hours",
       image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
+      features: ["Whole-home detail", "Inside appliance cleaning", "Cabinet wipe-down"],
     },
   ],
-  carpet: [
+  "carpet-cleaning": [
     { 
       id: "standard-carpet", 
       name: "Standard Cleaning", 
@@ -133,21 +184,150 @@ export default function BookingPage() {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [flippedCardId, setFlippedCardId] = useState<string | null>(null);
   const [cardCustomizations, setCardCustomizations] = useState<Record<string, ServiceCustomization>>({});
+  const [industryOptions, setIndustryOptions] = useState<{ label: string; key: string }[]>(
+    DEFAULT_INDUSTRIES.map((label, index) => ({ label, key: toIndustryKey(label) || `industry-${index}` })),
+  );
+  const [storedAddress, setStoredAddress] = useState<StoredAddress | null>(null);
+  const { customerName, customerEmail, accountLoading } = useCustomerAccount();
+  const isAccountLocked = !accountLoading && Boolean(customerName || customerEmail);
+
+  const selectedIndustry = useMemo(
+    () => industryOptions.find((option) => option.key === selectedCategory) ?? null,
+    [industryOptions, selectedCategory],
+  );
+
+  const selectedIndustryLabel = selectedIndustry?.label ?? "";
+
+  useEffect(() => {
+    const buildOptions = (labels: string[]) => {
+      const seen = new Set<string>();
+      return labels
+        .map((label, index) => {
+          const trimmed = label?.trim();
+          if (!trimmed) return null;
+          const baseKey = toIndustryKey(trimmed) || `industry-${index}`;
+          let key = baseKey;
+          let suffix = 1;
+          while (seen.has(key)) {
+            key = `${baseKey}-${suffix++}`;
+          }
+          seen.add(key);
+          return { label: trimmed, key };
+        })
+        .filter(Boolean) as { label: string; key: string }[];
+    };
+
+    const syncFromStorage = () => {
+      if (typeof window === "undefined") return;
+      try {
+        const storedRaw = localStorage.getItem("industries");
+        if (!storedRaw) {
+          setIndustryOptions(buildOptions(DEFAULT_INDUSTRIES));
+          return;
+        }
+        const parsed = JSON.parse(storedRaw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setIndustryOptions(buildOptions(parsed));
+        } else {
+          setIndustryOptions([]);
+        }
+      } catch {
+        setIndustryOptions(buildOptions(DEFAULT_INDUSTRIES));
+      }
+    };
+
+    syncFromStorage();
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === "industries") {
+        syncFromStorage();
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    const interval = window.setInterval(syncFromStorage, 2000);
+
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCategory) return;
+    const stillExists = industryOptions.some((option) => option.key === selectedCategory);
+    if (!stillExists) {
+      setSelectedCategory(null);
+      setSelectedService(null);
+      setServiceCustomization(null);
+      setCardCustomizations({});
+      setCurrentStep("category");
+    }
+  }, [industryOptions, selectedCategory]);
   
   // Initialize booking form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      secondaryEmail: "",
       phone: "",
+      secondaryPhone: "",
+      addressPreference: "new",
       address: "",
+      aptNo: "",
       zipCode: "",
       service: "",
       time: "",
       notes: "",
+      reminderOptIn: false,
     },
   });
+  const addressPreference = form.watch("addressPreference");
+  const existingAddressAvailable = Boolean(storedAddress?.address);
+  const disableAddressFields = addressPreference === "existing" && existingAddressAvailable;
+
+  useEffect(() => {
+    if (accountLoading) return;
+    if (customerName) {
+      const parts = customerName.trim().split(/\s+/).filter(Boolean);
+      if (parts.length) {
+        form.setValue("firstName", parts[0]);
+        const lastName = parts.length > 1 ? parts.slice(1).join(" ") : parts[0];
+        form.setValue("lastName", lastName);
+      }
+    }
+    if (customerEmail) form.setValue("email", customerEmail);
+  }, [accountLoading, customerName, customerEmail, form]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const storedRaw = localStorage.getItem(BOOKING_ADDRESS_KEY);
+      if (!storedRaw) return;
+      const parsed = JSON.parse(storedRaw) as StoredAddress;
+      if (parsed?.address) {
+        setStoredAddress(parsed);
+        form.setValue("addressPreference", "existing");
+      }
+    } catch {
+      // ignore invalid stored address
+    }
+  }, [form]);
+
+  useEffect(() => {
+    if (addressPreference === "existing") {
+      if (storedAddress) {
+        form.setValue("address", storedAddress.address ?? "");
+        form.setValue("aptNo", storedAddress.aptNo ?? "");
+        form.setValue("zipCode", storedAddress.zipCode ?? "");
+      } else {
+        form.setValue("addressPreference", "new");
+      }
+    }
+  }, [addressPreference, storedAddress, form]);
 
   // Initialize payment form
   const paymentForm = useForm<z.infer<typeof paymentSchema>>({
@@ -161,8 +341,12 @@ export default function BookingPage() {
   });
 
   // Handle category selection
-  const handleCategorySelect = (category: ServiceCategory) => {
-    setSelectedCategory(category);
+  const handleCategorySelect = (categoryKey: ServiceCategory) => {
+    setSelectedCategory(categoryKey);
+    setSelectedService(null);
+    setServiceCustomization(null);
+    setCardCustomizations({});
+    setFlippedCardId(null);
     setCurrentStep("details");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -207,7 +391,7 @@ export default function BookingPage() {
   // Handle service selection
   const handleServiceSelect = (serviceName: string, customization?: ServiceCustomization) => {
     if (!selectedCategory) return;
-    const services = servicesByCategory[selectedCategory];
+    const services = servicesByIndustry[selectedCategory];
     const service = services.find(s => s.name === serviceName);
     if (service && customization) {
       setSelectedService(service);
@@ -226,6 +410,15 @@ export default function BookingPage() {
 
   // Handle booking form submission - move to payment step
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (typeof window !== "undefined") {
+      const payload: StoredAddress = {
+        address: values.address,
+        ...(values.aptNo ? { aptNo: values.aptNo } : {}),
+        ...(values.zipCode ? { zipCode: values.zipCode } : {}),
+      };
+      localStorage.setItem(BOOKING_ADDRESS_KEY, JSON.stringify(payload));
+      setStoredAddress(payload);
+    }
     setBookingData(values);
     setCurrentStep("payment");
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -234,8 +427,8 @@ export default function BookingPage() {
   // Get service price
   const getServicePrice = (serviceName: string) => {
     if (!selectedCategory) return 0;
-    const services = servicesByCategory[selectedCategory];
-    const service = services?.find(s => s.name === serviceName);
+    const services = servicesByIndustry[selectedCategory] ?? [];
+    const service = services.find((s) => s.name === serviceName);
     return service?.price || 0;
   };
 
@@ -315,6 +508,7 @@ export default function BookingPage() {
 
   // Category Selection Screen
   if (currentStep === "category") {
+    const categoriesAvailable = industryOptions.length > 0;
     return (
       <div className="min-h-screen">
         <Navigation />
@@ -323,46 +517,44 @@ export default function BookingPage() {
             <div className={styles.header}>
               <h1 className={styles.title}>Select Service Category</h1>
               <p className={styles.subtitle}>
-                Choose between Home Cleaning or Carpet Cleaning
+                {categoriesAvailable
+                  ? "Choose from the industries you've enabled in your admin dashboard."
+                  : "Add industries in your admin dashboard to display them here."}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-              {/* Home Cleaning Card */}
-              <div 
-                onClick={() => handleCategorySelect("home")}
-                className={`${styles.categoryCard} ${selectedCategory === "home" ? styles.selected : ""}`}
-              >
-                <div className={styles.categoryIcon}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                  </svg>
-                </div>
-                <h3 className={styles.categoryTitle}>Home Cleaning</h3>
-                <p className={styles.categoryDescription}>
-                  Professional cleaning services for your home including standard, deep, and move in/out cleaning
-                </p>
+            {categoriesAvailable ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+                {industryOptions.map((option) => {
+                  const detail = industryDetails[option.key];
+                  const IconComponent = detail?.Icon ?? Building2;
+                  const description = detail?.description ?? `Professional ${option.label} services tailored to your clients.`;
+                  const isSelected = selectedCategory === option.key;
+                  return (
+                    <div
+                      key={option.key}
+                      onClick={() => handleCategorySelect(option.key)}
+                      className={`${styles.categoryCard} ${isSelected ? styles.selected : ""}`}
+                    >
+                      <div className={styles.categoryIcon}>
+                        <IconComponent className="h-12 w-12" />
+                      </div>
+                      <h3 className={styles.categoryTitle}>{option.label}</h3>
+                      <p className={styles.categoryDescription}>{description}</p>
+                    </div>
+                  );
+                })}
               </div>
-
-              {/* Carpet Cleaning Card */}
-              <div 
-                onClick={() => handleCategorySelect("carpet")}
-                className={`${styles.categoryCard} ${selectedCategory === "carpet" ? styles.selected : ""}`}
-              >
-                <div className={styles.categoryIcon}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="3" y1="9" x2="21" y2="9"></line>
-                    <line x1="9" y1="21" x2="9" y2="9"></line>
-                  </svg>
-                </div>
-                <h3 className={styles.categoryTitle}>Carpet Cleaning</h3>
-                <p className={styles.categoryDescription}>
-                  Specialized carpet cleaning services including standard, deep, and move in/out carpet care
+            ) : (
+              <div className="mt-12 rounded-2xl border border-dashed border-cyan-300 bg-cyan-50/60 p-8 text-center">
+                <p className="text-base text-slate-600">
+                  No industries have been added yet. Visit the admin dashboard to add industries so they appear here for customers.
                 </p>
+                <Button asChild variant="outline" className="mt-4">
+                  <Link href="/admin/settings/industries">Go to Industries Settings</Link>
+                </Button>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -420,7 +612,7 @@ export default function BookingPage() {
                 <div className={styles.summaryCard}>
                   <h3 className={styles.summaryTitle}>Booking Summary</h3>
                   <div className={styles.summaryItem}>
-                    <strong>Category:</strong> {selectedCategory === "home" ? "Home Cleaning" : "Carpet Cleaning"}
+                    <strong>Category:</strong> {selectedIndustryLabel || "Selected Industry"}
                   </div>
                   <div className={styles.summaryItem}>
                     <strong>Service:</strong> {selectedService.name}
@@ -606,7 +798,7 @@ export default function BookingPage() {
 
   // Booking Details Form
   if (currentStep === "details" && selectedCategory) {
-    const categoryServices = servicesByCategory[selectedCategory];
+    const categoryServices = servicesByIndustry[selectedCategory] ?? [];
     const showSummary = selectedService && serviceCustomization;
     const { subtotal, tax, total } = showSummary ? calculateTotal() : { subtotal: 0, tax: 0, total: 0 };
     
@@ -617,7 +809,7 @@ export default function BookingPage() {
           <div className="container mx-auto px-4 py-16 max-w-6xl">
             <div className={styles.header}>
               <h1 className={styles.title}>
-                {selectedCategory === "home" ? "Home Cleaning" : "Carpet Cleaning"} Booking
+                {selectedIndustryLabel || "Service"} Booking
               </h1>
               <p className={styles.subtitle}>
                 {showSummary 
@@ -630,261 +822,388 @@ export default function BookingPage() {
             {/* Service Type Selection - Always show flip cards */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Select Services</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {categoryServices.map((service) => (
-                  <ServiceCard
-                    key={service.id}
-                    service={service}
-                    isSelected={selectedService?.id === service.id}
-                    onSelect={handleServiceSelect}
-                    flippedCardId={flippedCardId}
-                    onFlip={handleCardFlip}
-                    customization={getCardCustomization(service.id)}
-                    onCustomizationChange={handleCustomizationChange}
-                  />
-                ))}
-              </div>
+              {categoryServices.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {categoryServices.map((service) => (
+                    <ServiceCard
+                      key={service.id}
+                      service={service}
+                      isSelected={selectedService?.id === service.id}
+                      onSelect={handleServiceSelect}
+                      flippedCardId={flippedCardId}
+                      onFlip={handleCardFlip}
+                      customization={getCardCustomization(service.id)}
+                      onCustomizationChange={handleCustomizationChange}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-cyan-300 bg-cyan-50/70 p-8 text-center">
+                  <p className="text-base text-slate-600">
+                    Services for {selectedIndustryLabel || "this industry"} haven’t been configured yet. Please add service offerings in the admin dashboard.
+                  </p>
+                  <Button variant="outline" className="mt-4" onClick={() => setCurrentStep("category")}>
+                    Choose another industry
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Customer Information Form - Always visible below service cards */}
-            <div id="customer-form" className={styles.formContainer}>
-              <h2 className="text-2xl font-bold mb-6">Customer Information</h2>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                      <div className={styles.formGrid}>
-                        {/* Name Field */}
+            {categoryServices.length > 0 && (
+              <div id="customer-form" className={styles.formContainer}>
+                <h2 className="text-2xl font-bold mb-6">Customer Information</h2>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* First Name Field */}
+                      <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>First Name</FormLabel>
+                            <FormControl>
+                              <Input
+                                className={styles.formInput}
+                                placeholder="John"
+                                {...field}
+                                disabled={isAccountLocked}
+                                readOnly={isAccountLocked}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Last Name Field */}
+                      <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Last Name</FormLabel>
+                            <FormControl>
+                              <Input
+                                className={styles.formInput}
+                                placeholder="Doe"
+                                {...field}
+                                disabled={isAccountLocked}
+                                readOnly={isAccountLocked}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Email Field */}
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                className={styles.formInput}
+                                placeholder="john@example.com"
+                                {...field}
+                                disabled={isAccountLocked}
+                                readOnly={isAccountLocked}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Phone + Reminder Column */}
+                      <div className="space-y-4">
                         <FormField
                           control={form.control}
-                          name="name"
+                          name="phone"
                           render={({ field }) => (
                             <FormItem className={styles.formGroup}>
-                              <FormLabel className={styles.formLabel}>Full Name</FormLabel>
+                              <FormLabel className={styles.formLabel}>Phone Number</FormLabel>
                               <FormControl>
-                                <Input 
-                                  className={styles.formInput}
-                                  placeholder="John Doe" 
-                                  {...field} 
-                                />
+                                <Input className={styles.formInput} placeholder="(123) 456-7890" {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
 
-                {/* Email Field */}
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className={styles.formGroup}>
-                      <FormLabel className={styles.formLabel}>Email</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="email" 
-                          className={styles.formInput}
-                          placeholder="john@example.com" 
-                          {...field} 
+                        <FormField
+                          control={form.control}
+                          name="reminderOptIn"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center space-x-2">
+                              <FormControl>
+                                <Checkbox checked={field.value} onCheckedChange={field.onChange} className="h-4 w-4" />
+                              </FormControl>
+                              <FormLabel className="text-sm">Send me reminders about my booking via text messages.</FormLabel>
+                            </FormItem>
+                          )}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                      </div>
 
-                {/* Phone Field */}
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem className={styles.formGroup}>
-                      <FormLabel className={styles.formLabel}>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input 
-                          className={styles.formInput}
-                          placeholder="(123) 456-7890" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Address Field */}
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem className={styles.formGroup}>
-                      <FormLabel className={styles.formLabel}>Address</FormLabel>
-                      <FormControl>
-                        <Input 
-                          className={styles.formInput}
-                          placeholder="123 Main St, Chicago, IL" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Zip Code Field */}
-                <FormField
-                  control={form.control}
-                  name="zipCode"
-                  render={({ field }) => (
-                    <FormItem className={styles.formGroup}>
-                      <FormLabel className={styles.formLabel}>Zip Code</FormLabel>
-                      <FormControl>
-                        <Input 
-                          className={styles.formInput}
-                          placeholder="60601" 
-                          maxLength={10}
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Date Picker */}
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="date"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel className={styles.formLabel}>Select Date</FormLabel>
-                        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                          <PopoverTrigger asChild>
+                      {/* Secondary Phone Field */}
+                      <FormField
+                        control={form.control}
+                        name="secondaryPhone"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Secondary Phone (Optional)</FormLabel>
                             <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "pl-3 text-left font-normal h-12",
-                                  !field.value && "text-muted-foreground"
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
+                              <Input className={styles.formInput} placeholder="(987) 654-3210" {...field} />
                             </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className={styles.calendarWrapper} align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={(date) => {
-                                field.onChange(date);
-                                setCalendarOpen(false);
-                              }}
-                              disabled={(date) =>
-                                date < new Date() || date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                {/* Time Selection */}
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="time"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className={styles.formLabel}>Select Time Slot</FormLabel>
-                        <div className={styles.timeSlots}>
-                          {availableTimes.map((time) => (
-                            <div
-                              key={time}
-                              className={cn(
-                                styles.timeSlot,
-                                field.value === time && styles.selected
-                              )}
-                              onClick={() => field.onChange(time)}
-                            >
-                              {time}
-                            </div>
-                          ))}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                      {/* Secondary Email Field */}
+                      <FormField
+                        control={form.control}
+                        name="secondaryEmail"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Secondary Email (Optional)</FormLabel>
+                            <FormControl>
+                              <Input type="email" className={styles.formInput} placeholder="alternate@example.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* Address Preference */}
+                    <div className="col-span-full">
+                        <FormField
+                          control={form.control}
+                          name="addressPreference"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className={styles.formLabel}>Address Preference</FormLabel>
+                              <FormControl>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  value={field.value}
+                                  className="flex flex-wrap gap-6"
+                                >
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="existing" id="use-existing-address" disabled={!existingAddressAvailable} />
+                                    <label htmlFor="use-existing-address" className="text-sm font-medium">
+                                      Use Existing Address
+                                      {!existingAddressAvailable && (
+                                        <span className="block text-xs text-muted-foreground">No saved address yet</span>
+                                      )}
+                                    </label>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="new" id="use-new-address" />
+                                    <label htmlFor="use-new-address" className="text-sm font-medium">
+                                      Use New Address
+                                    </label>
+                                  </div>
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Address Field */}
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Address</FormLabel>
+                            <FormControl>
+                              <Input
+                                className={styles.formInput}
+                                placeholder="123 Main St, Chicago, IL"
+                                {...field}
+                                disabled={disableAddressFields}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Apt Number Field */}
+                      <FormField
+                        control={form.control}
+                        name="aptNo"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Apt. No. (Optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                className={styles.formInput}
+                                placeholder="Unit 3B"
+                                {...field}
+                                disabled={disableAddressFields}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Zip Code Field */}
+                      <FormField
+                        control={form.control}
+                        name="zipCode"
+                        render={({ field }) => (
+                          <FormItem className={styles.formGroup}>
+                            <FormLabel className={styles.formLabel}>Zip Code</FormLabel>
+                            <FormControl>
+                              <Input
+                                className={styles.formInput}
+                                placeholder="60601"
+                                maxLength={10}
+                                {...field}
+                                disabled={disableAddressFields}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Date Picker */}
+                      <div className="col-span-full">
+                        <FormField
+                          control={form.control}
+                          name="date"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className={styles.formLabel}>Select Date</FormLabel>
+                              <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant="outline"
+                                      className={cn("pl-3 text-left font-normal h-12", !field.value && "text-muted-foreground")}
+                                    >
+                                      {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className={styles.calendarWrapper} align="start">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={(date) => {
+                                      field.onChange(date);
+                                      setCalendarOpen(false);
+                                    }}
+                                    disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Time Selection */}
+                      <div className="col-span-full">
+                        <FormField
+                          control={form.control}
+                          name="time"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className={styles.formLabel}>Select Time Slot</FormLabel>
+                              <div className={styles.timeSlots}>
+                                {availableTimes.map((time) => (
+                                  <div
+                                    key={time}
+                                    className={cn(styles.timeSlot, field.value === time && styles.selected)}
+                                    onClick={() => field.onChange(time)}
+                                  >
+                                    {time}
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Additional Notes */}
+                      <div className="col-span-full">
+                        <FormField
+                          control={form.control}
+                          name="notes"
+                          render={({ field }) => (
+                            <FormItem className={styles.formGroup}>
+                              <FormLabel className={styles.formLabel}>
+                                Additional Notes (Optional)
+                                <span className="text-muted-foreground text-sm font-normal block mt-1">
+                                  Any special instructions or requests?
+                                </span>
+                              </FormLabel>
+                              <FormControl>
+                                <textarea
+                                  className={styles.formTextarea}
+                                  placeholder="e.g., Please bring extra cleaning supplies, focus on kitchen, pet in the house, etc."
+                                  rows={4}
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                    {/* Submit Button */}
+                    <div className="col-span-full pt-4">
+                      <button type="submit" className={`${styles.submitButton} group`} disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            Confirm Booking
+                            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                          </>
+                        )}
+                      </button>
+
+                      <p className="text-center text-sm text-muted-foreground mt-4">
+                        By booking, you agree to our{" "}
+                        <Link href="/terms-and-conditions" className="text-primary hover:underline">
+                          Terms of Service
+                        </Link>{" "}and{" "}
+                        <Link href="/privacy-policy" className="text-primary hover:underline">
+                          Privacy Policy
+                        </Link>
+                        .
+                      </p>
+                    </div>
+                  </form>
+                </Form>
               </div>
-
-                {/* Additional Notes */}
-                <div className="col-span-full">
-                  <FormField
-                    control={form.control}
-                    name="notes"
-                    render={({ field }) => (
-                      <FormItem className={styles.formGroup}>
-                        <FormLabel className={styles.formLabel}>
-                          Additional Notes (Optional)
-                          <span className="text-muted-foreground text-sm font-normal block mt-1">
-                            Any special instructions or requests?
-                          </span>
-                        </FormLabel>
-                        <FormControl>
-                          <textarea
-                            className={styles.formTextarea}
-                            placeholder="e.g., Please bring extra cleaning supplies, focus on kitchen, pet in the house, etc."
-                            rows={4}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <div className="col-span-full pt-4">
-                  <button 
-                    type="submit"
-                    className={`${styles.submitButton} group`}
-                    disabled={form.formState.isSubmitting}
-                  >
-                    {form.formState.isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        Confirm Booking
-                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                      </>
-                    )}
-                  </button>
-                  
-                  <p className="text-center text-sm text-muted-foreground mt-4">
-                    By booking, you agree to our{' '}
-                    <Link href="/terms-and-conditions" className="text-primary hover:underline">Terms of Service</Link> and{' '}
-                    <Link href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>.
-                  </p>
-                </div>
-              </form>
-            </Form>
+            )}
           </div>
         </div>
       </div>
-    </div>
     );
   }
 

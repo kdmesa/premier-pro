@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,14 +16,14 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { 
+import {
   Search, 
   Filter, 
-  Download,
+  Plus,
   Eye,
   CheckCircle2,
   XCircle,
@@ -34,17 +35,21 @@ import {
   List,
   Calendar as CalendarIcon,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Send
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
-// Mock data
-const bookingsData = [
+const BOOKINGS_STORAGE_KEY = "adminBookings";
+
+// Mock data fallback
+const defaultBookings = [
   {
     id: "BK001",
     customer: { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" },
     service: "Deep Cleaning",
-    date: "2024-11-08",
+    date: "2025-11-15",
     time: "9:00 AM",
     address: "123 Main St, Chicago, IL",
     status: "confirmed",
@@ -56,10 +61,10 @@ const bookingsData = [
     id: "BK002",
     customer: { name: "Jane Smith", email: "jane@example.com", phone: "(555) 234-5678" },
     service: "Standard Cleaning",
-    date: "2024-11-08",
+    date: "2025-11-08",
     time: "11:00 AM",
     address: "456 Oak Ave, Chicago, IL",
-    status: "pending",
+    status: "completed",
     amount: "$120",
     paymentMethod: "Cash",
     notes: ""
@@ -68,10 +73,10 @@ const bookingsData = [
     id: "BK003",
     customer: { name: "Mike Johnson", email: "mike@example.com", phone: "(555) 345-6789" },
     service: "Office Cleaning",
-    date: "2024-11-09",
+    date: "2025-11-09",
     time: "1:00 PM",
     address: "789 Business Blvd, Chicago, IL",
-    status: "confirmed",
+    status: "completed",
     amount: "$200",
     paymentMethod: "Credit Card",
     notes: "Office closes at 5 PM"
@@ -80,7 +85,7 @@ const bookingsData = [
     id: "BK004",
     customer: { name: "Sarah Williams", email: "sarah@example.com", phone: "(555) 456-7890" },
     service: "Carpet Cleaning",
-    date: "2024-11-09",
+    date: "2025-11-09",
     time: "3:00 PM",
     address: "321 Pine St, Chicago, IL",
     status: "completed",
@@ -92,7 +97,7 @@ const bookingsData = [
     id: "BK005",
     customer: { name: "David Brown", email: "david@example.com", phone: "(555) 567-8901" },
     service: "Move In/Out",
-    date: "2024-11-10",
+    date: "2025-11-10",
     time: "9:00 AM",
     address: "654 Elm Dr, Chicago, IL",
     status: "cancelled",
@@ -101,6 +106,9 @@ const bookingsData = [
     notes: "Customer cancelled due to schedule conflict"
   },
 ];
+
+type Booking = typeof defaultBookings[number];
+
 
 const getStatusBadge = (status: string) => {
   const styles = {
@@ -127,16 +135,65 @@ const getStatusBadge = (status: string) => {
   );
 };
 
+const getStatusTone = (status: string) => {
+  switch (status) {
+    case "completed":
+      return {
+        light: "bg-green-50",
+        dark: "dark:bg-green-900/20",
+        chip: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+      };
+    case "cancelled":
+      return {
+        light: "bg-red-50",
+        dark: "dark:bg-red-900/20",
+        chip: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+      };
+    default:
+      return {
+        light: "",
+        dark: "",
+        chip: "linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)",
+      };
+  }
+};
+
 export default function BookingsPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [selectedBooking, setSelectedBooking] = useState<typeof bookingsData[0] | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>(defaultBookings);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
   const [currentDate, setCurrentDate] = useState(new Date());
   const { toast } = useToast();
 
-  const filteredBookings = bookingsData.filter((booking) => {
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const stored = localStorage.getItem(BOOKINGS_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Booking[];
+        if (Array.isArray(parsed)) {
+          setBookings(parsed);
+        }
+      } catch (error) {
+        console.error("Failed to parse stored bookings", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(bookings));
+  }, [bookings]);
+
+
+  const filteredBookings = bookings.filter((booking) => {
     const matchesSearch = 
       booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       booking.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -147,18 +204,29 @@ export default function BookingsPage() {
     return matchesSearch && matchesStatus;
   });
 
-  const handleViewDetails = (booking: typeof bookingsData[0]) => {
+  const handleViewDetails = (booking: Booking) => {
     setSelectedBooking(booking);
     setShowDetails(true);
   };
 
   const handleStatusChange = (bookingId: string, newStatus: string) => {
-    toast({
-      title: "Status Updated",
-      description: `Booking ${bookingId} status changed to ${newStatus}`,
+    setBookings((prev) => {
+      const updated = prev.map((booking) =>
+        booking.id === bookingId ? { ...booking, status: newStatus } : booking
+      );
+      const activeSelection = updated.find((booking) => booking.id === bookingId) || null;
+      setSelectedBooking(activeSelection);
+
+      toast({
+        title: "Status Updated",
+        description: `Booking ${bookingId} status changed to ${newStatus}`,
+      });
+
+      return updated;
     });
     setShowDetails(false);
   };
+
 
   // Calendar functions
   const getDaysInMonth = (date: Date) => {
@@ -173,7 +241,7 @@ export default function BookingsPage() {
   };
 
   const getBookingsForDate = (date: string) => {
-    return bookingsData.filter(booking => booking.date === date);
+    return bookings.filter((booking) => booking.date === date);
   };
 
   const formatDate = (year: number, month: number, day: number) => {
@@ -199,29 +267,6 @@ export default function BookingsPage() {
 
   return (
     <div className="space-y-6">
-      {/* View Toggle */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <Button
-            variant={viewMode === "calendar" ? "default" : "outline"}
-            onClick={() => setViewMode("calendar")}
-            className={viewMode === "calendar" ? "text-white" : ""}
-            style={viewMode === "calendar" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
-          >
-            <CalendarIcon className="h-4 w-4 mr-2" />
-            Calendar View
-          </Button>
-          <Button
-            variant={viewMode === "list" ? "default" : "outline"}
-            onClick={() => setViewMode("list")}
-            className={viewMode === "list" ? "text-white" : ""}
-            style={viewMode === "list" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
-          >
-            <List className="h-4 w-4 mr-2" />
-            List View
-          </Button>
-        </div>
-      </div>
 
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
@@ -248,12 +293,50 @@ export default function BookingsPage() {
               <SelectItem value="cancelled">Cancelled</SelectItem>
             </SelectContent>
           </Select>
+          {/* View Toggle Buttons */}
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === "calendar" ? "default" : "outline"}
+              size="icon"
+              onClick={() => setViewMode("calendar")}
+              className={viewMode === "calendar" ? "text-white" : ""}
+              style={viewMode === "calendar" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
+              title="Calendar View"
+            >
+              <CalendarIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant={viewMode === "list" ? "default" : "outline"}
+              size="icon"
+              onClick={() => setViewMode("list")}
+              className={viewMode === "list" ? "text-white" : ""}
+              style={viewMode === "list" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
+              title="List View"
+            >
+              <List className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
-        <Button variant="outline">
-          <Download className="h-4 w-4 mr-2" />
-          Export
-        </Button>
+        <div className="flex gap-3">
+          <Button 
+            className="text-white"
+            style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' }}
+            title="Send Schedule"
+          >
+            <Send className="h-4 w-4 mr-2" />
+            Send Schedule
+          </Button>
+          <Button 
+            onClick={() => router.push("/admin/add-booking")}
+            className="text-white"
+            style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' }}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Booking
+          </Button>
+        </div>
       </div>
+
 
       {/* List View */}
       {viewMode === "list" && (
@@ -287,30 +370,43 @@ export default function BookingsPage() {
                 </tr>
               </thead>
               <tbody>
-                {filteredBookings.map((booking) => (
-                  <tr key={booking.id} className="border-b border-border hover:bg-muted/50 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="text-sm font-medium">{booking.customer.name}</div>
-                      <div className="text-xs text-muted-foreground">{booking.customer.email}</div>
-                    </td>
-                    <td className="py-3 px-4 text-sm">{booking.service}</td>
-                    <td className="py-3 px-4 text-sm">
-                      <div>{booking.date}</div>
-                      <div className="text-xs text-muted-foreground">{booking.time}</div>
-                    </td>
-                    <td className="py-3 px-4">{getStatusBadge(booking.status)}</td>
-                    <td className="py-3 px-4 text-sm font-medium text-right">{booking.amount}</td>
-                    <td className="py-3 px-4 text-center">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleViewDetails(booking)}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {filteredBookings.map((booking) => {
+                  const tone = getStatusTone(booking.status);
+                  return (
+                    <tr
+                      key={booking.id}
+                      className={cn(
+                        "border-b border-border transition-colors",
+                        tone.light,
+                        tone.dark,
+                        booking.status === "completed" || booking.status === "cancelled"
+                          ? "hover:opacity-90"
+                          : "hover:bg-muted/50"
+                      )}
+                    >
+                      <td className="py-3 px-4">
+                        <div className="text-sm font-medium">{booking.customer.name}</div>
+                        <div className="text-xs text-muted-foreground">{booking.customer.email}</div>
+                      </td>
+                      <td className="py-3 px-4 text-sm">{booking.service}</td>
+                      <td className="py-3 px-4 text-sm">
+                        <div>{booking.date}</div>
+                        <div className="text-xs text-muted-foreground">{booking.time}</div>
+                      </td>
+                      <td className="py-3 px-4">{getStatusBadge(booking.status)}</td>
+                      <td className="py-3 px-4 text-sm font-medium text-right">{booking.amount}</td>
+                      <td className="py-3 px-4 text-center">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleViewDetails(booking)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -382,21 +478,20 @@ export default function BookingsPage() {
                       </div>
                       {hasBookings && (
                         <div className="flex-1 space-y-1 overflow-y-auto">
-                          {dayBookings.slice(0, 3).map((booking) => (
-                            <div
-                              key={booking.id}
-                              onClick={() => handleViewDetails(booking)}
-                              className={`text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity ${
-                                booking.status === 'confirmed' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-                                booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                                booking.status === 'completed' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-                                'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                              }`}
-                            >
-                              <div className="truncate font-medium">{booking.time}</div>
-                              <div className="truncate">{booking.service}</div>
-                            </div>
-                          ))}
+                          {dayBookings.slice(0, 3).map((booking) => {
+                            const tone = getStatusTone(booking.status);
+                            return (
+                              <div
+                                key={booking.id}
+                                onClick={() => handleViewDetails(booking)}
+                                className="text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity text-white"
+                                style={{ background: tone.chip }}
+                              >
+                                <div className="truncate font-medium">{booking.time}</div>
+                                <div className="truncate">{booking.service}</div>
+                              </div>
+                            );
+                          })}
                           {dayBookings.length > 3 && (
                             <div className="text-xs text-muted-foreground text-center">
                               +{dayBookings.length - 3} more
@@ -432,6 +527,7 @@ export default function BookingsPage() {
           </CardContent>
         </Card>
       )}
+
 
       {/* Booking Details Dialog */}
       <Dialog open={showDetails} onOpenChange={setShowDetails}>

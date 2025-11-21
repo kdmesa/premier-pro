@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   DollarSign, 
@@ -15,6 +16,23 @@ import {
   ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+
+const BOOKINGS_STORAGE_KEY = "adminBookings";
+
+type Booking = {
+  id: string;
+  customer: { name: string; email: string; phone: string } | string;
+  service: string;
+  date: string;
+  time: string;
+  status: string;
+  amount: string;
+  paymentMethod?: string;
+  notes?: string;
+};
 
 // Mock data - replace with real API calls
 const stats = [
@@ -56,10 +74,10 @@ const stats = [
   },
 ];
 
-const recentBookings = [
+const defaultBookings: Booking[] = [
   {
     id: "BK001",
-    customer: "John Doe",
+    customer: { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" },
     service: "Deep Cleaning",
     date: "2024-11-08",
     time: "9:00 AM",
@@ -68,7 +86,7 @@ const recentBookings = [
   },
   {
     id: "BK002",
-    customer: "Jane Smith",
+    customer: { name: "Jane Smith", email: "jane@example.com", phone: "(555) 234-5678" },
     service: "Standard Cleaning",
     date: "2024-11-08",
     time: "11:00 AM",
@@ -77,7 +95,7 @@ const recentBookings = [
   },
   {
     id: "BK003",
-    customer: "Mike Johnson",
+    customer: { name: "Mike Johnson", email: "mike@example.com", phone: "(555) 345-6789" },
     service: "Office Cleaning",
     date: "2024-11-09",
     time: "1:00 PM",
@@ -86,7 +104,7 @@ const recentBookings = [
   },
   {
     id: "BK004",
-    customer: "Sarah Williams",
+    customer: { name: "Sarah Williams", email: "sarah@example.com", phone: "(555) 456-7890" },
     service: "Carpet Cleaning",
     date: "2024-11-09",
     time: "3:00 PM",
@@ -95,7 +113,7 @@ const recentBookings = [
   },
   {
     id: "BK005",
-    customer: "David Brown",
+    customer: { name: "David Brown", email: "david@example.com", phone: "(555) 567-8901" },
     service: "Move In/Out",
     date: "2024-11-10",
     time: "9:00 AM",
@@ -131,6 +149,27 @@ const getStatusBadge = (status: string) => {
 
 const Dashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [bookings, setBookings] = useState<Booking[]>(defaultBookings);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const stored = localStorage.getItem(BOOKINGS_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Booking[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setBookings(parsed);
+        }
+      } catch (error) {
+        console.error("Failed to load bookings for dashboard", error);
+      }
+    }
+  }, []);
   
   // Get calendar data
   const getDaysInMonth = (date: Date) => {
@@ -147,36 +186,49 @@ const Dashboard = () => {
   const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentDate);
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   
-  // Mock upcoming bookings by date
-  const bookingsByDate: { [key: string]: any[] } = {
-    "2024-11-08": [
-      { time: "9:00 AM", customer: "John Doe", service: "Deep Cleaning" },
-      { time: "11:00 AM", customer: "Jane Smith", service: "Standard Cleaning" }
-    ],
-    "2024-11-09": [
-      { time: "1:00 PM", customer: "Mike Johnson", service: "Office Cleaning" },
-      { time: "3:00 PM", customer: "Sarah Williams", service: "Carpet Cleaning" }
-    ],
-    "2024-11-10": [
-      { time: "9:00 AM", customer: "David Brown", service: "Move In/Out" }
-    ],
-    "2024-11-12": [
-      { time: "10:00 AM", customer: "Emily Davis", service: "Deep Cleaning" }
-    ],
-    "2024-11-15": [
-      { time: "2:00 PM", customer: "Robert Wilson", service: "Standard Cleaning" }
-    ]
-  };
+  const normalizedBookings = useMemo(() => {
+    return bookings.map((booking) => ({
+      ...booking,
+      customerName: typeof booking.customer === "string" ? booking.customer : booking.customer.name,
+    }));
+  }, [bookings]);
+
+  const bookingsByDate = useMemo(() => {
+    return normalizedBookings.reduce<Record<string, typeof normalizedBookings>>(function (acc, booking) {
+      const dateKey = booking.date;
+      if (!acc[dateKey]) {
+        acc[dateKey] = [];
+      }
+      acc[dateKey].push(booking);
+      return acc;
+    }, {});
+  }, [normalizedBookings]);
+
+  useEffect(() => {
+    const today = new Date();
+    const upcoming = [...normalizedBookings]
+      .filter((booking) => new Date(booking.date) >= new Date(today.toDateString()))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    if (upcoming.length > 0) {
+      setSelectedDate(upcoming[0].date);
+    }
+  }, [normalizedBookings]);
 
   const hasBooking = (day: number) => {
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     return bookingsByDate[dateStr] && bookingsByDate[dateStr].length > 0;
   };
 
   const getBookingsForDay = (day: number) => {
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     return bookingsByDate[dateStr] || [];
   };
+
+  const getFormattedSelectedDate = useMemo(() => {
+    if (!selectedDate) return null;
+    const date = new Date(selectedDate);
+    return date.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+  }, [selectedDate]);
 
   const previousMonth = () => {
     setCurrentDate(new Date(year, month - 1, 1));
@@ -191,31 +243,45 @@ const Dashboard = () => {
     return day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
   };
 
+  const acceptBooking = () => {
+    if (!selectedBooking) return;
+    const id = selectedBooking.id;
+    setBookings((prev) => {
+      const next = prev.map((b) => b.id === id ? { ...b, status: 'confirmed' } : b);
+      if (typeof window !== 'undefined') {
+        try { localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(next)); } catch {}
+      }
+      return next;
+    });
+    setSelectedBooking((b) => b ? { ...b, status: 'confirmed' } : b);
+    const name = typeof selectedBooking.customer === 'string' ? selectedBooking.customer : selectedBooking.customer.name;
+    toast({ title: 'Booking accepted', description: `${name} • ${selectedBooking.service} is now confirmed.` });
+  };
+
   return (
+    <>
     <div className="space-y-6">
       {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+            <Card key={stat.title} className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-xs font-medium text-muted-foreground">
                   {stat.title}
-                </CardTitle>
-                <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                  <Icon className={`h-4 w-4 ${stat.color}`} />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  <span className={stat.trend === "up" ? "text-green-600" : "text-red-600"}>
-                    {stat.change}
-                  </span>{" "}
-                  from last month
                 </p>
-              </CardContent>
+                <div className={`p-1.5 rounded-md ${stat.bgColor}`}>
+                  <Icon className={`h-3.5 w-3.5 ${stat.color}`} />
+                </div>
+              </div>
+              <div className="text-xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                <span className={stat.trend === "up" ? "text-green-600" : "text-red-600"}>
+                  {stat.change}
+                </span>{" "}
+                from last month
+              </p>
             </Card>
           );
         })}
@@ -266,17 +332,36 @@ const Dashboard = () => {
                   const hasBookings = hasBooking(day);
                   const bookings = getBookingsForDay(day);
                   const today = isToday(day);
+                  const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                   
+                  const statusForDay = bookings.find((booking) => booking.status === "completed")
+                    ? "completed"
+                    : bookings.find((booking) => booking.status === "cancelled")
+                    ? "cancelled"
+                    : null;
+
+                  const dayBaseClass = cn(
+                    "min-h-[80px] p-1 rounded-lg text-sm relative transition-colors border",
+                    today
+                      ? "bg-cyan-50 border-cyan-500 border-2 dark:bg-cyan-900/20"
+                      : hasBookings
+                        ? statusForDay === "completed"
+                          ? "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800"
+                          : statusForDay === "cancelled"
+                            ? "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800"
+                            : "bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/10 dark:to-blue-900/10 border-cyan-200 dark:border-cyan-800"
+                        : "border-border hover:bg-muted"
+                  );
+
                   return (
                     <div
                       key={day}
-                      className={`min-h-[80px] p-1 rounded-lg text-sm relative transition-colors border ${
-                        today 
-                          ? 'bg-cyan-50 border-cyan-500 border-2 dark:bg-cyan-900/20' 
-                          : hasBookings 
-                          ? 'bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/10 dark:to-blue-900/10 border-cyan-200 dark:border-cyan-800' 
-                          : 'border-border hover:bg-muted'
-                      }`}
+                      className={dayBaseClass}
+                      onClick={() => {
+                        if (hasBookings) {
+                          setSelectedDate(dateKey);
+                        }
+                      }}
                     >
                       <div className={`text-xs font-semibold mb-1 ${today ? 'text-cyan-600 dark:text-cyan-400' : 'text-muted-foreground'}`}>
                         {day}
@@ -284,16 +369,26 @@ const Dashboard = () => {
                       
                       {hasBookings && (
                         <div className="space-y-0.5">
-                          {bookings.slice(0, 2).map((booking, i) => (
-                            <div 
-                              key={i} 
-                              className="text-[10px] px-1 py-0.5 rounded truncate"
-                              style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
-                              title={`${booking.time} - ${booking.customer} - ${booking.service}`}
-                            >
-                              {booking.customer.split(' ')[0]}
-                            </div>
-                          ))}
+                          {bookings.slice(0, 2).map((booking, i) => {
+                            const chipColor = booking.status === "completed"
+                              ? "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)"
+                              : booking.status === "cancelled"
+                                ? "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)"
+                                : 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)';
+
+                            return (
+                              <div 
+                                key={i} 
+                                className="text-[9px] px-1 py-1 rounded text-white leading-tight cursor-pointer"
+                                style={{ background: chipColor }}
+                                title={`${booking.time} - ${booking.customerName} - ${booking.service}`}
+                                onClick={(e) => { e.stopPropagation(); setSelectedBooking(booking); }}
+                              >
+                                <div className="font-semibold truncate">{booking.time}</div>
+                                <div className="truncate">{booking.customerName.split(' ')[0]}</div>
+                              </div>
+                            );
+                          })}
                           {bookings.length > 2 && (
                             <div className="text-[9px] text-muted-foreground px-1">
                               +{bookings.length - 2} more
@@ -315,11 +410,41 @@ const Dashboard = () => {
                   <span className="text-muted-foreground">Has bookings</span>
                 </div>
                 <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded bg-green-200" />
+                  <span className="text-muted-foreground">Completed bookings</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded bg-red-200" />
+                  <span className="text-muted-foreground">Cancelled bookings</span>
+                </div>
+                <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded border-2 border-cyan-500" />
                   <span className="text-muted-foreground">Today</span>
                 </div>
               </div>
             </div>
+
+            {/* Selected date bookings */}
+            {selectedDate && (
+              <div className="mt-4">
+                <h4 className="text-sm font-semibold mb-2">Bookings on {getFormattedSelectedDate}</h4>
+                <div className="space-y-2">
+                  {(bookingsByDate[selectedDate] || []).map((booking) => (
+                    <div
+                      key={booking.id}
+                      className="flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm hover:bg-muted cursor-pointer"
+                      onClick={() => setSelectedBooking(booking)}
+                    >
+                      <div>
+                        <p className="font-medium text-foreground">{booking.customerName}</p>
+                        <p className="text-xs text-muted-foreground">{booking.service} • {booking.time}</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground uppercase">{booking.status}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -338,14 +463,17 @@ const Dashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {recentBookings.map((booking) => (
+            {normalizedBookings.slice(0, 5).map((booking) => (
               <div 
                 key={booking.id} 
-                className="p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors"
+                className="p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer"
+                onClick={() => setSelectedBooking(booking)}
+                role="button"
+                title={`View ${booking.customerName} • ${booking.service}`}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <p className="font-semibold text-sm">{booking.customer}</p>
+                    <p className="font-semibold text-sm">{booking.customerName}</p>
                     <p className="text-xs text-muted-foreground">{booking.service}</p>
                   </div>
                   {getStatusBadge(booking.status)}
@@ -364,54 +492,73 @@ const Dashboard = () => {
       </Card>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardHeader>
-            <CardTitle className="text-base">Add New Booking</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Create a new booking for a customer
-            </p>
-            <Button className="w-full" style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}>
-              <Calendar className="mr-2 h-4 w-4" />
-              New Booking
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardHeader>
-            <CardTitle className="text-base">Add New Customer</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Register a new customer account
-            </p>
-            <Button className="w-full" variant="outline">
-              <Users className="mr-2 h-4 w-4" />
-              New Customer
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardHeader>
-            <CardTitle className="text-base">Manage Services</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Update pricing and service details
-            </p>
-            <Button className="w-full" variant="outline">
-              <TrendingUp className="mr-2 h-4 w-4" />
-              View Services
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      
     </div>
+    {/* Booking Details Dialog */}
+    <Dialog open={!!selectedBooking} onOpenChange={(o) => { if (!o) setSelectedBooking(null); }}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Booking Details</DialogTitle>
+          <DialogDescription>View information about this booking.</DialogDescription>
+        </DialogHeader>
+        {selectedBooking && (
+          <div className="space-y-3 text-sm">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <div className="text-muted-foreground">Booking ID</div>
+                <div className="font-medium">{selectedBooking.id}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Status</div>
+                <div className="font-medium uppercase">{selectedBooking.status}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Customer</div>
+                <div className="font-medium">{typeof selectedBooking.customer === 'string' ? selectedBooking.customer : selectedBooking.customer.name}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Service</div>
+                <div className="font-medium">{selectedBooking.service}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Date</div>
+                <div className="font-medium">{selectedBooking.date} • {selectedBooking.time}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground">Amount</div>
+                <div className="font-medium">{selectedBooking.amount}</div>
+              </div>
+            </div>
+            {typeof selectedBooking.customer !== 'string' && (
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <div className="text-muted-foreground">Email</div>
+                  <div className="font-medium">{selectedBooking.customer.email}</div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground">Phone</div>
+                  <div className="font-medium">{selectedBooking.customer.phone}</div>
+                </div>
+              </div>
+            )}
+            {selectedBooking.notes && (
+              <div>
+                <div className="text-muted-foreground">Notes</div>
+                <div className="font-medium">{selectedBooking.notes}</div>
+              </div>
+            )}
+          </div>
+        )}
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="outline" onClick={() => setSelectedBooking(null)}>Close</Button>
+          {selectedBooking?.status === 'pending' && (
+            <Button onClick={acceptBooking} variant="default">Accept Booking</Button>
+          )}
+          <Button onClick={() => { router.push('/admin/bookings'); }}>View Booking</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
 

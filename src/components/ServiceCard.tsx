@@ -21,7 +21,7 @@ interface ServiceCardProps {
     price: number;
     duration: string;
     image: string;
-    features: string[];
+    features?: string[];
   };
   isSelected: boolean;
   onSelect: (serviceName: string, customization?: ServiceCustomization) => void;

@@ -2,14 +2,35 @@
 
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCustomerAuthenticated, setIsCustomerAuthenticated] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const syncAuthState = () => {
+      const isAuthed = window.localStorage.getItem("customerAuth") === "true";
+      setIsCustomerAuthenticated(isAuthed);
+    };
+
+    const handleCustomAuthEvent = () => syncAuthState();
+
+    syncAuthState();
+    window.addEventListener("storage", syncAuthState);
+    window.addEventListener("customer-auth-changed", handleCustomAuthEvent);
+
+    return () => {
+      window.removeEventListener("storage", syncAuthState);
+      window.removeEventListener("customer-auth-changed", handleCustomAuthEvent);
+    };
+  }, []);
 
   const handleSectionClick = (sectionId: string) => {
     if (pathname !== '/') {
@@ -67,7 +88,9 @@ const Navigation = () => {
               Contact
             </button>
             <Button variant="outline" size="sm" asChild>
-              <Link href="/login">Login</Link>
+              <Link href={isCustomerAuthenticated ? "/customer/dashboard" : "/login"}>
+                {isCustomerAuthenticated ? "My Dashboard" : "Login"}
+              </Link>
             </Button>
             <Button asChild size="sm">
               <Link href="/book-now">Book Now</Link>
@@ -112,7 +135,9 @@ const Navigation = () => {
             </button>
             <div className="flex flex-col space-y-2 pt-2">
               <Button variant="outline" size="sm" asChild>
-                <Link href="/login">Login</Link>
+                <Link href={isCustomerAuthenticated ? "/customer/dashboard" : "/login"}>
+                  {isCustomerAuthenticated ? "My Dashboard" : "Login"}
+                </Link>
               </Button>
               <Button size="sm" asChild>
                 <Link href="/book-now">Get Started</Link>

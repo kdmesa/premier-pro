@@ -27,6 +27,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 
+type StoredAccount = {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  password: string;
+};
+
 // Login form schema
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
@@ -53,10 +61,23 @@ const forgotPasswordSchema = z.object({
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [hasAccount, setHasAccount] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
+  const getStoredAccount = (): StoredAccount | null => {
+    if (typeof window === "undefined") return null;
+    const storedAccount = localStorage.getItem("customerAccount");
+    if (!storedAccount) return null;
+    try {
+      return JSON.parse(storedAccount) as StoredAccount;
+    } catch {
+      localStorage.removeItem("customerAccount");
+      return null;
+    }
+  };
 
   // Login form
   const loginForm = useForm<z.infer<typeof loginSchema>>({
@@ -88,15 +109,52 @@ export default function AuthPage() {
     },
   });
 
+
   // Reset forms when switching between login and signup
   useEffect(() => {
     loginForm.reset();
     signupForm.reset();
   }, [isLogin]);
 
+  useEffect(() => {
+    const storedAccount = getStoredAccount();
+    const accountExists = Boolean(storedAccount);
+    setHasAccount(accountExists);
+    if (!accountExists) {
+      setIsLogin(false);
+    }
+
+    if (
+      typeof window !== "undefined" &&
+      accountExists &&
+      localStorage.getItem("customerAuth") === "true"
+    ) {
+      router.replace("/customer/dashboard");
+    }
+  }, [router]);
+
   // Handle login submission
   async function onLoginSubmit(values: z.infer<typeof loginSchema>) {
     try {
+      const storedAccount = getStoredAccount();
+      if (!storedAccount) {
+        toast({
+          title: "No account found",
+          description: "Please sign up before trying to sign in.",
+          variant: "destructive",
+        });
+        setIsLogin(false);
+        setHasAccount(false);
+        return;
+      }
+
+      if (
+        storedAccount.email !== values.email ||
+        storedAccount.password !== values.password
+      ) {
+        throw new Error("Invalid credentials");
+      }
+
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
@@ -105,10 +163,8 @@ export default function AuthPage() {
         description: `Welcome back! You've been logged in.`,
       });
       
-      // Redirect to home page
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+      localStorage.setItem("customerAuth", "true");
+      router.push("/customer/dashboard");
       
     } catch (error) {
       toast({
@@ -130,10 +186,18 @@ export default function AuthPage() {
         description: `Welcome ${values.name}! Your account has been created successfully.`,
       });
       
-      // Redirect to home page
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+      const accountData: StoredAccount = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        address: values.address,
+        password: values.password,
+      };
+
+      localStorage.setItem("customerAccount", JSON.stringify(accountData));
+      localStorage.setItem("customerAuth", "false");
+      setHasAccount(true);
+      setIsLogin(true);
       
     } catch (error) {
       toast({
@@ -256,10 +320,16 @@ export default function AuthPage() {
                     </button>
                   </div>
 
+                  {!hasAccount && (
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+                      Please create an account before signing in.
+                    </div>
+                  )}
+
                   <Button 
                     type="submit"
                     className="w-full h-11 text-base group"
-                    disabled={loginForm.formState.isSubmitting}
+                    disabled={!hasAccount || loginForm.formState.isSubmitting}
                   >
                     {loginForm.formState.isSubmitting ? (
                       <>

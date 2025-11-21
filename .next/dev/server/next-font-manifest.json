@@ -1,24 +1,51 @@
 {
   "app": {
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/_not-found/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/add-booking/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/bookings/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/dashboard/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/providers/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/reports/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/form-1/frequencies/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/canceled/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/dashboard/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/profile/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/login/page": [

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +19,7 @@ import {
   Search, 
   Download,
   Eye,
+  Pencil,
   Mail,
   Phone,
   MapPin,
@@ -26,9 +28,18 @@ import {
   TrendingUp,
   UserPlus
 } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-// Mock data
-const customersData = [
+const CUSTOMERS_STORAGE_KEY = "adminCustomers";
+
+// Mock data fallback
+const defaultCustomers = [
   {
     id: "CUST001",
     name: "John Doe",
@@ -91,12 +102,24 @@ const customersData = [
   },
 ];
 
+type Customer = typeof defaultCustomers[number];
+
 const Customers = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState<typeof customersData[0] | null>(null);
+  const [customers, setCustomers] = useState<Customer[]>(defaultCustomers);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showAddCustomer, setShowAddCustomer] = useState(false);
+  const [showEditCustomer, setShowEditCustomer] = useState(false);
+  const [editCustomer, setEditCustomer] = useState({
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    status: "active" as Customer["status"],
+  });
   const [newCustomer, setNewCustomer] = useState({
     name: "",
     email: "",
@@ -104,7 +127,28 @@ const Customers = () => {
     address: ""
   });
 
-  const filteredCustomers = customersData.filter((customer) => {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const stored = localStorage.getItem(CUSTOMERS_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Customer[];
+        if (Array.isArray(parsed)) {
+          setCustomers(parsed);
+        }
+      } catch (error) {
+        console.error("Failed to parse stored customers", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(CUSTOMERS_STORAGE_KEY, JSON.stringify(customers));
+  }, [customers]);
+
+  const filteredCustomers = customers.filter((customer) => {
     const matchesSearch = 
       customer.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -114,19 +158,63 @@ const Customers = () => {
     return matchesSearch;
   });
 
-  const handleViewDetails = (customer: typeof customersData[0]) => {
+  const handleViewDetails = (customer: Customer) => {
     setSelectedCustomer(customer);
     setShowDetails(true);
   };
 
+  const handleOpenEdit = (customer: Customer) => {
+    setEditCustomer({
+      id: customer.id,
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+      address: customer.address,
+      status: customer.status,
+    });
+    setShowEditCustomer(true);
+  };
+
+  const handleSaveEdit = () => {
+    setCustomers((prev) =>
+      prev.map((c) =>
+        c.id === editCustomer.id
+          ? { ...c, name: editCustomer.name, email: editCustomer.email, phone: editCustomer.phone, address: editCustomer.address, status: editCustomer.status }
+          : c
+      )
+    );
+
+    toast({
+      title: "Customer Updated",
+      description: `${editCustomer.name} has been updated successfully.`,
+    });
+
+    setShowEditCustomer(false);
+  };
+
   const handleAddCustomer = () => {
     // Here you would typically make an API call to save the customer
+    const now = new Date();
+    const newEntry: Customer = {
+      id: `CUST${Date.now()}`,
+      name: newCustomer.name,
+      email: newCustomer.email,
+      phone: newCustomer.phone,
+      address: newCustomer.address || "",
+      joinDate: now.toISOString().slice(0, 10),
+      totalBookings: 0,
+      totalSpent: "$0",
+      status: "active",
+      lastBooking: "-",
+    };
+
+    setCustomers((prev) => [newEntry, ...prev]);
+
     toast({
       title: "Customer Added",
       description: `${newCustomer.name} has been added successfully.`,
     });
-    
-    // Reset form and close dialog
+
     setNewCustomer({ name: "", email: "", phone: "", address: "" });
     setShowAddCustomer(false);
   };
@@ -153,7 +241,7 @@ const Customers = () => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{customersData.length}</div>
+            <div className="text-2xl font-bold">{customers.length}</div>
             <p className="text-xs text-muted-foreground mt-1">
               <span className="text-green-600">+12%</span> from last month
             </p>
@@ -169,10 +257,10 @@ const Customers = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {customersData.filter(c => c.status === "active").length}
+              {customers.filter(c => c.status === "active").length}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              {((customersData.filter(c => c.status === "active").length / customersData.length) * 100).toFixed(0)}% of total
+              {customers.length ? ((customers.filter(c => c.status === "active").length / customers.length) * 100).toFixed(0) : 0}% of total
             </p>
           </CardContent>
         </Card>
@@ -186,7 +274,7 @@ const Customers = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {(customersData.reduce((acc, c) => acc + c.totalBookings, 0) / customersData.length).toFixed(1)}
+              {customers.length ? (customers.reduce((acc, c) => acc + c.totalBookings, 0) / customers.length).toFixed(1) : "0.0"}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Per customer lifetime
@@ -255,10 +343,14 @@ const Customers = () => {
                 {filteredCustomers.map((customer) => (
                   <tr key={customer.id} className="border-b border-border hover:bg-muted/50 transition-colors">
                     <td className="py-3 px-4">
-                      <div className="text-sm font-medium">{customer.name}</div>
+                      <Link href={`/admin/customers/${customer.id}`} className="text-sm font-medium text-cyan-700 hover:underline">
+                        {customer.name}
+                      </Link>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-sm">{customer.email}</div>
+                      <Link href={`/admin/customers/${customer.id}`} className="text-sm text-cyan-700 hover:underline">
+                        {customer.email}
+                      </Link>
                       <div className="text-xs text-muted-foreground">{customer.phone}</div>
                     </td>
                     <td className="py-3 px-4 text-sm">{customer.joinDate}</td>
@@ -272,6 +364,13 @@ const Customers = () => {
                         onClick={() => handleViewDetails(customer)}
                       >
                         <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleOpenEdit(customer)}
+                      >
+                        <Pencil className="h-4 w-4" />
                       </Button>
                     </td>
                   </tr>
@@ -358,6 +457,96 @@ const Customers = () => {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Customer Dialog */}
+      <Dialog open={showEditCustomer} onOpenChange={setShowEditCustomer}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Customer</DialogTitle>
+            <DialogDescription>
+              Update the customer's information below.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-name">Full Name *</Label>
+              <Input
+                id="edit-name"
+                placeholder="John Doe"
+                value={editCustomer.name}
+                onChange={(e) => setEditCustomer({ ...editCustomer, name: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-email">Email Address *</Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="edit-email"
+                  type="email"
+                  placeholder="john@example.com"
+                  className="pl-10"
+                  value={editCustomer.email}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, email: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-phone">Phone Number *</Label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="edit-phone"
+                  placeholder="(555) 123-4567"
+                  className="pl-10"
+                  value={editCustomer.phone}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, phone: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-address">Address</Label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="edit-address"
+                  placeholder="123 Main St, Chicago, IL"
+                  className="pl-10"
+                  value={editCustomer.address}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, address: e.target.value })}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Status</Label>
+              <Select
+                value={editCustomer.status}
+                onValueChange={(v) => setEditCustomer({ ...editCustomer, status: v as Customer["status"] })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="flex gap-3 justify-end">
+            <Button variant="outline" onClick={() => setShowEditCustomer(false)}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleSaveEdit}
+              disabled={!editCustomer.name || !editCustomer.email || !editCustomer.phone}
+              style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
+            >
+              Save Changes
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
 

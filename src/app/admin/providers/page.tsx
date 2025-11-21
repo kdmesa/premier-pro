@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,9 +35,26 @@ import {
   XCircle,
   Clock,
 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+
+const PROVIDERS_STORAGE_KEY = "adminProviders";
+
+type ProviderStatus = "active" | "inactive" | "suspended";
+
+type Provider = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  specialization: string;
+  rating: number;
+  completedJobs: number;
+  status: ProviderStatus;
+  joinedDate: string;
+};
 
 // Mock data - replace with real API calls
-const providersData = [
+const defaultProviders: Provider[] = [
   {
     id: "PRV001",
     name: "John Smith",
@@ -120,8 +139,31 @@ const getStatusBadge = (status: string) => {
 };
 
 const ProvidersPage = () => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [providers, setProviders] = useState(providersData);
+  const [providers, setProviders] = useState<Provider[]>(defaultProviders);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const stored = localStorage.getItem(PROVIDERS_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Provider[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProviders(parsed);
+        }
+      } catch (error) {
+        console.error("Failed to parse stored providers", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(PROVIDERS_STORAGE_KEY, JSON.stringify(providers));
+  }, [providers]);
 
   const filteredProviders = providers.filter(
     (provider) =>
@@ -129,6 +171,7 @@ const ProvidersPage = () => {
       provider.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       provider.specialization.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
 
   const stats = [
     {
@@ -197,6 +240,7 @@ const ProvidersPage = () => {
               style={{
                 background: "linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)",
               }}
+              onClick={() => router.push("/admin/add-provider")}
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Provider
@@ -238,16 +282,18 @@ const ProvidersPage = () => {
                           .map((n) => n[0])
                           .join("")}
                       </div>
-                      <span className="font-medium">{provider.name}</span>
+                      <Link href={`/admin/providers/${provider.id}`} className="font-medium text-cyan-700 hover:underline">
+                        {provider.name}
+                      </Link>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
                       <div className="flex items-center gap-1 text-sm">
                         <Mail className="h-3 w-3 text-muted-foreground" />
-                        <span className="text-muted-foreground">
+                        <Link href={`/admin/providers/${provider.id}`} className="text-cyan-700 hover:underline">
                           {provider.email}
-                        </span>
+                        </Link>
                       </div>
                       <div className="flex items-center gap-1 text-sm">
                         <Phone className="h-3 w-3 text-muted-foreground" />
@@ -294,6 +340,7 @@ const ProvidersPage = () => {
           </Table>
         </CardContent>
       </Card>
+
     </div>
   );
 };
