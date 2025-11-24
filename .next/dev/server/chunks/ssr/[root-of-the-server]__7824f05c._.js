@@ -2586,7 +2586,7 @@ function BookingPage() {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$Navigation$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 514,
+                    lineNumber: 515,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2602,7 +2602,7 @@ function BookingPage() {
                                         children: "Select Service Category"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 518,
+                                        lineNumber: 519,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2610,13 +2610,13 @@ function BookingPage() {
                                         children: categoriesAvailable ? "Choose from the industries you've enabled in your admin dashboard." : "Add industries in your admin dashboard to display them here."
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 519,
+                                        lineNumber: 520,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 517,
+                                lineNumber: 518,
                                 columnNumber: 13
                             }, this),
                             categoriesAvailable ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2636,12 +2636,12 @@ function BookingPage() {
                                                     className: "h-12 w-12"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 540,
+                                                    lineNumber: 541,
                                                     columnNumber: 25
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                lineNumber: 539,
+                                                lineNumber: 540,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2649,7 +2649,7 @@ function BookingPage() {
                                                 children: option.label
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                lineNumber: 542,
+                                                lineNumber: 543,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2657,19 +2657,19 @@ function BookingPage() {
                                                 children: description
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                lineNumber: 543,
+                                                lineNumber: 544,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, option.key, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 534,
+                                        lineNumber: 535,
                                         columnNumber: 21
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 527,
+                                lineNumber: 528,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "mt-12 rounded-2xl border border-dashed border-cyan-300 bg-cyan-50/60 p-8 text-center",
@@ -2679,7 +2679,7 @@ function BookingPage() {
                                         children: "No industries have been added yet. Visit the admin dashboard to add industries so they appear here for customers."
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 550,
+                                        lineNumber: 551,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2691,35 +2691,35 @@ function BookingPage() {
                                             children: "Go to Industries Settings"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                            lineNumber: 554,
+                                            lineNumber: 555,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 553,
+                                        lineNumber: 554,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 549,
+                                lineNumber: 550,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                        lineNumber: 516,
+                        lineNumber: 517,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 515,
+                    lineNumber: 516,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-            lineNumber: 513,
+            lineNumber: 514,
             columnNumber: 7
         }, this);
     }
@@ -2730,7 +2730,7 @@ function BookingPage() {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$Navigation$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 568,
+                    lineNumber: 569,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2746,12 +2746,12 @@ function BookingPage() {
                                         size: 48
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 573,
+                                        lineNumber: 574,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                    lineNumber: 572,
+                                    lineNumber: 573,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -2759,7 +2759,7 @@ function BookingPage() {
                                     children: "Booking Confirmed!"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                    lineNumber: 575,
+                                    lineNumber: 576,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2767,7 +2767,7 @@ function BookingPage() {
                                     children: "Thank you for booking with us! We've sent a confirmation to your email. Our team will contact you shortly to confirm the details."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                    lineNumber: 576,
+                                    lineNumber: 577,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2776,29 +2776,29 @@ function BookingPage() {
                                     children: "Return to Home"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                    lineNumber: 580,
+                                    lineNumber: 581,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                            lineNumber: 571,
+                            lineNumber: 572,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                        lineNumber: 570,
+                        lineNumber: 571,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 569,
+                    lineNumber: 570,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-            lineNumber: 567,
+            lineNumber: 568,
             columnNumber: 7
         }, this);
     }
@@ -2810,7 +2810,7 @@ function BookingPage() {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$Navigation$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 599,
+                    lineNumber: 600,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2826,7 +2826,7 @@ function BookingPage() {
                                         children: "Complete Your Payment"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 603,
+                                        lineNumber: 604,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2834,13 +2834,13 @@ function BookingPage() {
                                         children: "Review your booking and complete payment"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 604,
+                                        lineNumber: 605,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 602,
+                                lineNumber: 603,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2856,7 +2856,7 @@ function BookingPage() {
                                                     children: "Booking Summary"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 613,
+                                                    lineNumber: 614,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2866,7 +2866,7 @@ function BookingPage() {
                                                             children: "Category:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 615,
+                                                            lineNumber: 616,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -2874,7 +2874,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 614,
+                                                    lineNumber: 615,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2884,7 +2884,7 @@ function BookingPage() {
                                                             children: "Service:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 618,
+                                                            lineNumber: 619,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -2892,7 +2892,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 617,
+                                                    lineNumber: 618,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2902,7 +2902,7 @@ function BookingPage() {
                                                             children: "Frequency:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 621,
+                                                            lineNumber: 622,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -2910,7 +2910,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 620,
+                                                    lineNumber: 621,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2920,7 +2920,7 @@ function BookingPage() {
                                                             children: "Area Size:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 624,
+                                                            lineNumber: 625,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -2928,7 +2928,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 623,
+                                                    lineNumber: 624,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2938,7 +2938,7 @@ function BookingPage() {
                                                             children: "Bedroom:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 627,
+                                                            lineNumber: 628,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -2946,7 +2946,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 626,
+                                                    lineNumber: 627,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2956,7 +2956,7 @@ function BookingPage() {
                                                             children: "Bathroom:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 630,
+                                                            lineNumber: 631,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -2964,7 +2964,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 629,
+                                                    lineNumber: 630,
                                                     columnNumber: 19
                                                 }, this),
                                                 serviceCustomization.extras && serviceCustomization.extras !== "None" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2974,7 +2974,7 @@ function BookingPage() {
                                                             children: "Extras:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 634,
+                                                            lineNumber: 635,
                                                             columnNumber: 23
                                                         }, this),
                                                         " ",
@@ -2982,7 +2982,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 633,
+                                                    lineNumber: 634,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2992,7 +2992,7 @@ function BookingPage() {
                                                             children: "Date:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 638,
+                                                            lineNumber: 639,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -3000,7 +3000,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 637,
+                                                    lineNumber: 638,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3010,7 +3010,7 @@ function BookingPage() {
                                                             children: "Time:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 641,
+                                                            lineNumber: 642,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -3018,7 +3018,7 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 640,
+                                                    lineNumber: 641,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3028,7 +3028,7 @@ function BookingPage() {
                                                             children: "Address:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 644,
+                                                            lineNumber: 645,
                                                             columnNumber: 21
                                                         }, this),
                                                         " ",
@@ -3036,14 +3036,14 @@ function BookingPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 643,
+                                                    lineNumber: 644,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$app$2f$book$2d$now$2f$BookingPage$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].divider
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 646,
+                                                    lineNumber: 647,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3053,7 +3053,7 @@ function BookingPage() {
                                                             children: "Service Fee:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 648,
+                                                            lineNumber: 649,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3063,13 +3063,13 @@ function BookingPage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 649,
+                                                            lineNumber: 650,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 647,
+                                                    lineNumber: 648,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3079,7 +3079,7 @@ function BookingPage() {
                                                             children: "Tax (8%):"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 652,
+                                                            lineNumber: 653,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3089,20 +3089,20 @@ function BookingPage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 653,
+                                                            lineNumber: 654,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 651,
+                                                    lineNumber: 652,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$app$2f$book$2d$now$2f$BookingPage$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].divider
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 655,
+                                                    lineNumber: 656,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3112,7 +3112,7 @@ function BookingPage() {
                                                             children: "Total:"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 657,
+                                                            lineNumber: 658,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3122,13 +3122,13 @@ function BookingPage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 658,
+                                                            lineNumber: 659,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 656,
+                                                    lineNumber: 657,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -3140,25 +3140,25 @@ function BookingPage() {
                                                             className: "mr-2 h-4 w-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 665,
+                                                            lineNumber: 666,
                                                             columnNumber: 21
                                                         }, this),
                                                         "Back to Details"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 660,
+                                                    lineNumber: 661,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                            lineNumber: 612,
+                                            lineNumber: 613,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 611,
+                                        lineNumber: 612,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3171,7 +3171,7 @@ function BookingPage() {
                                                     children: "Payment Information"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 674,
+                                                    lineNumber: 675,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3181,20 +3181,20 @@ function BookingPage() {
                                                             className: "h-4 w-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 678,
+                                                            lineNumber: 679,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Secure Payment - Your information is encrypted"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 679,
+                                                            lineNumber: 680,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 677,
+                                                    lineNumber: 678,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Form"], {
@@ -3212,7 +3212,7 @@ function BookingPage() {
                                                                                 children: "Card Number"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 689,
+                                                                                lineNumber: 690,
                                                                                 columnNumber: 33
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3223,7 +3223,7 @@ function BookingPage() {
                                                                                             className: "absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 692,
+                                                                                            lineNumber: 693,
                                                                                             columnNumber: 37
                                                                                         }, void 0),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -3237,34 +3237,34 @@ function BookingPage() {
                                                                                             }
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 693,
+                                                                                            lineNumber: 694,
                                                                                             columnNumber: 37
                                                                                         }, void 0)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 691,
+                                                                                    lineNumber: 692,
                                                                                     columnNumber: 35
                                                                                 }, void 0)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 690,
+                                                                                lineNumber: 691,
                                                                                 columnNumber: 33
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 705,
+                                                                                lineNumber: 706,
                                                                                 columnNumber: 33
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 688,
+                                                                        lineNumber: 689,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 684,
+                                                                lineNumber: 685,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3276,7 +3276,7 @@ function BookingPage() {
                                                                                 children: "Name on Card"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 715,
+                                                                                lineNumber: 716,
                                                                                 columnNumber: 33
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3285,28 +3285,28 @@ function BookingPage() {
                                                                                     ...field
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 717,
+                                                                                    lineNumber: 718,
                                                                                     columnNumber: 35
                                                                                 }, void 0)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 716,
+                                                                                lineNumber: 717,
                                                                                 columnNumber: 33
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 719,
+                                                                                lineNumber: 720,
                                                                                 columnNumber: 33
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 714,
+                                                                        lineNumber: 715,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 710,
+                                                                lineNumber: 711,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3321,7 +3321,7 @@ function BookingPage() {
                                                                                         children: "Expiry Date"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 730,
+                                                                                        lineNumber: 731,
                                                                                         columnNumber: 35
                                                                                     }, void 0),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3335,28 +3335,28 @@ function BookingPage() {
                                                                                             }
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 732,
+                                                                                            lineNumber: 733,
                                                                                             columnNumber: 37
                                                                                         }, void 0)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 731,
+                                                                                        lineNumber: 732,
                                                                                         columnNumber: 35
                                                                                     }, void 0),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 742,
+                                                                                        lineNumber: 743,
                                                                                         columnNumber: 35
                                                                                     }, void 0)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 729,
+                                                                                lineNumber: 730,
                                                                                 columnNumber: 33
                                                                             }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 725,
+                                                                        lineNumber: 726,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3368,7 +3368,7 @@ function BookingPage() {
                                                                                         children: "CVV"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 752,
+                                                                                        lineNumber: 753,
                                                                                         columnNumber: 35
                                                                                     }, void 0),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3383,34 +3383,34 @@ function BookingPage() {
                                                                                             }
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 754,
+                                                                                            lineNumber: 755,
                                                                                             columnNumber: 37
                                                                                         }, void 0)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 753,
+                                                                                        lineNumber: 754,
                                                                                         columnNumber: 35
                                                                                     }, void 0),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 765,
+                                                                                        lineNumber: 766,
                                                                                         columnNumber: 35
                                                                                     }, void 0)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 751,
+                                                                                lineNumber: 752,
                                                                                 columnNumber: 33
                                                                             }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 747,
+                                                                        lineNumber: 748,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 724,
+                                                                lineNumber: 725,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -3423,7 +3423,7 @@ function BookingPage() {
                                                                             className: "mr-2 h-5 w-5 animate-spin"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 778,
+                                                                            lineNumber: 779,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         "Processing Payment..."
@@ -3436,59 +3436,59 @@ function BookingPage() {
                                                                             className: "ml-2 h-5 w-5"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 784,
+                                                                            lineNumber: 785,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 771,
+                                                                lineNumber: 772,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                        lineNumber: 683,
+                                                        lineNumber: 684,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 682,
+                                                    lineNumber: 683,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                            lineNumber: 673,
+                                            lineNumber: 674,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 672,
+                                        lineNumber: 673,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 609,
+                                lineNumber: 610,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                        lineNumber: 601,
+                        lineNumber: 602,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 600,
+                    lineNumber: 601,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-            lineNumber: 598,
+            lineNumber: 599,
             columnNumber: 7
         }, this);
     }
@@ -3506,7 +3506,7 @@ function BookingPage() {
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$Navigation$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 807,
+                    lineNumber: 808,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3525,7 +3525,7 @@ function BookingPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 811,
+                                        lineNumber: 812,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3533,13 +3533,13 @@ function BookingPage() {
                                         children: showSummary ? `Complete your booking details for ${selectedService.name}` : "Select a service type and fill out your booking details"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 814,
+                                        lineNumber: 815,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 810,
+                                lineNumber: 811,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3550,7 +3550,7 @@ function BookingPage() {
                                         children: "Select Services"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 824,
+                                        lineNumber: 825,
                                         columnNumber: 15
                                     }, this),
                                     categoryServices.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3565,12 +3565,12 @@ function BookingPage() {
                                                 onCustomizationChange: handleCustomizationChange
                                             }, service.id, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                lineNumber: 828,
+                                                lineNumber: 829,
                                                 columnNumber: 21
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 826,
+                                        lineNumber: 827,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "rounded-2xl border border-dashed border-cyan-300 bg-cyan-50/70 p-8 text-center",
@@ -3584,7 +3584,7 @@ function BookingPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                lineNumber: 842,
+                                                lineNumber: 843,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -3594,19 +3594,19 @@ function BookingPage() {
                                                 children: "Choose another industry"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                lineNumber: 845,
+                                                lineNumber: 846,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 841,
+                                        lineNumber: 842,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 823,
+                                lineNumber: 824,
                                 columnNumber: 13
                             }, this),
                             categoryServices.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3618,7 +3618,7 @@ function BookingPage() {
                                         children: "Customer Information"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 855,
+                                        lineNumber: 856,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Form"], {
@@ -3641,7 +3641,7 @@ function BookingPage() {
                                                                             children: "First Name"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 865,
+                                                                            lineNumber: 866,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3653,28 +3653,28 @@ function BookingPage() {
                                                                                 readOnly: isAccountLocked
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 867,
+                                                                                lineNumber: 868,
                                                                                 columnNumber: 31
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 866,
+                                                                            lineNumber: 867,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 875,
+                                                                            lineNumber: 876,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 864,
+                                                                    lineNumber: 865,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 860,
+                                                            lineNumber: 861,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3688,7 +3688,7 @@ function BookingPage() {
                                                                             children: "Last Name"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 886,
+                                                                            lineNumber: 887,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3700,28 +3700,28 @@ function BookingPage() {
                                                                                 readOnly: isAccountLocked
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 888,
+                                                                                lineNumber: 889,
                                                                                 columnNumber: 31
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 887,
+                                                                            lineNumber: 888,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 896,
+                                                                            lineNumber: 897,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 885,
+                                                                    lineNumber: 886,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 881,
+                                                            lineNumber: 882,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3735,7 +3735,7 @@ function BookingPage() {
                                                                             children: "Email"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 907,
+                                                                            lineNumber: 908,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3748,28 +3748,28 @@ function BookingPage() {
                                                                                 readOnly: isAccountLocked
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 909,
+                                                                                lineNumber: 910,
                                                                                 columnNumber: 31
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 908,
+                                                                            lineNumber: 909,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 918,
+                                                                            lineNumber: 919,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 906,
+                                                                    lineNumber: 907,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 902,
+                                                            lineNumber: 903,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3786,7 +3786,7 @@ function BookingPage() {
                                                                                     children: "Phone Number"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 930,
+                                                                                    lineNumber: 931,
                                                                                     columnNumber: 31
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3796,28 +3796,28 @@ function BookingPage() {
                                                                                         ...field
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 932,
+                                                                                        lineNumber: 933,
                                                                                         columnNumber: 33
                                                                                     }, void 0)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 931,
+                                                                                    lineNumber: 932,
                                                                                     columnNumber: 31
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 934,
+                                                                                    lineNumber: 935,
                                                                                     columnNumber: 31
                                                                                 }, void 0)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 929,
+                                                                            lineNumber: 930,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 925,
+                                                                    lineNumber: 926,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3833,12 +3833,12 @@ function BookingPage() {
                                                                                         className: "h-4 w-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 945,
+                                                                                        lineNumber: 946,
                                                                                         columnNumber: 33
                                                                                     }, void 0)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 944,
+                                                                                    lineNumber: 945,
                                                                                     columnNumber: 31
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormLabel"], {
@@ -3846,24 +3846,24 @@ function BookingPage() {
                                                                                     children: "Send me reminders about my booking via text messages."
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 947,
+                                                                                    lineNumber: 948,
                                                                                     columnNumber: 31
                                                                                 }, void 0)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 943,
+                                                                            lineNumber: 944,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 939,
+                                                                    lineNumber: 940,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 924,
+                                                            lineNumber: 925,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3877,7 +3877,7 @@ function BookingPage() {
                                                                             children: "Secondary Phone (Optional)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 959,
+                                                                            lineNumber: 960,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3887,28 +3887,28 @@ function BookingPage() {
                                                                                 ...field
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 961,
+                                                                                lineNumber: 962,
                                                                                 columnNumber: 31
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 960,
+                                                                            lineNumber: 961,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 963,
+                                                                            lineNumber: 964,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 958,
+                                                                    lineNumber: 959,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 954,
+                                                            lineNumber: 955,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -3922,7 +3922,7 @@ function BookingPage() {
                                                                             children: "Secondary Email (Optional)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 974,
+                                                                            lineNumber: 975,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3933,34 +3933,34 @@ function BookingPage() {
                                                                                 ...field
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 976,
+                                                                                lineNumber: 977,
                                                                                 columnNumber: 31
                                                                             }, void 0)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 975,
+                                                                            lineNumber: 976,
                                                                             columnNumber: 29
                                                                         }, void 0),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 978,
+                                                                            lineNumber: 979,
                                                                             columnNumber: 29
                                                                         }, void 0)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 973,
+                                                                    lineNumber: 974,
                                                                     columnNumber: 27
                                                                 }, void 0)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 969,
+                                                            lineNumber: 970,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 858,
+                                                    lineNumber: 859,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3975,7 +3975,7 @@ function BookingPage() {
                                                                         children: "Address Preference"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 991,
+                                                                        lineNumber: 992,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -3993,7 +3993,7 @@ function BookingPage() {
                                                                                             disabled: !existingAddressAvailable
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 999,
+                                                                                            lineNumber: 1000,
                                                                                             columnNumber: 37
                                                                                         }, void 0),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4006,19 +4006,19 @@ function BookingPage() {
                                                                                                     children: "No saved address yet"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                                    lineNumber: 1003,
+                                                                                                    lineNumber: 1004,
                                                                                                     columnNumber: 41
                                                                                                 }, void 0)
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 1000,
+                                                                                            lineNumber: 1001,
                                                                                             columnNumber: 37
                                                                                         }, void 0)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 998,
+                                                                                    lineNumber: 999,
                                                                                     columnNumber: 35
                                                                                 }, void 0),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4029,7 +4029,7 @@ function BookingPage() {
                                                                                             id: "use-new-address"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 1008,
+                                                                                            lineNumber: 1009,
                                                                                             columnNumber: 37
                                                                                         }, void 0),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4038,45 +4038,45 @@ function BookingPage() {
                                                                                             children: "Use New Address"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                            lineNumber: 1009,
+                                                                                            lineNumber: 1010,
                                                                                             columnNumber: 37
                                                                                         }, void 0)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 1007,
+                                                                                    lineNumber: 1008,
                                                                                     columnNumber: 35
                                                                                 }, void 0)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 993,
+                                                                            lineNumber: 994,
                                                                             columnNumber: 33
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 992,
+                                                                        lineNumber: 993,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1015,
+                                                                        lineNumber: 1016,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 990,
+                                                                lineNumber: 991,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                        lineNumber: 986,
+                                                        lineNumber: 987,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 985,
+                                                    lineNumber: 986,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -4090,7 +4090,7 @@ function BookingPage() {
                                                                     children: "Address"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1027,
+                                                                    lineNumber: 1028,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -4101,28 +4101,28 @@ function BookingPage() {
                                                                         disabled: disableAddressFields
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1029,
+                                                                        lineNumber: 1030,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1028,
+                                                                    lineNumber: 1029,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1036,
+                                                                    lineNumber: 1037,
                                                                     columnNumber: 29
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 1026,
+                                                            lineNumber: 1027,
                                                             columnNumber: 27
                                                         }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1022,
+                                                    lineNumber: 1023,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -4136,7 +4136,7 @@ function BookingPage() {
                                                                     children: "Apt. No. (Optional)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1047,
+                                                                    lineNumber: 1048,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -4147,28 +4147,28 @@ function BookingPage() {
                                                                         disabled: disableAddressFields
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1049,
+                                                                        lineNumber: 1050,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1048,
+                                                                    lineNumber: 1049,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1056,
+                                                                    lineNumber: 1057,
                                                                     columnNumber: 29
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 1046,
+                                                            lineNumber: 1047,
                                                             columnNumber: 27
                                                         }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1042,
+                                                    lineNumber: 1043,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormField"], {
@@ -4182,7 +4182,7 @@ function BookingPage() {
                                                                     children: "Zip Code"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1067,
+                                                                    lineNumber: 1068,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -4194,28 +4194,28 @@ function BookingPage() {
                                                                         disabled: disableAddressFields
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1069,
+                                                                        lineNumber: 1070,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1068,
+                                                                    lineNumber: 1069,
                                                                     columnNumber: 29
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1077,
+                                                                    lineNumber: 1078,
                                                                     columnNumber: 29
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 1066,
+                                                            lineNumber: 1067,
                                                             columnNumber: 27
                                                         }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1062,
+                                                    lineNumber: 1063,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4231,7 +4231,7 @@ function BookingPage() {
                                                                         children: "Select Date"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1089,
+                                                                        lineNumber: 1090,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Popover"], {
@@ -4249,30 +4249,30 @@ function BookingPage() {
                                                                                                 children: "Pick a date"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                                lineNumber: 1097,
+                                                                                                lineNumber: 1098,
                                                                                                 columnNumber: 83
                                                                                             }, void 0),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CalendarIcon$3e$__["CalendarIcon"], {
                                                                                                 className: "ml-auto h-4 w-4 opacity-50"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                                lineNumber: 1098,
+                                                                                                lineNumber: 1099,
                                                                                                 columnNumber: 39
                                                                                             }, void 0)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                        lineNumber: 1093,
+                                                                                        lineNumber: 1094,
                                                                                         columnNumber: 37
                                                                                     }, void 0)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 1092,
+                                                                                    lineNumber: 1093,
                                                                                     columnNumber: 35
                                                                                 }, void 0)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 1091,
+                                                                                lineNumber: 1092,
                                                                                 columnNumber: 33
                                                                             }, void 0),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverContent"], {
@@ -4289,39 +4289,39 @@ function BookingPage() {
                                                                                     initialFocus: true
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                    lineNumber: 1103,
+                                                                                    lineNumber: 1104,
                                                                                     columnNumber: 35
                                                                                 }, void 0)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 1102,
+                                                                                lineNumber: 1103,
                                                                                 columnNumber: 33
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1090,
+                                                                        lineNumber: 1091,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1115,
+                                                                        lineNumber: 1116,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 1088,
+                                                                lineNumber: 1089,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                        lineNumber: 1084,
+                                                        lineNumber: 1085,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1083,
+                                                    lineNumber: 1084,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4336,7 +4336,7 @@ function BookingPage() {
                                                                         children: "Select Time Slot"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1128,
+                                                                        lineNumber: 1129,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4347,33 +4347,33 @@ function BookingPage() {
                                                                                 children: time
                                                                             }, time, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 1131,
+                                                                                lineNumber: 1132,
                                                                                 columnNumber: 35
                                                                             }, void 0))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1129,
+                                                                        lineNumber: 1130,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1140,
+                                                                        lineNumber: 1141,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 1127,
+                                                                lineNumber: 1128,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                        lineNumber: 1123,
+                                                        lineNumber: 1124,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1122,
+                                                    lineNumber: 1123,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4393,13 +4393,13 @@ function BookingPage() {
                                                                                 children: "Any special instructions or requests?"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                                lineNumber: 1155,
+                                                                                lineNumber: 1156,
                                                                                 columnNumber: 33
                                                                             }, void 0)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1153,
+                                                                        lineNumber: 1154,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -4410,33 +4410,33 @@ function BookingPage() {
                                                                             ...field
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                            lineNumber: 1160,
+                                                                            lineNumber: 1161,
                                                                             columnNumber: 33
                                                                         }, void 0)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1159,
+                                                                        lineNumber: 1160,
                                                                         columnNumber: 31
                                                                     }, void 0),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1167,
+                                                                        lineNumber: 1168,
                                                                         columnNumber: 31
                                                                     }, void 0)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                lineNumber: 1152,
+                                                                lineNumber: 1153,
                                                                 columnNumber: 29
                                                             }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                        lineNumber: 1148,
+                                                        lineNumber: 1149,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1147,
+                                                    lineNumber: 1148,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4452,7 +4452,7 @@ function BookingPage() {
                                                                         className: "mr-2 h-5 w-5 animate-spin"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1178,
+                                                                        lineNumber: 1179,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     "Processing..."
@@ -4464,14 +4464,14 @@ function BookingPage() {
                                                                         className: "ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                        lineNumber: 1184,
+                                                                        lineNumber: 1185,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 1175,
+                                                            lineNumber: 1176,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4485,7 +4485,7 @@ function BookingPage() {
                                                                     children: "Terms of Service"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1191,
+                                                                    lineNumber: 1192,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 " ",
@@ -4497,54 +4497,54 @@ function BookingPage() {
                                                                     children: "Privacy Policy"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                                    lineNumber: 1194,
+                                                                    lineNumber: 1195,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 "."
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                            lineNumber: 1189,
+                                                            lineNumber: 1190,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                                    lineNumber: 1174,
+                                                    lineNumber: 1175,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                            lineNumber: 857,
+                                            lineNumber: 858,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                        lineNumber: 856,
+                                        lineNumber: 857,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                                lineNumber: 854,
+                                lineNumber: 855,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                        lineNumber: 809,
+                        lineNumber: 810,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-                    lineNumber: 808,
+                    lineNumber: 809,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/book-now/page.tsx",
-            lineNumber: 806,
+            lineNumber: 807,
             columnNumber: 7
         }, this);
     }

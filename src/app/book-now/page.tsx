@@ -1,6 +1,6 @@
   "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,10 +23,17 @@ import type { LucideIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import ServiceCard, { ServiceCustomization } from "@/components/ServiceCard";
+import {
+  Booking,
+  readStoredBookings,
+  readStoredBookAgainPayload,
+  clearStoredBookAgainPayload,
+  persistBookings,
+} from "@/lib/customer-bookings";
 import styles from "./BookingPage.module.css";
 import { useCustomerAccount } from "@/hooks/useCustomerAccount";
 
@@ -51,6 +58,13 @@ const formSchema = z.object({
   time: z.string().min(1, "Please select a time"),
   notes: z.string().optional(),
   reminderOptIn: z.boolean().default(false),
+  customization: z.object({
+    frequency: z.string().min(1, "Please choose a frequency"),
+    squareMeters: z.string().min(1, "Please choose an area size"),
+    bedroom: z.string().min(1, "Please choose bedroom count"),
+    bathroom: z.string().min(1, "Please choose bathroom count"),
+    extras: z.string().optional(),
+  }),
 });
 
 const BOOKING_ADDRESS_KEY = "customerBookingAddress";
@@ -73,7 +87,7 @@ type PaymentMethod = "cash" | "online" | null;
 type BookingStep = "category" | "details" | "payment" | "success";
 type ServiceCategory = string | null;
 
-const DEFAULT_INDUSTRIES = ["Home Cleaning", "Carpet Cleaning"];
+const DEFAULT_INDUSTRIES = ["Home Cleaning"];
 
 const toIndustryKey = (label: string) =>
   label
@@ -171,9 +185,81 @@ const availableTimes = [
   "5:00 PM",
 ];
 
+const FREQUENCY_OPTIONS = ["One-Time", "2x per week", "Weekly", "Every Other Week", "Monthly"] as const;
+const AREA_SIZE_OPTIONS = ["10-20 sqm", "21-30 sqm", "31-40 sqm", "41-50 sqm", "51+ sqm"] as const;
+const BEDROOM_OPTIONS = ["1 Bedroom", "2 Bedrooms", "3 Bedrooms", "4 Bedrooms", "5 Bedrooms", "6 Bedrooms"] as const;
+const BATHROOM_OPTIONS = ["1 Bathroom", "2 Bathrooms", "3 Bathrooms", "4 Bathrooms", "5 Bathrooms", "6 Bathrooms"] as const;
+const EXTRAS_OPTIONS = ["None", "Inside Fridge", "Inside Oven", "Inside Cabinets", "Laundry", "Windows"] as const;
+
+const normalizeServiceName = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "")
+    .trim();
+
+const tokenizeServiceName = (label: string) => {
+  const matches = label
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .match(/[a-z0-9]+/g);
+  return matches ?? [];
+};
+
+const serviceLabelsMatch = (serviceLabel: string, bookingLabel: string) => {
+  const normalizedService = normalizeServiceName(serviceLabel);
+  const normalizedBooking = normalizeServiceName(bookingLabel);
+  if (normalizedService && normalizedService === normalizedBooking) {
+    return true;
+  }
+
+  const serviceTokens = tokenizeServiceName(serviceLabel);
+  const bookingTokens = tokenizeServiceName(bookingLabel);
+  if (bookingTokens.length === 0 || serviceTokens.length === 0) {
+    return false;
+  }
+
+  const serviceTokenSet = new Set(serviceTokens);
+  const bookingSubset = bookingTokens.every((token) => serviceTokenSet.has(token));
+  if (bookingSubset) {
+    return true;
+  }
+
+  const bookingTokenSet = new Set(bookingTokens);
+  return serviceTokens.every((token) => bookingTokenSet.has(token));
+};
+
+const findServiceMatch = (serviceName: string) => {
+  for (const [key, services] of Object.entries(servicesByIndustry)) {
+    const match = services.find((service) => serviceLabelsMatch(service.name, serviceName));
+    if (match) {
+      return { categoryKey: key, service: match } as const;
+    }
+  }
+  return null;
+};
+
+const sanitizePhoneNumber = (value: string) => value.replace(/[^0-9]/g, "");
+
+const normalizeSelectValue = (value: string | undefined, options: readonly string[]) => {
+  if (!value) return "";
+  const normalized = value.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return options.find((option) => option.toLowerCase().replace(/[^a-z0-9]/g, "") === normalized) ?? "";
+};
+
+const toFormCustomization = (customization: ServiceCustomization | null) => ({
+  frequency: customization?.frequency ?? "",
+  squareMeters: customization?.squareMeters ?? "",
+  bedroom: customization?.bedroom ?? "",
+  bathroom: customization?.bathroom ?? "",
+  extras: customization?.extras ?? "",
+});
+
 export default function BookingPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const bookingIdParam = searchParams.get("bookingId");
   const [currentStep, setCurrentStep] = useState<BookingStep>("category");
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
@@ -190,6 +276,8 @@ export default function BookingPage() {
   const [storedAddress, setStoredAddress] = useState<StoredAddress | null>(null);
   const { customerName, customerEmail, accountLoading } = useCustomerAccount();
   const isAccountLocked = !accountLoading && Boolean(customerName || customerEmail);
+  const [prefilledBookingId, setPrefilledBookingId] = useState<string | null>(null);
+  const [recentBookingId, setRecentBookingId] = useState<string | null>(null);
 
   const selectedIndustry = useMemo(
     () => industryOptions.find((option) => option.key === selectedCategory) ?? null,
@@ -283,6 +371,13 @@ export default function BookingPage() {
       time: "",
       notes: "",
       reminderOptIn: false,
+      customization: {
+        frequency: "",
+        squareMeters: "",
+        bedroom: "",
+        bathroom: "",
+        extras: "",
+      },
     },
   });
   const addressPreference = form.watch("addressPreference");
@@ -372,6 +467,10 @@ export default function BookingPage() {
         ...prev,
         [serviceId]: customization
       }));
+      if (selectedService?.id === serviceId) {
+        setServiceCustomization(customization);
+        form.setValue("customization", toFormCustomization(customization), { shouldValidate: true });
+      }
     }
   };
 
@@ -388,6 +487,157 @@ export default function BookingPage() {
     };
   };
 
+  useEffect(() => {
+    if (!bookingIdParam || prefilledBookingId === bookingIdParam) return;
+
+    let sourceBooking: Booking | null = null;
+    let consumedStoredPayload = false;
+
+    const storedPayload = readStoredBookAgainPayload();
+    if (storedPayload?.booking?.id === bookingIdParam) {
+      sourceBooking = storedPayload.booking;
+      consumedStoredPayload = true;
+    }
+
+    if (!sourceBooking) {
+      const storedBookings = readStoredBookings();
+      sourceBooking = storedBookings.find((booking) => booking.id === bookingIdParam) ?? null;
+    }
+
+    if (!sourceBooking) return;
+
+    const match = findServiceMatch(sourceBooking.service);
+    if (!match) {
+      toast({
+        title: "Service unavailable",
+        description: `${sourceBooking.service} is no longer offered. Please choose another service.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setPrefilledBookingId(bookingIdParam);
+    if (consumedStoredPayload) {
+      clearStoredBookAgainPayload();
+    }
+
+    const { categoryKey, service } = match;
+    setSelectedCategory(categoryKey);
+    setSelectedService(service);
+    setFlippedCardId(null);
+    setCurrentStep("details");
+
+    const existingCustomization = getCardCustomization(service.id);
+    const presetCustomization = sourceBooking.customization ?? {};
+    const rebookCustomization: ServiceCustomization = {
+      frequency:
+        normalizeSelectValue(sourceBooking.frequency, FREQUENCY_OPTIONS) ||
+        normalizeSelectValue(existingCustomization.frequency, FREQUENCY_OPTIONS) ||
+        normalizeSelectValue(presetCustomization.frequency, FREQUENCY_OPTIONS),
+      squareMeters:
+        normalizeSelectValue(presetCustomization.squareMeters, AREA_SIZE_OPTIONS) ||
+        normalizeSelectValue(existingCustomization.squareMeters, AREA_SIZE_OPTIONS),
+      bedroom:
+        normalizeSelectValue(presetCustomization.bedroom, BEDROOM_OPTIONS) ||
+        normalizeSelectValue(existingCustomization.bedroom, BEDROOM_OPTIONS),
+      bathroom:
+      	normalizeSelectValue(presetCustomization.bathroom, BATHROOM_OPTIONS) ||
+        normalizeSelectValue(existingCustomization.bathroom, BATHROOM_OPTIONS),
+      extras:
+        normalizeSelectValue(presetCustomization.extras, EXTRAS_OPTIONS) ||
+        normalizeSelectValue(existingCustomization.extras, EXTRAS_OPTIONS) ||
+        "None",
+      isPartialCleaning:
+        presetCustomization.isPartialCleaning ?? existingCustomization.isPartialCleaning ?? false,
+      excludedAreas: presetCustomization.excludedAreas ?? existingCustomization.excludedAreas ?? [],
+    };
+
+    setServiceCustomization(rebookCustomization);
+    form.setValue("customization", toFormCustomization(rebookCustomization), { shouldValidate: true });
+    setCardCustomizations((prev) => ({
+      ...prev,
+      [service.id]: rebookCustomization,
+    }));
+
+    form.setValue("service", sourceBooking.service);
+    if (sourceBooking.address) {
+      form.setValue("address", sourceBooking.address);
+      form.setValue("addressPreference", "new");
+    }
+    form.setValue("notes", sourceBooking.notes ?? "");
+    if (sourceBooking.time) {
+      form.setValue("time", sourceBooking.time);
+    }
+
+    const parsedDate = new Date(`${sourceBooking.date}T00:00:00`);
+    if (!Number.isNaN(parsedDate.getTime())) {
+      form.setValue("date", parsedDate);
+    }
+
+    if (sourceBooking.contact) {
+      form.setValue("phone", sanitizePhoneNumber(sourceBooking.contact));
+    }
+
+    toast({
+      title: "Details loaded",
+      description: "Review the pre-filled booking and make any adjustments you need.",
+    });
+  }, [bookingIdParam, prefilledBookingId, form, toast]);
+
+  useEffect(() => {
+    if (currentStep === "success") {
+      router.push("/customer/appointments");
+    }
+  }, [currentStep, router]);
+
+  const addBookingToStorage = useCallback(() => {
+    if (!bookingData || !serviceCustomization || !selectedService) {
+      toast({
+        title: "Missing information",
+        description: "Please complete the service selection and booking form before finishing.",
+        variant: "destructive",
+      });
+      return null;
+    }
+
+    const bookingDate = bookingData.date instanceof Date ? bookingData.date : new Date(bookingData.date);
+    const formattedDate = Number.isNaN(bookingDate.getTime())
+      ? new Date().toISOString().split("T")[0]
+      : bookingDate.toISOString().split("T")[0];
+
+    const newBooking: Booking = {
+      id: `CB-${Date.now().toString(36).toUpperCase()}`,
+      service: selectedService.name,
+      provider: "",
+      frequency: serviceCustomization.frequency || "One-time",
+      date: formattedDate,
+      time: bookingData.time,
+      status: "scheduled",
+      address: bookingData.aptNo
+        ? `${bookingData.address}, Apt ${bookingData.aptNo}`
+        : bookingData.address,
+      contact: bookingData.phone,
+      notes: bookingData.notes ?? "",
+      price: selectedService.price ?? 0,
+      tipAmount: undefined,
+      tipUpdatedAt: undefined,
+      customization: {
+        frequency: serviceCustomization.frequency,
+        squareMeters: serviceCustomization.squareMeters,
+        bedroom: serviceCustomization.bedroom,
+        bathroom: serviceCustomization.bathroom,
+        extras: serviceCustomization.extras || "None",
+        isPartialCleaning: serviceCustomization.isPartialCleaning,
+        excludedAreas: serviceCustomization.excludedAreas,
+      },
+    };
+
+    const existing = readStoredBookings();
+    persistBookings([newBooking, ...existing]);
+    setRecentBookingId(newBooking.id);
+    return newBooking;
+  }, [bookingData, serviceCustomization, selectedService, toast]);
+
   // Handle service selection
   const handleServiceSelect = (serviceName: string, customization?: ServiceCustomization) => {
     if (!selectedCategory) return;
@@ -396,7 +646,8 @@ export default function BookingPage() {
     if (service && customization) {
       setSelectedService(service);
       setServiceCustomization(customization);
-      form.setValue("service", serviceName);
+      form.setValue("service", serviceName, { shouldValidate: true });
+      form.setValue("customization", toFormCustomization(customization), { shouldValidate: true });
       
       // Scroll to customer form after a short delay
       setTimeout(() => {
@@ -446,6 +697,8 @@ export default function BookingPage() {
     setIsProcessing(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
+      const saved = addBookingToStorage();
+      if (!saved) return;
       toast({
         title: "Booking Confirmed!",
         description: "You've selected cash payment. Please have the exact amount ready on the service date.",
@@ -468,9 +721,11 @@ export default function BookingPage() {
     setIsProcessing(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
+      const saved = addBookingToStorage();
+      if (!saved) return;
       toast({
         title: "Payment Successful!",
-        description: "Your payment has been processed successfully.",
+        description: "Your booking has been saved.",
       });
       setCurrentStep("success");
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -574,15 +829,8 @@ export default function BookingPage() {
               </div>
               <h2 className={styles.successTitle}>Booking Confirmed!</h2>
               <p className={styles.successText}>
-                Thank you for booking with us! We've sent a confirmation to your email.
-                Our team will contact you shortly to confirm the details.
+                Thanks for booking with us. We’re sending you back to your appointments dashboard…
               </p>
-              <Button 
-                onClick={() => router.push("/")} 
-                className="px-8 py-6 text-lg"
-              >
-                Return to Home
-              </Button>
             </div>
           </div>
         </div>

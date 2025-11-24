@@ -1,20 +1,8 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/add-booking/page": "app/admin/add-booking/page.js",
-  "/admin/bookings/page": "app/admin/bookings/page.js",
-  "/admin/customers/[id]/page": "app/admin/customers/[id]/page.js",
-  "/admin/customers/page": "app/admin/customers/page.js",
-  "/admin/marketing/coupons/new/page": "app/admin/marketing/coupons/new/page.js",
-  "/admin/marketing/coupons/page": "app/admin/marketing/coupons/page.js",
-  "/admin/reports/page": "app/admin/reports/page.js",
-  "/admin/settings/industries/form-1/frequencies/page": "app/admin/settings/industries/form-1/frequencies/page.js",
-  "/admin/settings/industries/page": "app/admin/settings/industries/page.js",
   "/book-now/page": "app/book-now/page.js",
-  "/customer/appointments/canceled/page": "app/customer/appointments/canceled/page.js",
+  "/customer/appointments/[bookingId]/page": "app/customer/appointments/[bookingId]/page.js",
   "/customer/appointments/history/page": "app/customer/appointments/history/page.js",
   "/customer/appointments/page": "app/customer/appointments/page.js",
   "/customer/dashboard/page": "app/customer/dashboard/page.js",
-  "/customer/profile/page": "app/customer/profile/page.js",
-  "/login/page": "app/login/page.js",
   "/page": "app/page.js"
 }

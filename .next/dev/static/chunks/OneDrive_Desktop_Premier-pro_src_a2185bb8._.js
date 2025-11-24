@@ -179,14 +179,23 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 __turbopack_context__.s([
     "BOOKINGS_STORAGE_KEY",
     ()=>BOOKINGS_STORAGE_KEY,
+    "BOOK_AGAIN_STORAGE_KEY",
+    ()=>BOOK_AGAIN_STORAGE_KEY,
+    "clearStoredBookAgainPayload",
+    ()=>clearStoredBookAgainPayload,
     "defaultBookings",
     ()=>defaultBookings,
+    "persistBookAgainPayload",
+    ()=>persistBookAgainPayload,
     "persistBookings",
     ()=>persistBookings,
+    "readStoredBookAgainPayload",
+    ()=>readStoredBookAgainPayload,
     "readStoredBookings",
     ()=>readStoredBookings
 ]);
 const BOOKINGS_STORAGE_KEY = "customerBookings";
+const BOOK_AGAIN_STORAGE_KEY = "bookAgainBooking";
 const defaultBookings = [
     {
         id: "CB-101",
@@ -195,11 +204,20 @@ const defaultBookings = [
         frequency: "Weekly",
         date: "2025-01-12",
         time: "09:00 AM",
-        status: "scheduled",
+        status: "completed",
         address: "123 Main St, Chicago, IL",
         contact: "(555) 123-4567",
         notes: "Focus on kitchen appliances.",
-        price: 240
+        price: 240,
+        customization: {
+            frequency: "Weekly",
+            squareMeters: "1-1249 sqm",
+            bedroom: "3 Bedrooms",
+            bathroom: "2 Bathrooms",
+            extras: "Inside Oven",
+            isPartialCleaning: false,
+            excludedAreas: []
+        }
     },
     {
         id: "CB-102",
@@ -212,7 +230,16 @@ const defaultBookings = [
         address: "123 Main St, Chicago, IL",
         contact: "(555) 123-4567",
         notes: "Pet-friendly solutions.",
-        price: 165
+        price: 165,
+        customization: {
+            frequency: "2x per week",
+            squareMeters: "21-30 sqm",
+            bedroom: "2 Bedrooms",
+            bathroom: "2 Bathrooms",
+            extras: "Laundry",
+            isPartialCleaning: false,
+            excludedAreas: []
+        }
     },
     {
         id: "CB-099",
@@ -225,7 +252,16 @@ const defaultBookings = [
         address: "123 Main St, Chicago, IL",
         contact: "(555) 123-4567",
         notes: "Tenant inspection ready.",
-        price: 320
+        price: 320,
+        customization: {
+            frequency: "One-Time",
+            squareMeters: "1-1249 sqm",
+            bedroom: "4 Bedrooms",
+            bathroom: "3 Bathrooms",
+            extras: "Inside Cabinets",
+            isPartialCleaning: false,
+            excludedAreas: []
+        }
     },
     {
         id: "CB-097",
@@ -238,7 +274,18 @@ const defaultBookings = [
         address: "22 Business Plaza, Chicago, IL",
         contact: "(555) 222-7865",
         notes: "Canceled per customer request.",
-        price: 450
+        price: 450,
+        customization: {
+            frequency: "Monthly",
+            squareMeters: "41-50 sqm",
+            bedroom: "5 Bedrooms",
+            bathroom: "4 Bathrooms",
+            extras: "Windows",
+            isPartialCleaning: true,
+            excludedAreas: [
+                "Half Bathroom"
+            ]
+        }
     }
 ];
 const defaultMetaById = Object.fromEntries(defaultBookings.map((booking)=>[
@@ -249,6 +296,10 @@ const defaultMetaById = Object.fromEntries(defaultBookings.map((booking)=>[
             frequency: booking.frequency
         }
     ]));
+const defaultCustomizationById = Object.fromEntries(defaultBookings.map((booking)=>[
+        booking.id,
+        booking.customization ?? {}
+    ]));
 const normalizeBooking = (booking)=>{
     const defaults = defaultMetaById[booking.id] ?? {
         price: 0,
@@ -257,11 +308,22 @@ const normalizeBooking = (booking)=>{
     };
     const provider = (booking.provider ?? defaults.provider ?? "").trim();
     const frequency = (booking.frequency ?? defaults.frequency ?? "").trim();
+    const customizationDefaults = defaultCustomizationById[booking.id] ?? {};
+    const existingCustomization = booking.customization ?? {};
     return {
         ...booking,
-        provider: provider || "Premier Pro Team",
+        provider: provider || defaults.provider || "",
         frequency: frequency || defaults.frequency || "One-time",
-        price: typeof booking.price === "number" && !Number.isNaN(booking.price) ? booking.price : defaults.price ?? 0
+        price: typeof booking.price === "number" && !Number.isNaN(booking.price) ? booking.price : defaults.price ?? 0,
+        customization: {
+            frequency: existingCustomization.frequency ?? booking.frequency ?? customizationDefaults.frequency ?? defaults.frequency ?? "One-time",
+            squareMeters: existingCustomization.squareMeters ?? customizationDefaults.squareMeters ?? "",
+            bedroom: existingCustomization.bedroom ?? customizationDefaults.bedroom ?? "",
+            bathroom: existingCustomization.bathroom ?? customizationDefaults.bathroom ?? "",
+            extras: existingCustomization.extras ?? customizationDefaults.extras ?? "None",
+            isPartialCleaning: existingCustomization.isPartialCleaning ?? customizationDefaults.isPartialCleaning ?? false,
+            excludedAreas: Array.isArray(existingCustomization.excludedAreas) ? existingCustomization.excludedAreas : customizationDefaults.excludedAreas ?? []
+        }
     };
 };
 const persistBookings = (bookings)=>{
@@ -291,6 +353,39 @@ const readStoredBookings = ()=>{
         persistBookings(defaultBookings);
         return defaultBookings;
     }
+};
+const persistBookAgainPayload = (booking)=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const payload = {
+        booking: normalizeBooking(booking),
+        storedAt: new Date().toISOString()
+    };
+    localStorage.setItem(BOOK_AGAIN_STORAGE_KEY, JSON.stringify(payload));
+};
+const readStoredBookAgainPayload = ()=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const stored = localStorage.getItem(BOOK_AGAIN_STORAGE_KEY);
+    if (!stored) return null;
+    try {
+        const parsed = JSON.parse(stored);
+        if (parsed?.booking) {
+            return {
+                booking: normalizeBooking(parsed.booking),
+                storedAt: parsed.storedAt ?? new Date().toISOString()
+            };
+        }
+    } catch (error) {
+        console.warn("Failed to parse stored rebook payload", error);
+    }
+    localStorage.removeItem(BOOK_AGAIN_STORAGE_KEY);
+    return null;
+};
+const clearStoredBookAgainPayload = ()=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    localStorage.removeItem(BOOK_AGAIN_STORAGE_KEY);
 };
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);

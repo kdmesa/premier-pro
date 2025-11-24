@@ -9,7 +9,7 @@ import { BookingsTable } from "@/components/customer/BookingsTable";
 import { useCustomerBookings } from "@/hooks/useCustomerBookings";
 import { useCustomerAccount } from "@/hooks/useCustomerAccount";
 import { Input } from "@/components/ui/input";
-import { Booking } from "@/lib/customer-bookings";
+import { Booking, persistBookAgainPayload } from "@/lib/customer-bookings";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -39,9 +39,15 @@ const formatBookingDateTime = (booking: Booking) => {
   return `${datePart} • ${timePart}`;
 };
 
+const QUICK_TIP_AMOUNTS = [10, 15, 25];
+
+const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(value);
+};
+
 const CustomerPreviousAppointmentsPage = () => {
   const router = useRouter();
-  const { bookings, loading: bookingsLoading } = useCustomerBookings();
+  const { bookings, loading: bookingsLoading, updateBookings } = useCustomerBookings();
   const { customerName, customerEmail, accountLoading, handleLogout } = useCustomerAccount();
   const { toast } = useToast();
   const [search, setSearch] = useState("");
@@ -50,6 +56,10 @@ const CustomerPreviousAppointmentsPage = () => {
   const [rating, setRating] = useState(5);
   const [feedback, setFeedback] = useState("");
   const [reviews, setReviews] = useState<Record<string, BookingReview>>({});
+  const [tipDialogOpen, setTipDialogOpen] = useState(false);
+  const [activeTipBooking, setActiveTipBooking] = useState<Booking | null>(null);
+  const [tipAmount, setTipAmount] = useState("");
+  const [tipValidationError, setTipValidationError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -123,12 +133,18 @@ const CustomerPreviousAppointmentsPage = () => {
   }, [router]);
 
   const handleAddTip = useCallback((booking: Booking) => {
-    if (typeof window !== "undefined") {
-      window.alert(`Opening tip flow for ${booking.service}.`);
+    setActiveTipBooking(booking);
+    setTipDialogOpen(true);
+    setTipValidationError(null);
+    if (typeof booking.tipAmount === "number" && !Number.isNaN(booking.tipAmount)) {
+      setTipAmount(booking.tipAmount.toFixed(2));
+      return;
     }
+    setTipAmount("");
   }, []);
 
   const handleBookAgain = useCallback((booking: Booking) => {
+    persistBookAgainPayload(booking);
     router.push(`/book-now?bookingId=${booking.id}`);
   }, [router]);
 
@@ -148,6 +164,58 @@ const CustomerPreviousAppointmentsPage = () => {
   }, [activeBooking, feedback, rating, reviews, persistReviews, toast, closeReviewDialog]);
 
   const ratingButtons = [1, 2, 3, 4, 5];
+
+  const closeTipDialog = useCallback(() => {
+    setTipDialogOpen(false);
+    setActiveTipBooking(null);
+    setTipAmount("");
+    setTipValidationError(null);
+  }, []);
+
+  const handleSubmitTip = useCallback(() => {
+    if (!activeTipBooking) return;
+    const trimmed = tipAmount.trim();
+    const parsed = Number.parseFloat(trimmed);
+
+    if (!trimmed || Number.isNaN(parsed) || parsed <= 0) {
+      setTipValidationError("Enter a tip greater than $0");
+      return;
+    }
+
+    const normalized = Math.round(parsed * 100) / 100;
+
+    updateBookings((prev) =>
+      prev.map((booking) =>
+        booking.id === activeTipBooking.id
+          ? { ...booking, tipAmount: normalized, tipUpdatedAt: new Date().toISOString() }
+          : booking,
+      ),
+    );
+
+    toast({
+      title: "Tip saved",
+      description: `We recorded ${formatCurrency(normalized)} for ${activeTipBooking.service}.`,
+    });
+
+    closeTipDialog();
+  }, [activeTipBooking, tipAmount, updateBookings, toast, closeTipDialog]);
+
+  const handleRemoveTip = useCallback(() => {
+    if (!activeTipBooking) return;
+
+    updateBookings((prev) =>
+      prev.map((booking) =>
+        booking.id === activeTipBooking.id ? { ...booking, tipAmount: undefined, tipUpdatedAt: undefined } : booking,
+      ),
+    );
+
+    toast({
+      title: "Tip removed",
+      description: `No tip is recorded for ${activeTipBooking.service} anymore.`,
+    });
+
+    closeTipDialog();
+  }, [activeTipBooking, updateBookings, toast, closeTipDialog]);
 
   if (bookingsLoading || accountLoading) {
     return (
@@ -201,9 +269,9 @@ const CustomerPreviousAppointmentsPage = () => {
               bookings={filteredBookings}
               emptyMessage="You have no completed appointments yet. They'll show up here once a service is done."
               customActions={(booking) => [
-                { label: "Edit review", onSelect: () => handleEditReview(booking) },
+                { label: "Add/Edit review", onSelect: () => handleEditReview(booking) },
                 { label: "View details", onSelect: () => handleViewDetails(booking) },
-                { label: "Add tip", onSelect: () => handleAddTip(booking) },
+                { label: booking.tipAmount ? "Update tip" : "Add tip", onSelect: () => handleAddTip(booking) },
                 { label: "Book again", onSelect: () => handleBookAgain(booking) },
               ]}
             />
@@ -275,6 +343,87 @@ const CustomerPreviousAppointmentsPage = () => {
                   Rate now
                 </Button>
               </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={tipDialogOpen} onOpenChange={(open) => (open ? setTipDialogOpen(true) : closeTipDialog())}>
+        <DialogContent className="max-w-md rounded-[32px] border-none p-0 shadow-2xl">
+          <DialogTitle className="sr-only">Add a thank-you tip</DialogTitle>
+          {activeTipBooking && (
+            <div className="flex flex-col gap-6 p-8">
+              <div className="space-y-2 text-center">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">Show appreciation</p>
+                <h2 className="text-xl font-bold">Add a tip for {activeTipBooking.provider}</h2>
+                <p className="text-sm text-muted-foreground">
+                  Base service total {formatCurrency(activeTipBooking.price)}
+                  {typeof activeTipBooking.tipAmount === "number" && (
+                    <>
+                      {" "}• Current tip {formatCurrency(activeTipBooking.tipAmount)}
+                    </>
+                  )}
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-dashed border-primary/20 p-4 text-sm">
+                <p className="font-semibold">{activeTipBooking.service}</p>
+                <p className="text-muted-foreground">{formatBookingDateTime(activeTipBooking)}</p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold" htmlFor="tip-amount">
+                  Tip amount
+                </label>
+                <Input
+                  id="tip-amount"
+                  type="number"
+                  min="1"
+                  step="0.01"
+                  value={tipAmount}
+                  onChange={(event) => {
+                    setTipAmount(event.target.value);
+                    if (tipValidationError) {
+                      setTipValidationError(null);
+                    }
+                  }}
+                  placeholder="15.00"
+                  inputMode="decimal"
+                />
+                {tipValidationError && <p className="text-sm text-destructive">{tipValidationError}</p>}
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {QUICK_TIP_AMOUNTS.map((amount) => (
+                  <Button
+                    key={amount}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setTipAmount(amount.toFixed(2));
+                      setTipValidationError(null);
+                    }}
+                  >
+                    {formatCurrency(amount)}
+                  </Button>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button variant="outline" className="flex-1" onClick={closeTipDialog}>
+                  Cancel
+                </Button>
+                <Button className="flex-1" onClick={handleSubmitTip} disabled={!tipAmount.trim()}>
+                  Save tip
+                </Button>
+              </div>
+
+              {typeof activeTipBooking.tipAmount === "number" && (
+                <Button variant="ghost" className="text-destructive" onClick={handleRemoveTip}>
+                  Remove existing tip
+                </Button>
+              )}
             </div>
           )}
         </DialogContent>

@@ -911,7 +911,7 @@ const BookingsTable = ({ bookings, emptyMessage, onCancelBooking, onEditBooking,
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             className: "font-semibold",
-                                            children: booking.provider?.trim() || "Premier Pro Team"
+                                            children: booking.provider?.trim() || ""
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/customer/BookingsTable.tsx",
                                             lineNumber: 71,
@@ -1109,14 +1109,23 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 __turbopack_context__.s([
     "BOOKINGS_STORAGE_KEY",
     ()=>BOOKINGS_STORAGE_KEY,
+    "BOOK_AGAIN_STORAGE_KEY",
+    ()=>BOOK_AGAIN_STORAGE_KEY,
+    "clearStoredBookAgainPayload",
+    ()=>clearStoredBookAgainPayload,
     "defaultBookings",
     ()=>defaultBookings,
+    "persistBookAgainPayload",
+    ()=>persistBookAgainPayload,
     "persistBookings",
     ()=>persistBookings,
+    "readStoredBookAgainPayload",
+    ()=>readStoredBookAgainPayload,
     "readStoredBookings",
     ()=>readStoredBookings
 ]);
 const BOOKINGS_STORAGE_KEY = "customerBookings";
+const BOOK_AGAIN_STORAGE_KEY = "bookAgainBooking";
 const defaultBookings = [
     {
         id: "CB-101",
@@ -1125,11 +1134,20 @@ const defaultBookings = [
         frequency: "Weekly",
         date: "2025-01-12",
         time: "09:00 AM",
-        status: "scheduled",
+        status: "completed",
         address: "123 Main St, Chicago, IL",
         contact: "(555) 123-4567",
         notes: "Focus on kitchen appliances.",
-        price: 240
+        price: 240,
+        customization: {
+            frequency: "Weekly",
+            squareMeters: "1-1249 sqm",
+            bedroom: "3 Bedrooms",
+            bathroom: "2 Bathrooms",
+            extras: "Inside Oven",
+            isPartialCleaning: false,
+            excludedAreas: []
+        }
     },
     {
         id: "CB-102",
@@ -1142,7 +1160,16 @@ const defaultBookings = [
         address: "123 Main St, Chicago, IL",
         contact: "(555) 123-4567",
         notes: "Pet-friendly solutions.",
-        price: 165
+        price: 165,
+        customization: {
+            frequency: "2x per week",
+            squareMeters: "21-30 sqm",
+            bedroom: "2 Bedrooms",
+            bathroom: "2 Bathrooms",
+            extras: "Laundry",
+            isPartialCleaning: false,
+            excludedAreas: []
+        }
     },
     {
         id: "CB-099",
@@ -1155,7 +1182,16 @@ const defaultBookings = [
         address: "123 Main St, Chicago, IL",
         contact: "(555) 123-4567",
         notes: "Tenant inspection ready.",
-        price: 320
+        price: 320,
+        customization: {
+            frequency: "One-Time",
+            squareMeters: "1-1249 sqm",
+            bedroom: "4 Bedrooms",
+            bathroom: "3 Bathrooms",
+            extras: "Inside Cabinets",
+            isPartialCleaning: false,
+            excludedAreas: []
+        }
     },
     {
         id: "CB-097",
@@ -1168,7 +1204,18 @@ const defaultBookings = [
         address: "22 Business Plaza, Chicago, IL",
         contact: "(555) 222-7865",
         notes: "Canceled per customer request.",
-        price: 450
+        price: 450,
+        customization: {
+            frequency: "Monthly",
+            squareMeters: "41-50 sqm",
+            bedroom: "5 Bedrooms",
+            bathroom: "4 Bathrooms",
+            extras: "Windows",
+            isPartialCleaning: true,
+            excludedAreas: [
+                "Half Bathroom"
+            ]
+        }
     }
 ];
 const defaultMetaById = Object.fromEntries(defaultBookings.map((booking)=>[
@@ -1179,6 +1226,10 @@ const defaultMetaById = Object.fromEntries(defaultBookings.map((booking)=>[
             frequency: booking.frequency
         }
     ]));
+const defaultCustomizationById = Object.fromEntries(defaultBookings.map((booking)=>[
+        booking.id,
+        booking.customization ?? {}
+    ]));
 const normalizeBooking = (booking)=>{
     const defaults = defaultMetaById[booking.id] ?? {
         price: 0,
@@ -1187,11 +1238,22 @@ const normalizeBooking = (booking)=>{
     };
     const provider = (booking.provider ?? defaults.provider ?? "").trim();
     const frequency = (booking.frequency ?? defaults.frequency ?? "").trim();
+    const customizationDefaults = defaultCustomizationById[booking.id] ?? {};
+    const existingCustomization = booking.customization ?? {};
     return {
         ...booking,
-        provider: provider || "Premier Pro Team",
+        provider: provider || defaults.provider || "",
         frequency: frequency || defaults.frequency || "One-time",
-        price: typeof booking.price === "number" && !Number.isNaN(booking.price) ? booking.price : defaults.price ?? 0
+        price: typeof booking.price === "number" && !Number.isNaN(booking.price) ? booking.price : defaults.price ?? 0,
+        customization: {
+            frequency: existingCustomization.frequency ?? booking.frequency ?? customizationDefaults.frequency ?? defaults.frequency ?? "One-time",
+            squareMeters: existingCustomization.squareMeters ?? customizationDefaults.squareMeters ?? "",
+            bedroom: existingCustomization.bedroom ?? customizationDefaults.bedroom ?? "",
+            bathroom: existingCustomization.bathroom ?? customizationDefaults.bathroom ?? "",
+            extras: existingCustomization.extras ?? customizationDefaults.extras ?? "None",
+            isPartialCleaning: existingCustomization.isPartialCleaning ?? customizationDefaults.isPartialCleaning ?? false,
+            excludedAreas: Array.isArray(existingCustomization.excludedAreas) ? existingCustomization.excludedAreas : customizationDefaults.excludedAreas ?? []
+        }
     };
 };
 const persistBookings = (bookings)=>{
@@ -1221,6 +1283,39 @@ const readStoredBookings = ()=>{
         persistBookings(defaultBookings);
         return defaultBookings;
     }
+};
+const persistBookAgainPayload = (booking)=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const payload = {
+        booking: normalizeBooking(booking),
+        storedAt: new Date().toISOString()
+    };
+    localStorage.setItem(BOOK_AGAIN_STORAGE_KEY, JSON.stringify(payload));
+};
+const readStoredBookAgainPayload = ()=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const stored = localStorage.getItem(BOOK_AGAIN_STORAGE_KEY);
+    if (!stored) return null;
+    try {
+        const parsed = JSON.parse(stored);
+        if (parsed?.booking) {
+            return {
+                booking: normalizeBooking(parsed.booking),
+                storedAt: parsed.storedAt ?? new Date().toISOString()
+            };
+        }
+    } catch (error) {
+        console.warn("Failed to parse stored rebook payload", error);
+    }
+    localStorage.removeItem(BOOK_AGAIN_STORAGE_KEY);
+    return null;
+};
+const clearStoredBookAgainPayload = ()=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    localStorage.removeItem(BOOK_AGAIN_STORAGE_KEY);
 };
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
@@ -1666,6 +1761,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premi
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$useCustomerBookings$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/hooks/useCustomerBookings.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$useCustomerAccount$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/hooks/useCustomerAccount.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/components/ui/input.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$lib$2f$customer$2d$bookings$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/lib/customer-bookings.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/components/ui/dialog.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/components/ui/textarea.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/src/components/ui/button.tsx [app-client] (ecmascript)");
@@ -1675,6 +1771,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premi
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -1706,10 +1803,21 @@ const formatBookingDateTime = (booking)=>{
     });
     return `${datePart} • ${timePart}`;
 };
+const QUICK_TIP_AMOUNTS = [
+    10,
+    15,
+    25
+];
+const formatCurrency = (value)=>{
+    return new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency: "USD"
+    }).format(value);
+};
 const CustomerPreviousAppointmentsPage = ()=>{
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    const { bookings, loading: bookingsLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$useCustomerBookings$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCustomerBookings"])();
+    const { bookings, loading: bookingsLoading, updateBookings } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$useCustomerBookings$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCustomerBookings"])();
     const { customerName, customerEmail, accountLoading, handleLogout } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$useCustomerAccount$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCustomerAccount"])();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$use$2d$toast$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const [search, setSearch] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
@@ -1718,6 +1826,10 @@ const CustomerPreviousAppointmentsPage = ()=>{
     const [rating, setRating] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(5);
     const [feedback, setFeedback] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [reviews, setReviews] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
+    const [tipDialogOpen, setTipDialogOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [activeTipBooking, setActiveTipBooking] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [tipAmount, setTipAmount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [tipValidationError, setTipValidationError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CustomerPreviousAppointmentsPage.useEffect": ()=>{
             if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
@@ -1798,13 +1910,19 @@ const CustomerPreviousAppointmentsPage = ()=>{
     ]);
     const handleAddTip = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "CustomerPreviousAppointmentsPage.useCallback[handleAddTip]": (booking)=>{
-            if ("TURBOPACK compile-time truthy", 1) {
-                window.alert(`Opening tip flow for ${booking.service}.`);
+            setActiveTipBooking(booking);
+            setTipDialogOpen(true);
+            setTipValidationError(null);
+            if (typeof booking.tipAmount === "number" && !Number.isNaN(booking.tipAmount)) {
+                setTipAmount(booking.tipAmount.toFixed(2));
+                return;
             }
+            setTipAmount("");
         }
     }["CustomerPreviousAppointmentsPage.useCallback[handleAddTip]"], []);
     const handleBookAgain = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "CustomerPreviousAppointmentsPage.useCallback[handleBookAgain]": (booking)=>{
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$lib$2f$customer$2d$bookings$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["persistBookAgainPayload"])(booking);
             router.push(`/book-now?bookingId=${booking.id}`);
         }
     }["CustomerPreviousAppointmentsPage.useCallback[handleBookAgain]"], [
@@ -1845,6 +1963,70 @@ const CustomerPreviousAppointmentsPage = ()=>{
         4,
         5
     ];
+    const closeTipDialog = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "CustomerPreviousAppointmentsPage.useCallback[closeTipDialog]": ()=>{
+            setTipDialogOpen(false);
+            setActiveTipBooking(null);
+            setTipAmount("");
+            setTipValidationError(null);
+        }
+    }["CustomerPreviousAppointmentsPage.useCallback[closeTipDialog]"], []);
+    const handleSubmitTip = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "CustomerPreviousAppointmentsPage.useCallback[handleSubmitTip]": ()=>{
+            if (!activeTipBooking) return;
+            const trimmed = tipAmount.trim();
+            const parsed = Number.parseFloat(trimmed);
+            if (!trimmed || Number.isNaN(parsed) || parsed <= 0) {
+                setTipValidationError("Enter a tip greater than $0");
+                return;
+            }
+            const normalized = Math.round(parsed * 100) / 100;
+            updateBookings({
+                "CustomerPreviousAppointmentsPage.useCallback[handleSubmitTip]": (prev)=>prev.map({
+                        "CustomerPreviousAppointmentsPage.useCallback[handleSubmitTip]": (booking)=>booking.id === activeTipBooking.id ? {
+                                ...booking,
+                                tipAmount: normalized,
+                                tipUpdatedAt: new Date().toISOString()
+                            } : booking
+                    }["CustomerPreviousAppointmentsPage.useCallback[handleSubmitTip]"])
+            }["CustomerPreviousAppointmentsPage.useCallback[handleSubmitTip]"]);
+            toast({
+                title: "Tip saved",
+                description: `We recorded ${formatCurrency(normalized)} for ${activeTipBooking.service}.`
+            });
+            closeTipDialog();
+        }
+    }["CustomerPreviousAppointmentsPage.useCallback[handleSubmitTip]"], [
+        activeTipBooking,
+        tipAmount,
+        updateBookings,
+        toast,
+        closeTipDialog
+    ]);
+    const handleRemoveTip = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "CustomerPreviousAppointmentsPage.useCallback[handleRemoveTip]": ()=>{
+            if (!activeTipBooking) return;
+            updateBookings({
+                "CustomerPreviousAppointmentsPage.useCallback[handleRemoveTip]": (prev)=>prev.map({
+                        "CustomerPreviousAppointmentsPage.useCallback[handleRemoveTip]": (booking)=>booking.id === activeTipBooking.id ? {
+                                ...booking,
+                                tipAmount: undefined,
+                                tipUpdatedAt: undefined
+                            } : booking
+                    }["CustomerPreviousAppointmentsPage.useCallback[handleRemoveTip]"])
+            }["CustomerPreviousAppointmentsPage.useCallback[handleRemoveTip]"]);
+            toast({
+                title: "Tip removed",
+                description: `No tip is recorded for ${activeTipBooking.service} anymore.`
+            });
+            closeTipDialog();
+        }
+    }["CustomerPreviousAppointmentsPage.useCallback[handleRemoveTip]"], [
+        activeTipBooking,
+        updateBookings,
+        toast,
+        closeTipDialog
+    ]);
     if (bookingsLoading || accountLoading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "min-h-screen flex items-center justify-center bg-muted/40",
@@ -1855,25 +2037,25 @@ const CustomerPreviousAppointmentsPage = ()=>{
                         className: "h-8 w-8 animate-spin"
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                        lineNumber: 156,
+                        lineNumber: 224,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: "Loading your appointments..."
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                        lineNumber: 157,
+                        lineNumber: 225,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                lineNumber: 155,
+                lineNumber: 223,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-            lineNumber: 154,
+            lineNumber: 222,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -1890,7 +2072,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                         onLogout: handleLogout
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                        lineNumber: 166,
+                        lineNumber: 234,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1908,14 +2090,14 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                     className: "h-4 w-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                    lineNumber: 176,
+                                                    lineNumber: 244,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 "Service history"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 175,
+                                            lineNumber: 243,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -1923,7 +2105,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Previous appointments"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 179,
+                                            lineNumber: 247,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1931,18 +2113,18 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Review recently completed cleanings and keep track of provider notes."
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 180,
+                                            lineNumber: 248,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                    lineNumber: 174,
+                                    lineNumber: 242,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                lineNumber: 173,
+                                lineNumber: 241,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -1959,7 +2141,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                         className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                        lineNumber: 189,
+                                                        lineNumber: 257,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1969,23 +2151,23 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                         className: "pl-9"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                        lineNumber: 190,
+                                                        lineNumber: 258,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                lineNumber: 188,
+                                                lineNumber: 256,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 187,
+                                            lineNumber: 255,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                        lineNumber: 186,
+                                        lineNumber: 254,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$customer$2f$BookingsTable$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BookingsTable"], {
@@ -1993,7 +2175,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                         emptyMessage: "You have no completed appointments yet. They'll show up here once a service is done.",
                                         customActions: (booking)=>[
                                                 {
-                                                    label: "Edit review",
+                                                    label: "Add/Edit review",
                                                     onSelect: ()=>handleEditReview(booking)
                                                 },
                                                 {
@@ -2001,7 +2183,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                     onSelect: ()=>handleViewDetails(booking)
                                                 },
                                                 {
-                                                    label: "Add tip",
+                                                    label: booking.tipAmount ? "Update tip" : "Add tip",
                                                     onSelect: ()=>handleAddTip(booking)
                                                 },
                                                 {
@@ -2011,25 +2193,25 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             ]
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 268,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                lineNumber: 185,
+                                lineNumber: 253,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                        lineNumber: 172,
+                        lineNumber: 240,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                lineNumber: 165,
+                lineNumber: 233,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -2043,7 +2225,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                             children: "Edit booking review"
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                            lineNumber: 216,
+                            lineNumber: 284,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         activeBooking && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2057,7 +2239,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Your opinion matters"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 220,
+                                            lineNumber: 288,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -2069,7 +2251,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 221,
+                                            lineNumber: 289,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2077,13 +2259,13 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Share how things went so we can keep delivering spotless service."
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 222,
+                                            lineNumber: 290,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                    lineNumber: 219,
+                                    lineNumber: 287,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2096,12 +2278,12 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                 children: customerName.slice(0, 1) || "C"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                lineNumber: 228,
+                                                lineNumber: 296,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 295,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2111,7 +2293,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                     children: customerName
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                    lineNumber: 231,
+                                                    lineNumber: 299,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2119,19 +2301,19 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                     children: formatBookingDateTime(activeBooking)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                    lineNumber: 232,
+                                                    lineNumber: 300,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 230,
+                                            lineNumber: 298,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                    lineNumber: 226,
+                                    lineNumber: 294,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2142,7 +2324,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "How would you rate your recent service?"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 236,
+                                            lineNumber: 304,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2158,23 +2340,23 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                                         fill: value <= rating ? "currentColor" : "none"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                        lineNumber: 248,
+                                                        lineNumber: 316,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 }, value, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                                    lineNumber: 239,
+                                                    lineNumber: 307,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)))
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 237,
+                                            lineNumber: 305,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                    lineNumber: 235,
+                                    lineNumber: 303,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2186,7 +2368,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Tell us about your experience"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 258,
+                                            lineNumber: 326,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -2198,13 +2380,13 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             className: "rounded-2xl border-muted bg-background/80"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 261,
+                                            lineNumber: 329,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                    lineNumber: 257,
+                                    lineNumber: 325,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2217,7 +2399,7 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Maybe later"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 271,
+                                            lineNumber: 339,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2227,40 +2409,250 @@ const CustomerPreviousAppointmentsPage = ()=>{
                                             children: "Rate now"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                            lineNumber: 274,
+                                            lineNumber: 342,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                                    lineNumber: 270,
+                                    lineNumber: 338,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                            lineNumber: 218,
+                            lineNumber: 286,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                    lineNumber: 215,
+                    lineNumber: 283,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-                lineNumber: 214,
+                lineNumber: 282,
+                columnNumber: 7
+            }, ("TURBOPACK compile-time value", void 0)),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
+                open: tipDialogOpen,
+                onOpenChange: (open)=>open ? setTipDialogOpen(true) : closeTipDialog(),
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogContent"], {
+                    className: "max-w-md rounded-[32px] border-none p-0 shadow-2xl",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogTitle"], {
+                            className: "sr-only",
+                            children: "Add a thank-you tip"
+                        }, void 0, false, {
+                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                            lineNumber: 353,
+                            columnNumber: 11
+                        }, ("TURBOPACK compile-time value", void 0)),
+                        activeTipBooking && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex flex-col gap-6 p-8",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-2 text-center",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground",
+                                            children: "Show appreciation"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 357,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                            className: "text-xl font-bold",
+                                            children: [
+                                                "Add a tip for ",
+                                                activeTipBooking.provider
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 358,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-sm text-muted-foreground",
+                                            children: [
+                                                "Base service total ",
+                                                formatCurrency(activeTipBooking.price),
+                                                typeof activeTipBooking.tipAmount === "number" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        " ",
+                                                        "• Current tip ",
+                                                        formatCurrency(activeTipBooking.tipAmount)
+                                                    ]
+                                                }, void 0, true)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 359,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                    lineNumber: 356,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "rounded-2xl border border-dashed border-primary/20 p-4 text-sm",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-semibold",
+                                            children: activeTipBooking.service
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 370,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-muted-foreground",
+                                            children: formatBookingDateTime(activeTipBooking)
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 371,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                    lineNumber: 369,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            className: "text-sm font-semibold",
+                                            htmlFor: "tip-amount",
+                                            children: "Tip amount"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 375,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                            id: "tip-amount",
+                                            type: "number",
+                                            min: "1",
+                                            step: "0.01",
+                                            value: tipAmount,
+                                            onChange: (event)=>{
+                                                setTipAmount(event.target.value);
+                                                if (tipValidationError) {
+                                                    setTipValidationError(null);
+                                                }
+                                            },
+                                            placeholder: "15.00",
+                                            inputMode: "decimal"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 378,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        tipValidationError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-sm text-destructive",
+                                            children: tipValidationError
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 393,
+                                            columnNumber: 40
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                    lineNumber: 374,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex flex-wrap gap-2",
+                                    children: QUICK_TIP_AMOUNTS.map((amount)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            type: "button",
+                                            variant: "outline",
+                                            size: "sm",
+                                            onClick: ()=>{
+                                                setTipAmount(amount.toFixed(2));
+                                                setTipValidationError(null);
+                                            },
+                                            children: formatCurrency(amount)
+                                        }, amount, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 398,
+                                            columnNumber: 19
+                                        }, ("TURBOPACK compile-time value", void 0)))
+                                }, void 0, false, {
+                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                    lineNumber: 396,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "flex flex-col gap-3 sm:flex-row",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            variant: "outline",
+                                            className: "flex-1",
+                                            onClick: closeTipDialog,
+                                            children: "Cancel"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 414,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            className: "flex-1",
+                                            onClick: handleSubmitTip,
+                                            disabled: !tipAmount.trim(),
+                                            children: "Save tip"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                            lineNumber: 417,
+                                            columnNumber: 17
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                    lineNumber: 413,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                typeof activeTipBooking.tipAmount === "number" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                    variant: "ghost",
+                                    className: "text-destructive",
+                                    onClick: handleRemoveTip,
+                                    children: "Remove existing tip"
+                                }, void 0, false, {
+                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                                    lineNumber: 423,
+                                    columnNumber: 17
+                                }, ("TURBOPACK compile-time value", void 0))
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                            lineNumber: 355,
+                            columnNumber: 13
+                        }, ("TURBOPACK compile-time value", void 0))
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                    lineNumber: 352,
+                    columnNumber: 9
+                }, ("TURBOPACK compile-time value", void 0))
+            }, void 0, false, {
+                fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
+                lineNumber: 351,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page.tsx",
-        lineNumber: 164,
+        lineNumber: 232,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(CustomerPreviousAppointmentsPage, "OkgVzL+tfeuCVPl2XIwZFiIL7Ow=", false, function() {
+_s(CustomerPreviousAppointmentsPage, "Z70dE85LUslCgwi4n114QsAWPHE=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$hooks$2f$useCustomerBookings$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCustomerBookings"],

@@ -68,7 +68,7 @@ export const BookingsTable = ({ bookings, emptyMessage, onCancelBooking, onEditB
                 <p className="text-sm text-muted-foreground">{booking.time}</p>
               </TableCell>
               <TableCell>
-                <p className="font-semibold">{booking.provider?.trim() || "Premier Pro Team"}</p>
+                <p className="font-semibold">{booking.provider?.trim() || ""}</p>
               </TableCell>
               <TableCell>
                 <p className="font-semibold">{booking.service}</p>
