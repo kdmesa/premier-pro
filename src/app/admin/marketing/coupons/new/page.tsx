@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -38,12 +38,36 @@ export default function NewCouponPage() {
   const [selectedServices, setSelectedServices] = useState<string[]>(['Deep Clean', 'Basic Cleaning', 'Move In/Out Clean', 'Construction Clean Up', 'Hourly Deep Clean', 'Hourly Basic Clean']);
   const [discountUnit, setDiscountUnit] = useState<'amount' | 'percent'>('amount');
   const [providerDiscountEnabled, setProviderDiscountEnabled] = useState(false);
-  const industries = ['Home Cleaning', 'Office Cleaning'];
-  const [activeIndustry, setActiveIndustry] = useState<string>(industries[0]);
-  const [industryEnabled, setIndustryEnabled] = useState<Record<string, boolean>>({
-    'Home Cleaning': true,
-    'Office Cleaning': false,
-  });
+  const [industries, setIndustries] = useState<string[]>(['Home Cleaning']);
+  const [activeIndustry, setActiveIndustry] = useState<string>('');
+  const [industryEnabled, setIndustryEnabled] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('industries') || 'null');
+      if (Array.isArray(stored) && stored.length > 0) {
+        setIndustries(stored);
+      }
+    } catch {
+      // ignore malformed localStorage, keep default
+    }
+  }, []);
+
+  useEffect(() => {
+    // initialize activeIndustry once industries are known
+    if (!activeIndustry && industries.length > 0) {
+      setActiveIndustry(industries[0]);
+    }
+
+    // ensure every industry has an enabled flag (default true)
+    setIndustryEnabled((prev) => {
+      const next = { ...prev };
+      industries.forEach((ind) => {
+        if (!(ind in next)) next[ind] = true;
+      });
+      return next;
+    });
+  }, [industries, activeIndustry]);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

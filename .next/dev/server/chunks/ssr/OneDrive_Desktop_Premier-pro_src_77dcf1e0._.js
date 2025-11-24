@@ -483,15 +483,40 @@ function NewCouponPage() {
     ]);
     const [discountUnit, setDiscountUnit] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('amount');
     const [providerDiscountEnabled, setProviderDiscountEnabled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const industries = [
-        'Home Cleaning',
-        'Office Cleaning'
-    ];
-    const [activeIndustry, setActiveIndustry] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(industries[0]);
-    const [industryEnabled, setIndustryEnabled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
-        'Home Cleaning': true,
-        'Office Cleaning': false
-    });
+    const [industries, setIndustries] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([
+        'Home Cleaning'
+    ]);
+    const [activeIndustry, setActiveIndustry] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [industryEnabled, setIndustryEnabled] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        try {
+            const stored = JSON.parse(localStorage.getItem('industries') || 'null');
+            if (Array.isArray(stored) && stored.length > 0) {
+                setIndustries(stored);
+            }
+        } catch  {
+        // ignore malformed localStorage, keep default
+        }
+    }, []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        // initialize activeIndustry once industries are known
+        if (!activeIndustry && industries.length > 0) {
+            setActiveIndustry(industries[0]);
+        }
+        // ensure every industry has an enabled flag (default true)
+        setIndustryEnabled((prev)=>{
+            const next = {
+                ...prev
+            };
+            industries.forEach((ind)=>{
+                if (!(ind in next)) next[ind] = true;
+            });
+            return next;
+        });
+    }, [
+        industries,
+        activeIndustry
+    ]);
     const onChange = (e)=>{
         const { name, value } = e.target;
         setForm((s)=>({
@@ -524,12 +549,12 @@ function NewCouponPage() {
                                 className: "h-5 w-5 text-muted-foreground"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                lineNumber: 71,
+                                lineNumber: 95,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                            lineNumber: 65,
+                            lineNumber: 89,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -539,7 +564,7 @@ function NewCouponPage() {
                                     children: "Add new coupon"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 74,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -547,24 +572,24 @@ function NewCouponPage() {
                                     children: "You can add in a coupon here."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 75,
+                                    lineNumber: 99,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                            lineNumber: 73,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                    lineNumber: 64,
+                    lineNumber: 88,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                lineNumber: 63,
+                lineNumber: 87,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -585,7 +610,7 @@ function NewCouponPage() {
                                                 children: "Name"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 84,
+                                                lineNumber: 108,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -596,13 +621,13 @@ function NewCouponPage() {
                                                 onChange: onChange
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 85,
+                                                lineNumber: 109,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 83,
+                                        lineNumber: 107,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -613,7 +638,7 @@ function NewCouponPage() {
                                                 children: "Coupon code"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 88,
+                                                lineNumber: 112,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -625,13 +650,13 @@ function NewCouponPage() {
                                                 required: true
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 89,
+                                                lineNumber: 113,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 87,
+                                        lineNumber: 111,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -642,7 +667,7 @@ function NewCouponPage() {
                                                 children: "Description"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 92,
+                                                lineNumber: 116,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -653,13 +678,13 @@ function NewCouponPage() {
                                                 onChange: onChange
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 93,
+                                                lineNumber: 117,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 91,
+                                        lineNumber: 115,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -677,7 +702,7 @@ function NewCouponPage() {
                                                                 }))
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 97,
+                                                        lineNumber: 121,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -686,13 +711,13 @@ function NewCouponPage() {
                                                         children: "Make this coupon active"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 98,
+                                                        lineNumber: 122,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 96,
+                                                lineNumber: 120,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -707,7 +732,7 @@ function NewCouponPage() {
                                                                 }))
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 101,
+                                                        lineNumber: 125,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -716,13 +741,13 @@ function NewCouponPage() {
                                                         children: "Facebook coupon"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 102,
+                                                        lineNumber: 126,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 100,
+                                                lineNumber: 124,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -733,7 +758,7 @@ function NewCouponPage() {
                                                         children: "Coupon can be applied with"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 105,
+                                                        lineNumber: 129,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -751,7 +776,7 @@ function NewCouponPage() {
                                                                                 }))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 108,
+                                                                        lineNumber: 132,
                                                                         columnNumber: 21
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -760,13 +785,13 @@ function NewCouponPage() {
                                                                         children: "Gift cards"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 109,
+                                                                        lineNumber: 133,
                                                                         columnNumber: 21
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 107,
+                                                                lineNumber: 131,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -781,7 +806,7 @@ function NewCouponPage() {
                                                                                 }))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 112,
+                                                                        lineNumber: 136,
                                                                         columnNumber: 21
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
@@ -790,37 +815,37 @@ function NewCouponPage() {
                                                                         children: "Referrals"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 113,
+                                                                        lineNumber: 137,
                                                                         columnNumber: 21
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 111,
+                                                                lineNumber: 135,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 106,
+                                                        lineNumber: 130,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 104,
+                                                lineNumber: 128,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 95,
+                                        lineNumber: 119,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                lineNumber: 82,
+                                lineNumber: 106,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -839,12 +864,12 @@ function NewCouponPage() {
                                                         children: ind
                                                     }, ind, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 125,
+                                                        lineNumber: 149,
                                                         columnNumber: 21
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 123,
+                                                lineNumber: 147,
                                                 columnNumber: 17
                                             }, this),
                                             industries.map((ind)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -864,7 +889,7 @@ function NewCouponPage() {
                                                                                 }))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 139,
+                                                                        lineNumber: 163,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -872,13 +897,13 @@ function NewCouponPage() {
                                                                         children: industryEnabled[ind] ? 'Enabled' : 'Disabled'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 143,
+                                                                        lineNumber: 167,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 138,
+                                                                lineNumber: 162,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -889,7 +914,7 @@ function NewCouponPage() {
                                                                         children: "Form 1"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 149,
+                                                                        lineNumber: 173,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -900,7 +925,7 @@ function NewCouponPage() {
                                                                                 onCheckedChange: (v)=>setFormEnabled(!!v)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 151,
+                                                                                lineNumber: 175,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -908,19 +933,19 @@ function NewCouponPage() {
                                                                                 children: formEnabled ? 'Enabled' : 'Disabled'
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 152,
+                                                                                lineNumber: 176,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 150,
+                                                                        lineNumber: 174,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 148,
+                                                                lineNumber: 172,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -935,7 +960,7 @@ function NewCouponPage() {
                                                                                 children: "Select locations"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 160,
+                                                                                lineNumber: 184,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -953,7 +978,7 @@ function NewCouponPage() {
                                                                                                         ])) : prev.filter((x)=>x !== loc))
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                                lineNumber: 164,
+                                                                                                lineNumber: 188,
                                                                                                 columnNumber: 33
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -961,24 +986,24 @@ function NewCouponPage() {
                                                                                                 children: loc
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                                lineNumber: 168,
+                                                                                                lineNumber: 192,
                                                                                                 columnNumber: 33
                                                                                             }, this)
                                                                                         ]
                                                                                     }, loc, true, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                        lineNumber: 163,
+                                                                                        lineNumber: 187,
                                                                                         columnNumber: 31
                                                                                     }, this))
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 161,
+                                                                                lineNumber: 185,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 159,
+                                                                        lineNumber: 183,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -989,7 +1014,7 @@ function NewCouponPage() {
                                                                                 children: "Select services"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 174,
+                                                                                lineNumber: 198,
                                                                                 columnNumber: 27
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1012,7 +1037,7 @@ function NewCouponPage() {
                                                                                                         ])) : prev.filter((x)=>x !== srv))
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                                lineNumber: 178,
+                                                                                                lineNumber: 202,
                                                                                                 columnNumber: 33
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1020,63 +1045,63 @@ function NewCouponPage() {
                                                                                                 children: srv
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                                lineNumber: 182,
+                                                                                                lineNumber: 206,
                                                                                                 columnNumber: 33
                                                                                             }, this)
                                                                                         ]
                                                                                     }, srv, true, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                        lineNumber: 177,
+                                                                                        lineNumber: 201,
                                                                                         columnNumber: 31
                                                                                     }, this))
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 175,
+                                                                                lineNumber: 199,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 173,
+                                                                        lineNumber: 197,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 158,
+                                                                lineNumber: 182,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 137,
+                                                        lineNumber: 161,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, ind, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                    lineNumber: 136,
+                                                    lineNumber: 160,
                                                     columnNumber: 19
                                                 }, this))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 122,
+                                        lineNumber: 146,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 121,
+                                    lineNumber: 145,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                lineNumber: 120,
+                                lineNumber: 144,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                        lineNumber: 81,
+                        lineNumber: 105,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1093,7 +1118,7 @@ function NewCouponPage() {
                                             children: "Discount"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                            lineNumber: 199,
+                                            lineNumber: 223,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1102,7 +1127,7 @@ function NewCouponPage() {
                                             children: "Limitations"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                            lineNumber: 200,
+                                            lineNumber: 224,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1111,13 +1136,13 @@ function NewCouponPage() {
                                             children: "Advanced settings"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                            lineNumber: 201,
+                                            lineNumber: 225,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 198,
+                                    lineNumber: 222,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1133,7 +1158,7 @@ function NewCouponPage() {
                                                         children: "Discount for customers"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 206,
+                                                        lineNumber: 230,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1149,7 +1174,7 @@ function NewCouponPage() {
                                                                 onChange: onChange
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 208,
+                                                                lineNumber: 232,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -1160,12 +1185,12 @@ function NewCouponPage() {
                                                                         className: "w-28",
                                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                            lineNumber: 219,
+                                                                            lineNumber: 243,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 218,
+                                                                        lineNumber: 242,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1175,7 +1200,7 @@ function NewCouponPage() {
                                                                                 children: "$"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 222,
+                                                                                lineNumber: 246,
                                                                                 columnNumber: 25
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1183,31 +1208,31 @@ function NewCouponPage() {
                                                                                 children: "%"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                                lineNumber: 223,
+                                                                                lineNumber: 247,
                                                                                 columnNumber: 25
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 221,
+                                                                        lineNumber: 245,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 217,
+                                                                lineNumber: 241,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 207,
+                                                        lineNumber: 231,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 205,
+                                                lineNumber: 229,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1221,7 +1246,7 @@ function NewCouponPage() {
                                                                 children: "Discount for service providers"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 230,
+                                                                lineNumber: 254,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1232,7 +1257,7 @@ function NewCouponPage() {
                                                                         onCheckedChange: (v)=>setProviderDiscountEnabled(!!v)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 232,
+                                                                        lineNumber: 256,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1240,19 +1265,19 @@ function NewCouponPage() {
                                                                         children: providerDiscountEnabled ? 'Enabled' : 'Disabled'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                        lineNumber: 233,
+                                                                        lineNumber: 257,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                                lineNumber: 231,
+                                                                lineNumber: 255,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 229,
+                                                        lineNumber: 253,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1260,24 +1285,24 @@ function NewCouponPage() {
                                                         "aria-disabled": !providerDiscountEnabled
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                        lineNumber: 239,
+                                                        lineNumber: 263,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                                lineNumber: 228,
+                                                lineNumber: 252,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 204,
+                                        lineNumber: 228,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 203,
+                                    lineNumber: 227,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1287,12 +1312,12 @@ function NewCouponPage() {
                                         children: "Add limitation rules here."
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 244,
+                                        lineNumber: 268,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 243,
+                                    lineNumber: 267,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1302,23 +1327,23 @@ function NewCouponPage() {
                                         children: "Advanced settings go here."
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                        lineNumber: 247,
+                                        lineNumber: 271,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 246,
+                                    lineNumber: 270,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                            lineNumber: 197,
+                            lineNumber: 221,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                        lineNumber: 196,
+                        lineNumber: 220,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1333,12 +1358,12 @@ function NewCouponPage() {
                                     children: "Cancel"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                    lineNumber: 254,
+                                    lineNumber: 278,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                lineNumber: 253,
+                                lineNumber: 277,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1346,25 +1371,25 @@ function NewCouponPage() {
                                 children: "Add Coupon"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                                lineNumber: 256,
+                                lineNumber: 280,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                        lineNumber: 252,
+                        lineNumber: 276,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-                lineNumber: 80,
+                lineNumber: 104,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page.tsx",
-        lineNumber: 62,
+        lineNumber: 86,
         columnNumber: 5
     }, this);
 }
