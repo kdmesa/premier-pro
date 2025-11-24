@@ -1,8 +1,14 @@
 {
+  "/admin/add-booking/page": "app/admin/add-booking/page.js",
+  "/admin/bookings/page": "app/admin/bookings/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/settings/industries/form-1/frequencies/new/page": "app/admin/settings/industries/form-1/frequencies/new/page.js",
+  "/admin/settings/industries/form-1/frequencies/page": "app/admin/settings/industries/form-1/frequencies/page.js",
   "/book-now/page": "app/book-now/page.js",
   "/customer/appointments/[bookingId]/page": "app/customer/appointments/[bookingId]/page.js",
   "/customer/appointments/history/page": "app/customer/appointments/history/page.js",
   "/customer/appointments/page": "app/customer/appointments/page.js",
-  "/customer/dashboard/page": "app/customer/dashboard/page.js",
+  "/login/page": "app/login/page.js",
   "/page": "app/page.js"
 }

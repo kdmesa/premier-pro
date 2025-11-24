@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,22 @@ const SERVICE_COSTS: Record<string, number> = {
   "Carpet Cleaning": 180,
 };
 
+type FrequencyRow = {
+  id: number;
+  name: string;
+  display: "Both" | "Booking" | "Quote";
+  isDefault?: boolean;
+  discount?: number;
+  discountType?: "%" | "$";
+};
+
+const INDUSTRY_NAME = "Home Cleaning";
+const FALLBACK_INDUSTRY_NAME = "Industry";
+const FREQUENCY_STORAGE_KEYS = [
+  `frequencies_${INDUSTRY_NAME}`,
+  `frequencies_${FALLBACK_INDUSTRY_NAME}`,
+];
+
 const createEmptyBookingForm = () => ({
   customerType: "new",
   firstName: "",
@@ -39,7 +55,7 @@ const createEmptyBookingForm = () => ({
   time: "",
   duration: "02",
   durationUnit: "Hours",
-  frequency: "one-time",
+  frequency: "",
   notifyMoreTime: false,
   address: "",
   paymentMethod: "",
@@ -59,27 +75,112 @@ export default function AddBookingPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [newBooking, setNewBooking] = useState(createEmptyBookingForm());
+  const [errors, setErrors] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    service: false,
+    date: false,
+    time: false,
+    address: false,
+  });
+  const [frequencies, setFrequencies] = useState<FrequencyRow[]>([]);
   const [showPrivateBookingNote, setShowPrivateBookingNote] = useState(false);
   const [showPrivateCustomerNote, setShowPrivateCustomerNote] = useState(false);
   const [showServiceProviderNote, setShowServiceProviderNote] = useState(false);
+
+  useEffect(() => {
+    try {
+      let visible: FrequencyRow[] | null = null;
+
+      for (const key of FREQUENCY_STORAGE_KEYS) {
+        const raw = localStorage.getItem(key);
+        if (!raw) continue;
+
+        try {
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) continue;
+
+          const rows = (parsed as FrequencyRow[]).filter(
+            (r) => r && (r.display === "Both" || r.display === "Booking"),
+          );
+
+          if (rows.length === 0) continue;
+
+          const defaultRows = rows.filter((r) => r.isDefault);
+          visible = defaultRows.length > 0 ? defaultRows : rows;
+          if (visible.length > 0) break;
+        } catch {
+          // ignore malformed localStorage for this key and keep checking others
+        }
+      }
+
+      if (!visible || visible.length === 0) return;
+
+      setFrequencies(visible);
+
+      const first = visible[0];
+      if (first) {
+        setNewBooking((prev) =>
+          prev.frequency ? prev : { ...prev, frequency: first.name },
+        );
+      }
+    } catch {
+      // ignore malformed localStorage
+    }
+  }, []);
 
   const estimatedCost = useMemo(() => {
     const cost = SERVICE_COSTS[newBooking.service as keyof typeof SERVICE_COSTS];
     return typeof cost === "number" ? cost : 0;
   }, [newBooking.service]);
 
+  const discountedCost = useMemo(() => {
+    const base = estimatedCost;
+    if (!base) return 0;
+
+    const freq = frequencies.find((f) => f.name === newBooking.frequency);
+    if (!freq) return base;
+
+    const rawDiscount = typeof freq.discount === "number" ? freq.discount : Number(freq.discount ?? 0);
+    if (!rawDiscount || Number.isNaN(rawDiscount) || rawDiscount <= 0) return base;
+
+    if (freq.discountType === "$") {
+      const v = base - rawDiscount;
+      return v < 0 ? 0 : v;
+    }
+
+    // Treat anything else (including undefined) as percentage
+    const pct = rawDiscount;
+    const v = base * (1 - pct / 100);
+    return v < 0 ? 0 : v;
+  }, [estimatedCost, frequencies, newBooking.frequency]);
+
   const handleAddBooking = () => {
-    // Validate form
-    const customerName = `${newBooking.firstName} ${newBooking.lastName}`.trim();
-    if (!newBooking.firstName || !newBooking.lastName || !newBooking.email || !newBooking.phone || 
-        !newBooking.service || !newBooking.date || !newBooking.time || !newBooking.address) {
+    // Validate required fields
+    const nextErrors = {
+      firstName: !newBooking.firstName.trim(),
+      lastName: !newBooking.lastName.trim(),
+      email: !newBooking.email.trim(),
+      service: !newBooking.service.trim(),
+      date: !newBooking.date.trim(),
+      time: !newBooking.time.trim(),
+      address: !newBooking.address.trim(),
+    };
+
+    const hasError = Object.values(nextErrors).some(Boolean);
+    setErrors(nextErrors);
+
+    if (hasError) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
+
+    const customerName = `${newBooking.firstName} ${newBooking.lastName}`.trim();
 
     const newEntry = {
       id: `BK${Date.now()}`,
@@ -93,7 +194,7 @@ export default function AddBookingPage() {
       time: newBooking.time,
       address: newBooking.address,
       status: "pending",
-      amount: "$0",
+      amount: `$${discountedCost.toFixed(0)}`,
       paymentMethod: newBooking.paymentMethod || "Not specified",
       notes: newBooking.notes,
     };
@@ -159,7 +260,11 @@ export default function AddBookingPage() {
                   id="firstName"
                   placeholder="Ex: James"
                   value={newBooking.firstName}
-                  onChange={(e) => setNewBooking({ ...newBooking, firstName: e.target.value })}
+                  onChange={(e) => {
+                    setNewBooking({ ...newBooking, firstName: e.target.value });
+                    setErrors(prev => ({ ...prev, firstName: false }));
+                  }}
+                  className={errors.firstName ? "border-red-500" : ""}
                 />
               </div>
               <div>
@@ -168,7 +273,11 @@ export default function AddBookingPage() {
                   id="lastName"
                   placeholder="Ex: Lee"
                   value={newBooking.lastName}
-                  onChange={(e) => setNewBooking({ ...newBooking, lastName: e.target.value })}
+                  onChange={(e) => {
+                    setNewBooking({ ...newBooking, lastName: e.target.value });
+                    setErrors(prev => ({ ...prev, lastName: false }));
+                  }}
+                  className={errors.lastName ? "border-red-500" : ""}
                 />
               </div>
             </div>
@@ -181,7 +290,11 @@ export default function AddBookingPage() {
                 type="email"
                 placeholder="Ex: example@xyz.com"
                 value={newBooking.email}
-                onChange={(e) => setNewBooking({ ...newBooking, email: e.target.value })}
+                onChange={(e) => {
+                  setNewBooking({ ...newBooking, email: e.target.value });
+                  setErrors(prev => ({ ...prev, email: false }));
+                }}
+                className={errors.email ? "border-red-500" : ""}
               />
             </div>
 
@@ -227,24 +340,58 @@ export default function AddBookingPage() {
             {/* Frequency */}
             <div>
               <Label className="text-sm font-medium mb-3 block">Frequency</Label>
-              <div className="flex gap-3">
-                <Button
-                  type="button"
-                  variant={newBooking.frequency === "one-time" ? "default" : "outline"}
-                  onClick={() => setNewBooking({ ...newBooking, frequency: "one-time" })}
-                  className={newBooking.frequency === "one-time" ? "bg-cyan-500 hover:bg-cyan-600 text-white" : ""}
-                >
-                  One-time
-                </Button>
-                <Button
-                  type="button"
-                  variant={newBooking.frequency === "every-4-weeks" ? "default" : "outline"}
-                  onClick={() => setNewBooking({ ...newBooking, frequency: "every-4-weeks" })}
-                  className={newBooking.frequency === "every-4-weeks" ? "bg-cyan-500 hover:bg-cyan-600 text-white" : ""}
-                >
-                  Every 4 weeks
-                </Button>
-              </div>
+              {frequencies.length > 0 ? (
+                <div className="flex flex-wrap gap-3">
+                  {frequencies.map((freq) => (
+                    <Button
+                      key={freq.id}
+                      type="button"
+                      variant={newBooking.frequency === freq.name ? "default" : "outline"}
+                      onClick={() =>
+                        setNewBooking((prev) => ({ ...prev, frequency: freq.name }))
+                      }
+                      className={
+                        newBooking.frequency === freq.name
+                          ? "bg-cyan-500 hover:bg-cyan-600 text-white"
+                          : ""
+                      }
+                    >
+                      {freq.name}
+                    </Button>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    variant={newBooking.frequency === "One-time" ? "default" : "outline"}
+                    onClick={() =>
+                      setNewBooking((prev) => ({ ...prev, frequency: "One-time" }))
+                    }
+                    className={
+                      newBooking.frequency === "One-time"
+                        ? "bg-cyan-500 hover:bg-cyan-600 text-white"
+                        : ""
+                    }
+                  >
+                    One-time
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={newBooking.frequency === "Every 4 weeks" ? "default" : "outline"}
+                    onClick={() =>
+                      setNewBooking((prev) => ({ ...prev, frequency: "Every 4 weeks" }))
+                    }
+                    className={
+                      newBooking.frequency === "Every 4 weeks"
+                        ? "bg-cyan-500 hover:bg-cyan-600 text-white"
+                        : ""
+                    }
+                  >
+                    Every 4 weeks
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Booking Adjustments */}
@@ -273,8 +420,8 @@ export default function AddBookingPage() {
 
                 <div>
                   <Label htmlFor="service" className="text-sm font-medium mb-2 block">Service Type</Label>
-                  <Select value={newBooking.service} onValueChange={(value) => setNewBooking({ ...newBooking, service: value })}>
-                    <SelectTrigger>
+                  <Select value={newBooking.service} onValueChange={(value) => { setNewBooking({ ...newBooking, service: value }); setErrors(prev => ({ ...prev, service: false })); }}>
+                    <SelectTrigger className={errors.service ? "border-red-500" : ""}>
                       <SelectValue placeholder="Select service" />
                     </SelectTrigger>
                     <SelectContent>
@@ -293,7 +440,11 @@ export default function AddBookingPage() {
                       id="date"
                       type="date"
                       value={newBooking.date}
-                      onChange={(e) => setNewBooking({ ...newBooking, date: e.target.value })}
+                      onChange={(e) => {
+                        setNewBooking({ ...newBooking, date: e.target.value });
+                        setErrors(prev => ({ ...prev, date: false }));
+                      }}
+                      className={errors.date ? "border-red-500" : ""}
                     />
                   </div>
                   <div>
@@ -302,7 +453,11 @@ export default function AddBookingPage() {
                       id="time"
                       type="time"
                       value={newBooking.time}
-                      onChange={(e) => setNewBooking({ ...newBooking, time: e.target.value })}
+                      onChange={(e) => {
+                        setNewBooking({ ...newBooking, time: e.target.value });
+                        setErrors(prev => ({ ...prev, time: false }));
+                      }}
+                      className={errors.time ? "border-red-500" : ""}
                     />
                   </div>
                 </div>
@@ -312,7 +467,11 @@ export default function AddBookingPage() {
                     id="address"
                     placeholder="Enter service address"
                     value={newBooking.address}
-                    onChange={(e) => setNewBooking({ ...newBooking, address: e.target.value })}
+                    onChange={(e) => {
+                      setNewBooking({ ...newBooking, address: e.target.value });
+                      setErrors(prev => ({ ...prev, address: false }));
+                    }}
+                    className={errors.address ? "border-red-500" : ""}
                   />
                 </div>
                 <div>
@@ -352,15 +511,15 @@ export default function AddBookingPage() {
             <CardContent className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Industry</span>
-                <span className="font-medium">Post Construction</span>
+                <span className="font-medium">Home Cleaning</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Service</span>
-                <span className="font-medium">{newBooking.service || "Post Construction Cleaning"}</span>
+                <span className="font-medium">{newBooking.service || ""}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Frequency</span>
-                <span className="font-medium">{newBooking.frequency === "one-time" ? "One-Time" : "Every 4 Weeks"}</span>
+                <span className="font-medium">{newBooking.frequency || "One-time"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Length</span>
@@ -380,11 +539,11 @@ export default function AddBookingPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Discounted Total</span>
-                <span className="font-medium">${estimatedCost.toFixed(2)}</span>
+                <span className="font-medium">${discountedCost.toFixed(2)}</span>
               </div>
               <div className="flex justify-between font-semibold">
                 <span>TOTAL</span>
-                <span>${estimatedCost.toFixed(2)}</span>
+                <span>${discountedCost.toFixed(2)}</span>
               </div>
             </CardContent>
           </Card>

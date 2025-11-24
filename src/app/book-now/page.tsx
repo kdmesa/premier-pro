@@ -38,14 +38,19 @@ import styles from "./BookingPage.module.css";
 import { useCustomerAccount } from "@/hooks/useCustomerAccount";
 
 const optionalEmailSchema = z.union([z.string().email("Please enter a valid email"), z.literal("")]);
-const optionalPhoneSchema = z.union([z.string().min(10, "Please enter a valid phone number"), z.literal("")]);
+const optionalPhoneSchema = z.union([
+  z.number().min(1000000000, "Please enter a valid 10-digit phone number").max(9999999999, "Please enter a valid 10-digit phone number"),
+  z.literal("") 
+]);
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
   secondaryEmail: optionalEmailSchema,
-  phone: z.string().min(10, "Please enter a valid phone number"),
+  phone: z.number()
+    .min(1000000000, "Please enter a valid 10-digit phone number")
+    .max(9999999999, "Please enter a valid 10-digit phone number"),
   secondaryPhone: optionalPhoneSchema,
   addressPreference: z.enum(["existing", "new"]),
   address: z.string().min(5, "Please enter a valid address"),
@@ -252,7 +257,7 @@ const toFormCustomization = (customization: ServiceCustomization | null) => ({
   squareMeters: customization?.squareMeters ?? "",
   bedroom: customization?.bedroom ?? "",
   bathroom: customization?.bathroom ?? "",
-  extras: customization?.extras ?? "",
+  extras: (customization?.extras ?? []).join(", "),
 });
 
 export default function BookingPage() {
@@ -275,6 +280,16 @@ export default function BookingPage() {
   );
   const [storedAddress, setStoredAddress] = useState<StoredAddress | null>(null);
   const { customerName, customerEmail, accountLoading } = useCustomerAccount();
+
+  // Handle phone number input to ensure it's a valid number
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, field: any) => {
+    const value = e.target.value;
+    if (value === '') {
+      field.onChange(0);
+    } else if (/^\d+$/.test(value)) {
+      field.onChange(Number(value));
+    }
+  };
   const isAccountLocked = !accountLoading && Boolean(customerName || customerEmail);
   const [prefilledBookingId, setPrefilledBookingId] = useState<string | null>(null);
   const [recentBookingId, setRecentBookingId] = useState<string | null>(null);
@@ -361,7 +376,7 @@ export default function BookingPage() {
       lastName: "",
       email: "",
       secondaryEmail: "",
-      phone: "",
+      phone: 0,
       secondaryPhone: "",
       addressPreference: "new",
       address: "",
@@ -481,7 +496,7 @@ export default function BookingPage() {
       squareMeters: "",
       bedroom: "",
       bathroom: "",
-      extras: "",
+      extras: [],
       isPartialCleaning: false,
       excludedAreas: [],
     };
@@ -529,6 +544,23 @@ export default function BookingPage() {
 
     const existingCustomization = getCardCustomization(service.id);
     const presetCustomization = sourceBooking.customization ?? {};
+
+    const normalizeExtrasArray = (value: unknown): string[] => {
+      if (Array.isArray(value)) {
+        return value.filter((v): v is string => typeof v === "string" && v.trim().length > 0);
+      }
+      if (typeof value === "string") {
+        return value
+          .split(",")
+          .map((v) => v.trim())
+          .filter((v) => v.length > 0);
+      }
+      return [];
+    };
+
+    const presetExtras = normalizeExtrasArray((presetCustomization as any).extras);
+    const existingExtras = normalizeExtrasArray((getCardCustomization(service.id) as any).extras);
+
     const rebookCustomization: ServiceCustomization = {
       frequency:
         normalizeSelectValue(sourceBooking.frequency, FREQUENCY_OPTIONS) ||
@@ -543,10 +575,7 @@ export default function BookingPage() {
       bathroom:
       	normalizeSelectValue(presetCustomization.bathroom, BATHROOM_OPTIONS) ||
         normalizeSelectValue(existingCustomization.bathroom, BATHROOM_OPTIONS),
-      extras:
-        normalizeSelectValue(presetCustomization.extras, EXTRAS_OPTIONS) ||
-        normalizeSelectValue(existingCustomization.extras, EXTRAS_OPTIONS) ||
-        "None",
+      extras: presetExtras.length ? presetExtras : existingExtras.length ? existingExtras : [],
       isPartialCleaning:
         presetCustomization.isPartialCleaning ?? existingCustomization.isPartialCleaning ?? false,
       excludedAreas: presetCustomization.excludedAreas ?? existingCustomization.excludedAreas ?? [],
@@ -575,7 +604,8 @@ export default function BookingPage() {
     }
 
     if (sourceBooking.contact) {
-      form.setValue("phone", sanitizePhoneNumber(sourceBooking.contact));
+      // Convert contact to string before sanitizing
+      form.setValue("phone", Number(sanitizePhoneNumber(String(sourceBooking.contact))));
     }
 
     toast({
@@ -616,7 +646,7 @@ export default function BookingPage() {
       address: bookingData.aptNo
         ? `${bookingData.address}, Apt ${bookingData.aptNo}`
         : bookingData.address,
-      contact: bookingData.phone,
+      contact: String(bookingData.phone), // Convert phone number to string for contact field
       notes: bookingData.notes ?? "",
       price: selectedService.price ?? 0,
       tipAmount: undefined,
@@ -626,7 +656,7 @@ export default function BookingPage() {
         squareMeters: serviceCustomization.squareMeters,
         bedroom: serviceCustomization.bedroom,
         bathroom: serviceCustomization.bathroom,
-        extras: serviceCustomization.extras || "None",
+        extras: serviceCustomization.extras && serviceCustomization.extras.length > 0 ? serviceCustomization.extras : ["None"],
         isPartialCleaning: serviceCustomization.isPartialCleaning,
         excludedAreas: serviceCustomization.excludedAreas,
       },
@@ -877,11 +907,14 @@ export default function BookingPage() {
                   <div className={styles.summaryItem}>
                     <strong>Bathroom:</strong> {serviceCustomization.bathroom}
                   </div>
-                  {serviceCustomization.extras && serviceCustomization.extras !== "None" && (
-                    <div className={styles.summaryItem}>
-                      <strong>Extras:</strong> {serviceCustomization.extras}
-                    </div>
-                  )}
+                  {serviceCustomization.extras &&
+                    Array.isArray(serviceCustomization.extras) &&
+                    serviceCustomization.extras.length > 0 &&
+                    !(serviceCustomization.extras.length === 1 && serviceCustomization.extras[0] === "None") && (
+                      <div className={styles.summaryItem}>
+                        <strong>Extras:</strong> {serviceCustomization.extras.join(", ")}
+                      </div>
+                    )}
                   <div className={styles.summaryItem}>
                     <strong>Date:</strong> {format(bookingData.date, "PPP")}
                   </div>
@@ -1177,7 +1210,14 @@ export default function BookingPage() {
                             <FormItem className={styles.formGroup}>
                               <FormLabel className={styles.formLabel}>Phone Number</FormLabel>
                               <FormControl>
-                                <Input className={styles.formInput} placeholder="(123) 456-7890" {...field} />
+                                <Input 
+                                  type="tel" 
+                                  className={styles.formInput} 
+                                  placeholder="1234567890" 
+                                  {...field}
+                                  value={field.value || ''}
+                                  onChange={(e) => handlePhoneChange(e, field)}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -1206,7 +1246,14 @@ export default function BookingPage() {
                           <FormItem className={styles.formGroup}>
                             <FormLabel className={styles.formLabel}>Secondary Phone (Optional)</FormLabel>
                             <FormControl>
-                              <Input className={styles.formInput} placeholder="(987) 654-3210" {...field} />
+                              <Input 
+                                type="tel" 
+                                className={styles.formInput} 
+                                placeholder="9876543210" 
+                                {...field}
+                                value={field.value || ''}
+                                onChange={(e) => handlePhoneChange(e, field)}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

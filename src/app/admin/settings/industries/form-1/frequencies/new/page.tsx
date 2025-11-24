@@ -111,14 +111,6 @@ export default function FrequencyNewPage() {
       localStorage.setItem(storageKey, JSON.stringify([...rows, newRow]));
     }
 
-    if (form.isDefault) {
-      try {
-        const arr: Row[] = JSON.parse(localStorage.getItem(storageKey) || "[]");
-        const normalized = arr.map(r => ({ ...r, isDefault: editId ? r.id === editId : r.id === Math.max(...arr.map(a => a.id)) }));
-        localStorage.setItem(storageKey, JSON.stringify(normalized));
-      } catch {}
-    }
-
     router.push(`/admin/settings/industries/form-1/frequencies?industry=${encodeURIComponent(industry)}`);
   };
 

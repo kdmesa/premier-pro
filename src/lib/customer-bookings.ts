@@ -22,7 +22,7 @@ export type Booking = {
     squareMeters?: string;
     bedroom?: string;
     bathroom?: string;
-    extras?: string;
+    extras?: string[];
     isPartialCleaning?: boolean;
     excludedAreas?: string[];
   };
@@ -51,7 +51,7 @@ export const defaultBookings: Booking[] = [
       squareMeters: "1-1249 sqm",
       bedroom: "3 Bedrooms",
       bathroom: "2 Bathrooms",
-      extras: "Inside Oven",
+      extras: ["Inside Oven"],
       isPartialCleaning: false,
       excludedAreas: [],
     },
@@ -73,7 +73,7 @@ export const defaultBookings: Booking[] = [
       squareMeters: "21-30 sqm",
       bedroom: "2 Bedrooms",
       bathroom: "2 Bathrooms",
-      extras: "Laundry",
+      extras: ["Laundry"],
       isPartialCleaning: false,
       excludedAreas: [],
     },
@@ -95,7 +95,7 @@ export const defaultBookings: Booking[] = [
       squareMeters: "1-1249 sqm",
       bedroom: "4 Bedrooms",
       bathroom: "3 Bathrooms",
-      extras: "Inside Cabinets",
+      extras: ["Inside Cabinets"],
       isPartialCleaning: false,
       excludedAreas: [],
     },
@@ -117,7 +117,7 @@ export const defaultBookings: Booking[] = [
       squareMeters: "41-50 sqm",
       bedroom: "5 Bedrooms",
       bathroom: "4 Bathrooms",
-      extras: "Windows",
+      extras: ["Windows"],
       isPartialCleaning: true,
       excludedAreas: ["Half Bathroom"],
     },
@@ -144,6 +144,20 @@ const normalizeBooking = (booking: Booking | Partial<Booking>) => {
   const customizationDefaults = defaultCustomizationById[booking.id as keyof typeof defaultCustomizationById] ?? {};
   const existingCustomization = booking.customization ?? {};
 
+  const normalizeExtrasArray = (value: unknown): string[] => {
+    if (Array.isArray(value)) {
+      return value.filter((v): v is string => typeof v === "string" && v.trim().length > 0);
+    }
+    if (typeof value === "string") {
+      if (!value.trim()) return [];
+      return value
+        .split(",")
+        .map((v) => v.trim())
+        .filter((v) => v.length > 0);
+    }
+    return [];
+  };
+
   return {
     ...booking,
     provider: provider || defaults.provider || "",
@@ -162,7 +176,12 @@ const normalizeBooking = (booking: Booking | Partial<Booking>) => {
       squareMeters: existingCustomization.squareMeters ?? customizationDefaults.squareMeters ?? "",
       bedroom: existingCustomization.bedroom ?? customizationDefaults.bedroom ?? "",
       bathroom: existingCustomization.bathroom ?? customizationDefaults.bathroom ?? "",
-      extras: existingCustomization.extras ?? customizationDefaults.extras ?? "None",
+      extras:
+        normalizeExtrasArray((existingCustomization as any).extras).length
+          ? normalizeExtrasArray((existingCustomization as any).extras)
+          : normalizeExtrasArray((customizationDefaults as any).extras).length
+          ? normalizeExtrasArray((customizationDefaults as any).extras)
+          : ["None"],
       isPartialCleaning:
         existingCustomization.isPartialCleaning ?? customizationDefaults.isPartialCleaning ?? false,
       excludedAreas:

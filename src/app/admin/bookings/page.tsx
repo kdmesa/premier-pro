@@ -164,6 +164,7 @@ export default function BookingsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [bookings, setBookings] = useState<Booking[]>(defaultBookings);
+  const [hydrated, setHydrated] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
@@ -185,12 +186,14 @@ export default function BookingsPage() {
         console.error("Failed to parse stored bookings", error);
       }
     }
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!hydrated) return;
     localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(bookings));
-  }, [bookings]);
+  }, [bookings, hydrated]);
 
 
   const filteredBookings = bookings.filter((booking) => {

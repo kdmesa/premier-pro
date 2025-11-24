@@ -36,7 +36,7 @@ export interface ServiceCustomization {
   squareMeters: string;
   bedroom: string;
   bathroom: string;
-  extras: string;
+  extras: string[];
   isPartialCleaning: boolean;
   excludedAreas: string[];
 }
@@ -84,6 +84,8 @@ export default function ServiceCard({ service, isSelected, onSelect, flippedCard
     setIsConfirmed(true);
     onFlip("");
   };
+
+  const EXTRA_OPTIONS = ["Inside Fridge", "Inside Oven", "Inside Cabinets", "Laundry", "Windows"];
 
   return (
     <div className={styles.cardContainer}>
@@ -269,27 +271,35 @@ export default function ServiceCard({ service, isSelected, onSelect, flippedCard
                 </div>
               )}
 
-              {/* Row 3: Extras (Full Width) */}
+              {/* Row 3: Extras (Full Width, Two Columns) */}
               <div className={styles.formField}>
                 <label className={styles.fieldLabel}>Extras (Optional)</label>
-                <Select
-                  value={customization.extras}
-                  onValueChange={(value) =>
-                    onCustomizationChange(service.id, { ...customization, extras: value })
-                  }
-                >
-                  <SelectTrigger className={styles.selectTrigger}>
-                    <SelectValue placeholder="Select extras" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="None">None</SelectItem>
-                    <SelectItem value="Inside Fridge">Inside Fridge</SelectItem>
-                    <SelectItem value="Inside Oven">Inside Oven</SelectItem>
-                    <SelectItem value="Inside Cabinets">Inside Cabinets</SelectItem>
-                    <SelectItem value="Laundry">Laundry</SelectItem>
-                    <SelectItem value="Windows">Windows</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {EXTRA_OPTIONS.map((extra) => (
+                    <div key={extra} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`${service.id}-extra-${extra}`}
+                        checked={customization.extras?.includes(extra) || false}
+                        onCheckedChange={(checked) => {
+                          const currentExtras = customization.extras || [];
+                          const newExtras = checked
+                            ? [...currentExtras, extra]
+                            : currentExtras.filter((e) => e !== extra);
+                          onCustomizationChange(service.id, {
+                            ...customization,
+                            extras: newExtras,
+                          });
+                        }}
+                      />
+                      <label
+                        htmlFor={`${service.id}-extra-${extra}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {extra}
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

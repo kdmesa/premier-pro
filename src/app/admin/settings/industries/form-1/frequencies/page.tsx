@@ -8,11 +8,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useEffect, useMemo, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 import { ChevronDown } from "lucide-react";
 
 export default function IndustryFormFrequenciesPage() {
   const params = useSearchParams();
   const router = useRouter();
+  const { toast } = useToast();
   const industry = params.get("industry") || "Industry";
   type Row = {
     id: number;
@@ -29,10 +31,9 @@ export default function IndustryFormFrequenciesPage() {
   };
   const storageKey = useMemo(() => `frequencies_${industry}`, [industry]);
   const [rows, setRows] = useState<Row[]>([]);
-  const [status, setStatus] = useState("Active");
   const sampleRows: Row[] = [
-    { id: 9, name: "2x per week", discount: 0, display: "Both" },
-    { id: 1, name: "One-Time", discount: 0, display: "Both", isDefault: true },
+    { id: 9, name: "2x per week", discount: 5, display: "Both" },
+    { id: 1, name: "One-Time", discount: 3, display: "Both", isDefault: true },
     { id: 10, name: "Weekly", discount: 15, display: "Both" },
     { id: 11, name: "Every Other Week", discount: 10, display: "Both" },
     { id: 12, name: "Monthly", discount: 5, display: "Both" },
@@ -73,7 +74,10 @@ export default function IndustryFormFrequenciesPage() {
   }, [storageKey]);
 
   const remove = (id: number) => setRows(prev => prev.filter(r => r.id !== id));
-  const makeDefault = (id: number) => setRows(prev => prev.map(r => ({ ...r, isDefault: r.id === id })));
+  const toggleDefault = (id: number) =>
+    setRows(prev =>
+      prev.map(r => (r.id === id ? { ...r, isDefault: !r.isDefault } : r)),
+    );
   const move = (id: number, dir: -1 | 1) => setRows(prev => {
     const idx = prev.findIndex(r => r.id === id);
     if (idx < 0) return prev;
@@ -85,21 +89,29 @@ export default function IndustryFormFrequenciesPage() {
     return copy;
   });
 
+  const updatePriority = () => {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(rows));
+      const genericKey = "frequencies_Industry";
+      localStorage.setItem(genericKey, JSON.stringify(rows));
+      const homeCleaningKey = "frequencies_Home Cleaning";
+      localStorage.setItem(homeCleaningKey, JSON.stringify(rows));
+      toast({
+        title: "Frequencies updated",
+        description: "Default frequencies and order have been saved.",
+      });
+    } catch {}
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-32"><SelectValue placeholder="Status" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="flex justify-end">
         <div className="flex items-center gap-2">
           {rows.length === 0 && (
             <Button variant="secondary" onClick={() => { setRows(sampleRows); localStorage.setItem(storageKey, JSON.stringify(sampleRows)); }}>Load Sample Data</Button>
           )}
           <Button variant="outline" onClick={() => router.push(`/admin/settings/industries/form-1/frequencies/new?industry=${encodeURIComponent(industry)}`)}>Add New</Button>
+          <Button variant="default" onClick={updatePriority}>Update priority</Button>
         </div>
       </div>
 
@@ -136,7 +148,7 @@ export default function IndustryFormFrequenciesPage() {
                     </TableCell>
                     <TableCell>{r.display}</TableCell>
                     <TableCell>
-                      <Checkbox checked={!!r.isDefault} onCheckedChange={() => makeDefault(r.id)} />
+                      <Checkbox checked={!!r.isDefault} onCheckedChange={() => toggleDefault(r.id)} />
                     </TableCell>
                     <TableCell>{r.id}</TableCell>
                     <TableCell className="text-right">
@@ -156,9 +168,6 @@ export default function IndustryFormFrequenciesPage() {
                 ))}
               </TableBody>
             </Table>
-          </div>
-          <div className="mt-4">
-            <Button variant="default" className="text-white" style={{ background: "linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)" }}>Update Priority</Button>
           </div>
         </CardContent>
       </Card>
