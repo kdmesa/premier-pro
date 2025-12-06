@@ -19,11 +19,43 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export const customerNavItems = [
-  { label: "Dashboard", href: "/customer/dashboard", icon: LayoutDashboard },
-  { label: "Appointments", href: "/customer/appointments", icon: CalendarCheck },
-  { label: "Previous appointments", href: "/customer/appointments/history", icon: History },
-  { label: "Canceled appointments", href: "/customer/appointments/canceled", icon: CircleOff },
+type NavItem = {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  iconBg: string;
+  iconColor: string;
+};
+
+export const customerNavItems: NavItem[] = [
+  { 
+    label: "Dashboard", 
+    href: "/customer/dashboard", 
+    icon: LayoutDashboard,
+    iconBg: "bg-blue-100",
+    iconColor: "text-blue-600"
+  },
+  { 
+    label: "Appointments", 
+    href: "/customer/appointments", 
+    icon: CalendarCheck,
+    iconBg: "bg-green-100",
+    iconColor: "text-green-600"
+  },
+  { 
+    label: "Previous appointments", 
+    href: "/customer/appointments/history", 
+    icon: History,
+    iconBg: "bg-purple-100",
+    iconColor: "text-purple-600"
+  },
+  { 
+    label: "Canceled appointments", 
+    href: "/customer/appointments/canceled", 
+    icon: CircleOff,
+    iconBg: "bg-red-100",
+    iconColor: "text-red-600"
+  },
 ];
 
 type CustomerSidebarProps = {
@@ -51,11 +83,13 @@ export const CustomerSidebar = ({ customerName, customerEmail, initials, onLogou
               key={item.label}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-primary/10",
-                isActive ? "bg-primary/10 text-primary" : "text-muted-foreground",
+                "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition hover:bg-primary/5",
+                isActive ? "bg-primary/5 text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <Icon className="h-4 w-4" />
+              <div className={cn("flex h-8 w-8 items-center justify-center rounded-full", item.iconBg, item.iconColor)}>
+                <Icon className="h-4 w-4" />
+              </div>
               <span>{item.label}</span>
             </Link>
           );

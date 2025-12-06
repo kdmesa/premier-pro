@@ -47,6 +47,7 @@ const AdminLogin = () => {
         // Store auth token (in real app, use proper token management)
         localStorage.setItem("adminAuth", "true");
         localStorage.setItem("adminEmail", values.email);
+        localStorage.setItem("userRole", "admin");
         
         toast({
           title: "Login Successful!",
@@ -56,6 +57,22 @@ const AdminLogin = () => {
         // Redirect to admin dashboard
         setTimeout(() => {
           router.push("/admin");
+        }, 500);
+      } else if (values.email === "provider@orbitbooking.com" && values.password === "provider123") {
+        // Provider login
+        localStorage.setItem("providerAuth", "true");
+        localStorage.setItem("providerEmail", values.email);
+        localStorage.setItem("providerName", "John Smith");
+        localStorage.setItem("userRole", "provider");
+        
+        toast({
+          title: "Login Successful!",
+          description: "Welcome to your Provider Dashboard",
+        });
+        
+        // Redirect to provider dashboard
+        setTimeout(() => {
+          router.push("/provider/dashboard");
         }, 500);
       } else {
         throw new Error("Invalid credentials");
@@ -90,10 +107,17 @@ const AdminLogin = () => {
           </div>
 
           {/* Demo Credentials Info */}
-          <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-            <p className="text-xs font-semibold text-primary mb-2">Demo Credentials:</p>
-            <p className="text-xs text-muted-foreground">Email: admin@orbitbooking.com</p>
-            <p className="text-xs text-muted-foreground">Password: admin123</p>
+          <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg space-y-3">
+            <div>
+              <p className="text-xs font-semibold text-primary mb-1">Admin Credentials:</p>
+              <p className="text-xs text-muted-foreground">Email: admin@orbitbooking.com</p>
+              <p className="text-xs text-muted-foreground">Password: admin123</p>
+            </div>
+            <div className="border-t border-primary/20 pt-2">
+              <p className="text-xs font-semibold text-primary mb-1">Provider Credentials:</p>
+              <p className="text-xs text-muted-foreground">Email: provider@orbitbooking.com</p>
+              <p className="text-xs text-muted-foreground">Password: provider123</p>
+            </div>
           </div>
 
           {/* Login Form */}

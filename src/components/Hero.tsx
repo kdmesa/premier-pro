@@ -7,6 +7,7 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <section 
+      id="home"
       className="relative pt-20 pb-16 px-4 min-h-screen flex items-center overflow-hidden"
       style={{
         backgroundImage: `url('/images/hero-background-chicago.png')`,

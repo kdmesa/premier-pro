@@ -32,23 +32,63 @@ const Navigation = () => {
     };
   }, []);
 
-  const handleSectionClick = (sectionId: string) => {
-    if (pathname !== '/') {
-      // If not on home page, navigate to home first, then scroll
-      router.push('/');
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Update URL with hash without page reload
+      window.history.pushState({}, '', `/builder#${sectionId}`);
+    }
+    setMobileMenuOpen(false);
+  };
+
+  // Handle hash changes and initial page load with hash
+  useEffect(() => {
+    const handleHashChange = () => {
+      // Only handle if we're on the builder page
+      if (pathname === '/builder') {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+          const element = document.getElementById(hash);
+          if (element) {
+            // Small delay to ensure all components are mounted
+            setTimeout(() => {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }
         }
-      }, 100);
+      }
+    };
+
+    // Initial check
+    if (pathname === '/builder' && window.location.hash) {
+      handleHashChange();
+    }
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [pathname]);
+
+  // Helper function to handle section click with proper typing
+  const handleSectionClick = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
+    
+    if (pathname !== '/builder') {
+      // If not on the builder page, navigate to builder with hash
+      router.push(`/builder#${sectionId}`);
     } else {
-      // If on home page, just scroll
+      // If already on builder page, just scroll to the section
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState({}, '', `/builder#${sectionId}`);
       }
     }
+    
     setMobileMenuOpen(false);
   };
 
@@ -56,44 +96,48 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+          <Link href="/builder" className="flex items-center gap-3 cursor-pointer">
             <img src="/images/logo.png" alt="Premier Pro Cleaners" className="h-12 w-12" />
             <span className="text-xl font-bold gradient-text">Premier Pro Cleaners</span>
           </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => handleSectionClick('how-it-works')} 
+            <Link 
+              href="/builder#how-it-works"
+              onClick={(e) => handleSectionClick(e, 'how-it-works')}
               className="text-foreground hover:text-primary transition-colors cursor-pointer"
             >
               How It Works
-            </button>
-            <button 
-              onClick={() => handleSectionClick('services')} 
+            </Link>
+            <Link 
+              href="/builder#services"
+              onClick={(e) => handleSectionClick(e, 'services')}
               className="text-foreground hover:text-primary transition-colors cursor-pointer"
             >
               Services
-            </button>
-            <button 
-              onClick={() => handleSectionClick('reviews')} 
+            </Link>
+            <Link 
+              href="/builder#reviews"
+              onClick={(e) => handleSectionClick(e, 'reviews')}
               className="text-foreground hover:text-primary transition-colors cursor-pointer"
             >
               Reviews
-            </button>
-            <button 
-              onClick={() => handleSectionClick('contact')} 
+            </Link>
+            <Link 
+              href="/builder#contact"
+              onClick={(e) => handleSectionClick(e, 'contact')}
               className="text-foreground hover:text-primary transition-colors cursor-pointer"
             >
               Contact
-            </button>
+            </Link>
             <Button variant="outline" size="sm" asChild>
               <Link href={isCustomerAuthenticated ? "/customer/dashboard" : "/login"}>
                 {isCustomerAuthenticated ? "My Dashboard" : "Login"}
               </Link>
             </Button>
             <Button asChild size="sm">
-              <Link href="/book-now">Book Now</Link>
+              <Link href="/builder/help-center">Book Now</Link>
             </Button>
           </div>
 
@@ -109,38 +153,42 @@ const Navigation = () => {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 space-y-4">
-            <button
-              onClick={() => handleSectionClick('how-it-works')}
-              className="block text-foreground hover:text-primary transition-colors w-full text-left"
+            <Link
+              href="/builder#how-it-works"
+              onClick={(e) => handleSectionClick(e, 'how-it-works')}
+              className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4"
             >
               How It Works
-            </button>
-            <button
-              onClick={() => handleSectionClick('services')}
-              className="block text-foreground hover:text-primary transition-colors w-full text-left"
+            </Link>
+            <Link
+              href="/builder#services"
+              onClick={(e) => handleSectionClick(e, 'services')}
+              className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4"
             >
               Services
-            </button>
-            <button
-              onClick={() => handleSectionClick('reviews')}
-              className="block text-foreground hover:text-primary transition-colors w-full text-left"
+            </Link>
+            <Link
+              href="/builder#reviews"
+              onClick={(e) => handleSectionClick(e, 'reviews')}
+              className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4"
             >
               Reviews
-            </button>
-            <button
-              onClick={() => handleSectionClick('contact')}
-              className="block text-foreground hover:text-primary transition-colors w-full text-left"
+            </Link>
+            <Link
+              href="/builder#contact"
+              onClick={(e) => handleSectionClick(e, 'contact')}
+              className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4"
             >
               Contact
-            </button>
+            </Link>
             <div className="flex flex-col space-y-2 pt-2">
               <Button variant="outline" size="sm" asChild>
-                <Link href={isCustomerAuthenticated ? "/customer/dashboard" : "/login"}>
+                <Link href={isCustomerAuthenticated ? "/builder/customer/dashboard" : "/builder/login"}>
                   {isCustomerAuthenticated ? "My Dashboard" : "Login"}
                 </Link>
               </Button>
               <Button size="sm" asChild>
-                <Link href="/book-now">Get Started</Link>
+                <Link href="/builder/faq">Get Started</Link>
               </Button>
             </div>
           </div>

@@ -92,6 +92,16 @@ type PaymentMethod = "cash" | "online" | null;
 type BookingStep = "category" | "details" | "payment" | "success";
 type ServiceCategory = string | null;
 
+type PricingTier = {
+  id: number;
+  name: string;
+  price: number;
+  time: string;
+  display: string;
+  serviceCategory: string;
+  frequency: string;
+};
+
 const DEFAULT_INDUSTRIES = ["Home Cleaning"];
 
 const toIndustryKey = (label: string) =>
@@ -280,6 +290,7 @@ export default function BookingPage() {
   );
   const [storedAddress, setStoredAddress] = useState<StoredAddress | null>(null);
   const { customerName, customerEmail, accountLoading } = useCustomerAccount();
+  const [pricingRows, setPricingRows] = useState<PricingTier[]>([]);
 
   // Handle phone number input to ensure it's a valid number
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, field: any) => {
@@ -300,6 +311,38 @@ export default function BookingPage() {
   );
 
   const selectedIndustryLabel = selectedIndustry?.label ?? "";
+
+  // Load pricing tiers for the selected industry (e.g., Home Cleaning) from localStorage
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const labelsToTry = selectedIndustryLabel
+      ? [selectedIndustryLabel, "Home Cleaning", "Industry"]
+      : ["Home Cleaning", "Industry"];
+    for (const label of labelsToTry) {
+      try {
+        const raw = localStorage.getItem(`pricingParams_${label}`);
+        if (!raw) continue;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setPricingRows(
+            parsed.map((row: any) => ({
+              id: Number(row.id) || 0,
+              name: String(row.name ?? ""),
+              price: typeof row.price === "number" ? row.price : Number(row.price) || 0,
+              time: String(row.time ?? ""),
+              display: String(row.display ?? ""),
+              serviceCategory: String(row.serviceCategory ?? ""),
+              frequency: String(row.frequency ?? ""),
+            })),
+          );
+          return;
+        }
+      } catch {
+        // ignore invalid data and try next label
+      }
+    }
+    setPricingRows([]);
+  }, [selectedIndustryLabel]);
 
   useEffect(() => {
     const buildOptions = (labels: string[]) => {
@@ -708,6 +751,19 @@ export default function BookingPage() {
   // Get service price
   const getServicePrice = (serviceName: string) => {
     if (!selectedCategory) return 0;
+
+    // If we have dynamic pricing tiers and customization (e.g., Home Cleaning), prefer tier price
+    if (pricingRows.length > 0 && serviceCustomization) {
+      const idx = AREA_SIZE_OPTIONS.findIndex((opt) => opt === serviceCustomization.squareMeters);
+      if (idx >= 0 && idx < pricingRows.length) {
+        const tier = pricingRows[idx];
+        if (tier && typeof tier.price === "number" && !Number.isNaN(tier.price)) {
+          return tier.price;
+        }
+      }
+    }
+
+    // Fallback to hardcoded service prices
     const services = servicesByIndustry[selectedCategory] ?? [];
     const service = services.find((s) => s.name === serviceName);
     return service?.price || 0;

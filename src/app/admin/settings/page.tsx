@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
+import Image from "next/image";
 import { 
   Save,
   Building2,
@@ -15,7 +16,9 @@ import {
   Phone,
   MapPin,
   Bell,
-  Shield
+  Shield,
+  ExternalLink,
+  LayoutTemplate
 } from "lucide-react";
 
 export default function SettingsPage() {
@@ -53,6 +56,64 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6">
+      {/* Website Builder Preview */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <LayoutTemplate className="h-5 w-5 text-primary" />
+            <CardTitle>Website Builder</CardTitle>
+          </div>
+          <CardDescription>
+            Preview and customize your website's appearance
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="relative group">
+            <div className="relative aspect-video overflow-hidden rounded-lg border">
+              <Image
+                src="/website-preview.jpg"
+                alt="Website Preview"
+                width={1200}
+                height={675}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div className="text-white">
+                  <h3 className="text-xl font-bold mb-1">Premier Pro Cleaners</h3>
+                  <p className="text-sm text-white/80 mb-4">Professional Cleaning Services</p>
+                  <div className="flex items-center gap-3">
+                    <Button variant="outline" className="bg-white/10 hover:bg-white/20 border-white/20 text-white backdrop-blur-sm">
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Visit Website
+                    </Button>
+                    <Button variant="outline" className="bg-white/10 hover:bg-white/20 border-white/20 text-white backdrop-blur-sm">
+                      Customize Design
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="p-4 border rounded-lg text-center">
+                <div className="text-sm font-medium mb-1">Homepage</div>
+                <div className="text-xs text-muted-foreground">Main Landing</div>
+              </div>
+              <div className="p-4 border rounded-lg text-center bg-muted/50">
+                <div className="text-sm font-medium mb-1">Services</div>
+                <div className="text-xs text-muted-foreground">Our Offerings</div>
+              </div>
+              <div className="p-4 border rounded-lg text-center bg-muted/50">
+                <div className="text-sm font-medium mb-1">About Us</div>
+                <div className="text-xs text-muted-foreground">Our Story</div>
+              </div>
+              <div className="p-4 border rounded-lg text-center bg-muted/50">
+                <div className="text-sm font-medium mb-1">Contact</div>
+                <div className="text-xs text-muted-foreground">Get in Touch</div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
       {/* Company Information */}
       <Card>
         <CardHeader>

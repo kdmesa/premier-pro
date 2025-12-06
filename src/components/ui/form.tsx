@@ -59,9 +59,12 @@ type FormItemContextValue = {
 
 const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
 
-const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
-    const id = React.useId();
+const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { id?: string }>(
+  ({ className, id: idProp, ...props }, ref) => {
+    // Generate ID on the client side only
+    const clientId = React.useId();
+    // Use provided ID if available, otherwise use the generated client ID
+    const [id] = React.useState(() => idProp || `form-item-${clientId}`);
 
     return (
       <FormItemContext.Provider value={{ id }}>

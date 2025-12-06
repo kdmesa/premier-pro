@@ -367,6 +367,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premi
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/node_modules/lucide-react/dist/esm/icons/calendar.js [app-client] (ecmascript) <export default as Calendar>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Search$3e$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/node_modules/lucide-react/dist/esm/icons/search.js [app-client] (ecmascript) <export default as Search>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/node_modules/lucide-react/dist/esm/icons/user.js [app-client] (ecmascript) <export default as User>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCheck$3e$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/node_modules/lucide-react/dist/esm/icons/user-check.js [app-client] (ecmascript) <export default as UserCheck>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldCheck$3e$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/node_modules/lucide-react/dist/esm/icons/shield-check.js [app-client] (ecmascript) <export default as ShieldCheck>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2d$ring$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BellRing$3e$__ = __turbopack_context__.i("[project]/OneDrive/Desktop/Premier-pro/node_modules/lucide-react/dist/esm/icons/bell-ring.js [app-client] (ecmascript) <export default as BellRing>");
 ;
 var _s = __turbopack_context__.k.signature();
 "use client";
@@ -419,6 +422,12 @@ function CustomerProfilePage() {
         name: "",
         email: "",
         phone: ""
+    });
+    const [buttonStates, setButtonStates] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        isActive: true,
+        isBlocked: false,
+        isBookingBlocked: false,
+        isSubscribed: true
     });
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CustomerProfilePage.useEffect": ()=>{
@@ -595,7 +604,7 @@ function CustomerProfilePage() {
                     children: "Loading customer..."
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                    lineNumber: 195,
+                    lineNumber: 201,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -604,13 +613,13 @@ function CustomerProfilePage() {
                     children: "Back to Customers"
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                    lineNumber: 196,
+                    lineNumber: 202,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-            lineNumber: 194,
+            lineNumber: 200,
             columnNumber: 7
         }, this);
     }
@@ -632,12 +641,12 @@ function CustomerProfilePage() {
                                         className: "h-5 w-5"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 213,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 206,
+                                    lineNumber: 212,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -645,18 +654,18 @@ function CustomerProfilePage() {
                                     children: customer.name
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 209,
+                                    lineNumber: 215,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 205,
+                            lineNumber: 211,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 204,
+                        lineNumber: 210,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -671,23 +680,23 @@ function CustomerProfilePage() {
                                 children: "New Booking"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 214,
+                                lineNumber: 220,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 213,
+                            lineNumber: 219,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 212,
+                        lineNumber: 218,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                lineNumber: 203,
+                lineNumber: 209,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -704,7 +713,7 @@ function CustomerProfilePage() {
                                         children: initials
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 229,
+                                        lineNumber: 235,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -718,7 +727,7 @@ function CustomerProfilePage() {
                                                         children: "Email:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 234,
+                                                        lineNumber: 240,
                                                         columnNumber: 19
                                                     }, this),
                                                     " ",
@@ -728,13 +737,13 @@ function CustomerProfilePage() {
                                                         children: customer.email
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 235,
+                                                        lineNumber: 241,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                lineNumber: 233,
+                                                lineNumber: 239,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -745,7 +754,7 @@ function CustomerProfilePage() {
                                                         children: "Phone:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 239,
+                                                        lineNumber: 245,
                                                         columnNumber: 42
                                                     }, this),
                                                     " ",
@@ -753,7 +762,7 @@ function CustomerProfilePage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                lineNumber: 239,
+                                                lineNumber: 245,
                                                 columnNumber: 17
                                             }, this),
                                             customer.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -764,7 +773,7 @@ function CustomerProfilePage() {
                                                         children: "Address:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 240,
+                                                        lineNumber: 246,
                                                         columnNumber: 63
                                                     }, this),
                                                     " ",
@@ -772,7 +781,7 @@ function CustomerProfilePage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                lineNumber: 240,
+                                                lineNumber: 246,
                                                 columnNumber: 38
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -783,7 +792,7 @@ function CustomerProfilePage() {
                                                         children: "Status:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 241,
+                                                        lineNumber: 247,
                                                         columnNumber: 42
                                                     }, this),
                                                     " ",
@@ -792,128 +801,223 @@ function CustomerProfilePage() {
                                                         children: customer.status || "active"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 241,
+                                                        lineNumber: 247,
                                                         columnNumber: 87
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                lineNumber: 241,
+                                                lineNumber: 247,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 232,
+                                        lineNumber: 238,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 228,
+                                lineNumber: 234,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "w-full md:w-[420px]",
+                                className: "w-full md:w-auto",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "grid grid-cols-1 sm:grid-cols-2 gap-3",
+                                    className: "flex items-center gap-3",
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            variant: "outline",
-                                            className: "justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "relative group",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$minus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserMinus$3e$__["UserMinus"], {
-                                                    className: "h-4 w-4 mr-2"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: "outline",
+                                                    size: "icon",
+                                                    className: `h-10 w-10 rounded-full ${buttonStates.isActive ? 'bg-slate-200 hover:bg-slate-300' : 'bg-green-100 hover:bg-green-200'} text-slate-800 dark:bg-slate-800/60 dark:text-slate-200`,
+                                                    onClick: ()=>setButtonStates((prev)=>({
+                                                                ...prev,
+                                                                isActive: !prev.isActive
+                                                            })),
+                                                    children: buttonStates.isActive ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$minus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserMinus$3e$__["UserMinus"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 265,
+                                                        columnNumber: 23
+                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCheck$3e$__["UserCheck"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 267,
+                                                        columnNumber: 23
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 252,
+                                                    lineNumber: 255,
                                                     columnNumber: 19
                                                 }, this),
-                                                "Deactivate"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap",
+                                                    children: buttonStates.isActive ? 'Deactivate' : 'Activate'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                    lineNumber: 270,
+                                                    columnNumber: 19
+                                                }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 248,
+                                            lineNumber: 254,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            variant: "outline",
-                                            className: "justify-start rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/20 dark:text-amber-300",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "relative group",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$ban$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldBan$3e$__["ShieldBan"], {
-                                                    className: "h-4 w-4 mr-2"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: "outline",
+                                                    size: "icon",
+                                                    className: `h-10 w-10 rounded-full ${buttonStates.isBlocked ? 'bg-red-100 hover:bg-red-200' : 'bg-amber-100 hover:bg-amber-200'} text-amber-800 dark:bg-amber-900/20 dark:text-amber-300`,
+                                                    onClick: ()=>setButtonStates((prev)=>({
+                                                                ...prev,
+                                                                isBlocked: !prev.isBlocked
+                                                            })),
+                                                    children: buttonStates.isBlocked ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldCheck$3e$__["ShieldCheck"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 286,
+                                                        columnNumber: 23
+                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$ban$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldBan$3e$__["ShieldBan"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 288,
+                                                        columnNumber: 23
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 259,
+                                                    lineNumber: 276,
                                                     columnNumber: 19
                                                 }, this),
-                                                "Block Access"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap",
+                                                    children: buttonStates.isBlocked ? 'Unblock Access' : 'Block Access'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                    lineNumber: 291,
+                                                    columnNumber: 19
+                                                }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 255,
+                                            lineNumber: 275,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            className: "justify-start rounded-md bg-red-500 hover:bg-red-600 text-white",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "relative group",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
-                                                    className: "h-4 w-4 mr-2"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: buttonStates.isBookingBlocked ? 'default' : 'outline',
+                                                    size: "icon",
+                                                    className: `h-10 w-10 rounded-full ${buttonStates.isBookingBlocked ? 'bg-red-500 hover:bg-red-600' : 'bg-slate-200 hover:bg-slate-300'} text-white`,
+                                                    onClick: ()=>setButtonStates((prev)=>({
+                                                                ...prev,
+                                                                isBookingBlocked: !prev.isBookingBlocked
+                                                            })),
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 306,
+                                                        columnNumber: 21
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 265,
+                                                    lineNumber: 297,
                                                     columnNumber: 19
                                                 }, this),
-                                                "Block From Booking"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap",
+                                                    children: buttonStates.isBookingBlocked ? 'Unblock Booking' : 'Block Booking'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                    lineNumber: 308,
+                                                    columnNumber: 19
+                                                }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 262,
+                                            lineNumber: 296,
                                             columnNumber: 17
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            variant: "outline",
-                                            className: "justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200",
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "relative group",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BellOff$3e$__["BellOff"], {
-                                                    className: "h-4 w-4 mr-2"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: "outline",
+                                                    size: "icon",
+                                                    className: `h-10 w-10 rounded-full ${!buttonStates.isSubscribed ? 'bg-blue-100 hover:bg-blue-200' : 'bg-slate-200 hover:bg-slate-300'} text-slate-800 dark:bg-slate-800/60 dark:text-slate-200`,
+                                                    onClick: ()=>setButtonStates((prev)=>({
+                                                                ...prev,
+                                                                isSubscribed: !prev.isSubscribed
+                                                            })),
+                                                    children: buttonStates.isSubscribed ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2d$off$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BellOff$3e$__["BellOff"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 324,
+                                                        columnNumber: 23
+                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2d$ring$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BellRing$3e$__["BellRing"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                        lineNumber: 326,
+                                                        columnNumber: 23
+                                                    }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 272,
+                                                    lineNumber: 314,
                                                     columnNumber: 19
                                                 }, this),
-                                                "Unsubscribe"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap",
+                                                    children: buttonStates.isSubscribed ? 'Unsubscribe' : 'Subscribe'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                    lineNumber: 329,
+                                                    columnNumber: 19
+                                                }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 268,
+                                            lineNumber: 313,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 247,
+                                    lineNumber: 253,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 246,
+                                lineNumber: 252,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 226,
+                        lineNumber: 232,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                    lineNumber: 225,
+                    lineNumber: 231,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                lineNumber: 224,
+                lineNumber: 230,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -929,7 +1033,7 @@ function CustomerProfilePage() {
                                 children: "Dashboard"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 285,
+                                lineNumber: 343,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -938,7 +1042,7 @@ function CustomerProfilePage() {
                                 children: "Profile"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 288,
+                                lineNumber: 346,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -947,7 +1051,7 @@ function CustomerProfilePage() {
                                 children: "Gift cards"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 291,
+                                lineNumber: 349,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -956,7 +1060,7 @@ function CustomerProfilePage() {
                                 children: "Referrals"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 294,
+                                lineNumber: 352,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -965,7 +1069,7 @@ function CustomerProfilePage() {
                                 children: "My drive"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 297,
+                                lineNumber: 355,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -974,7 +1078,7 @@ function CustomerProfilePage() {
                                 children: "Invoices"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 300,
+                                lineNumber: 358,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -983,13 +1087,13 @@ function CustomerProfilePage() {
                                 children: "Notifications"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                lineNumber: 303,
+                                lineNumber: 361,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 284,
+                        lineNumber: 342,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1018,7 +1122,7 @@ function CustomerProfilePage() {
                                                                 children: "Month"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 314,
+                                                                lineNumber: 372,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1032,7 +1136,7 @@ function CustomerProfilePage() {
                                                                 children: "Week"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 315,
+                                                                lineNumber: 373,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1046,13 +1150,13 @@ function CustomerProfilePage() {
                                                                 children: "Day"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 316,
+                                                                lineNumber: 374,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 313,
+                                                        lineNumber: 371,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1083,12 +1187,12 @@ function CustomerProfilePage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 319,
+                                                            lineNumber: 377,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 318,
+                                                        lineNumber: 376,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1103,12 +1207,12 @@ function CustomerProfilePage() {
                                                                     className: "h-4 w-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 332,
+                                                                    lineNumber: 390,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 331,
+                                                                lineNumber: 389,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1120,12 +1224,12 @@ function CustomerProfilePage() {
                                                                     className: "h-4 w-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 340,
+                                                                    lineNumber: 398,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 334,
+                                                                lineNumber: 392,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1137,29 +1241,29 @@ function CustomerProfilePage() {
                                                                     className: "h-4 w-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 348,
+                                                                    lineNumber: 406,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 342,
+                                                                lineNumber: 400,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 330,
+                                                        lineNumber: 388,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                lineNumber: 312,
+                                                lineNumber: 370,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 311,
+                                            lineNumber: 369,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1191,7 +1295,7 @@ function CustomerProfilePage() {
                                                                     children: d
                                                                 }, d, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 369,
+                                                                    lineNumber: 427,
                                                                     columnNumber: 27
                                                                 }, this)),
                                                             Array.from({
@@ -1200,7 +1304,7 @@ function CustomerProfilePage() {
                                                                     className: "aspect-square"
                                                                 }, `empty-${i}`, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 371,
+                                                                    lineNumber: 429,
                                                                     columnNumber: 71
                                                                 }, this)),
                                                             Array.from({
@@ -1221,7 +1325,7 @@ function CustomerProfilePage() {
                                                                                 children: day
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 379,
+                                                                                lineNumber: 437,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1238,7 +1342,7 @@ function CustomerProfilePage() {
                                                                                                     children: b.time
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                                    lineNumber: 383,
+                                                                                                    lineNumber: 441,
                                                                                                     columnNumber: 39
                                                                                                 }, this),
                                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1246,13 +1350,13 @@ function CustomerProfilePage() {
                                                                                                     children: b.service
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                                    lineNumber: 384,
+                                                                                                    lineNumber: 442,
                                                                                                     columnNumber: 39
                                                                                                 }, this)
                                                                                             ]
                                                                                         }, b.id, true, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 382,
+                                                                                            lineNumber: 440,
                                                                                             columnNumber: 37
                                                                                         }, this)),
                                                                                     items.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1264,31 +1368,31 @@ function CustomerProfilePage() {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                        lineNumber: 388,
+                                                                                        lineNumber: 446,
                                                                                         columnNumber: 37
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 380,
+                                                                                lineNumber: 438,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 378,
+                                                                        lineNumber: 436,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, key, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 377,
+                                                                    lineNumber: 435,
                                                                     columnNumber: 29
                                                                 }, this);
                                                             })
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 367,
+                                                        lineNumber: 425,
                                                         columnNumber: 23
                                                     }, this);
                                                 }
@@ -1324,14 +1428,14 @@ function CustomerProfilePage() {
                                                                                 children: label
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 415,
+                                                                                lineNumber: 473,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             num
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 414,
+                                                                        lineNumber: 472,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1342,7 +1446,7 @@ function CustomerProfilePage() {
                                                                                 children: "No bookings"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 418,
+                                                                                lineNumber: 476,
                                                                                 columnNumber: 54
                                                                             }, this),
                                                                             items.map((b)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1356,7 +1460,7 @@ function CustomerProfilePage() {
                                                                                             children: b.time
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 421,
+                                                                                            lineNumber: 479,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1364,31 +1468,31 @@ function CustomerProfilePage() {
                                                                                             children: b.service
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 422,
+                                                                                            lineNumber: 480,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     ]
                                                                                 }, b.id, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 420,
+                                                                                    lineNumber: 478,
                                                                                     columnNumber: 35
                                                                                 }, this))
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 417,
+                                                                        lineNumber: 475,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, key, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 413,
+                                                                lineNumber: 471,
                                                                 columnNumber: 29
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 409,
+                                                        lineNumber: 467,
                                                         columnNumber: 23
                                                     }, this);
                                                 }
@@ -1406,7 +1510,7 @@ function CustomerProfilePage() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 437,
+                                                            lineNumber: 495,
                                                             columnNumber: 23
                                                         }, this),
                                                         items.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1414,7 +1518,7 @@ function CustomerProfilePage() {
                                                             children: "No bookings scheduled."
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 438,
+                                                            lineNumber: 496,
                                                             columnNumber: 44
                                                         }, this),
                                                         items.map((b)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1428,7 +1532,7 @@ function CustomerProfilePage() {
                                                                                 children: b.service
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 442,
+                                                                                lineNumber: 500,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1436,13 +1540,13 @@ function CustomerProfilePage() {
                                                                                 children: b.time
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 443,
+                                                                                lineNumber: 501,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 441,
+                                                                        lineNumber: 499,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     b.provider?.name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1453,7 +1557,7 @@ function CustomerProfilePage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 445,
+                                                                        lineNumber: 503,
                                                                         columnNumber: 48
                                                                     }, this),
                                                                     b.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1461,31 +1565,31 @@ function CustomerProfilePage() {
                                                                         children: b.address
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 446,
+                                                                        lineNumber: 504,
                                                                         columnNumber: 41
                                                                     }, this)
                                                                 ]
                                                             }, b.id, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 440,
+                                                                lineNumber: 498,
                                                                 columnNumber: 25
                                                             }, this))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 436,
+                                                    lineNumber: 494,
                                                     columnNumber: 21
                                                 }, this);
                                             })()
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 353,
+                                            lineNumber: 411,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 310,
+                                    lineNumber: 368,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1495,12 +1599,12 @@ function CustomerProfilePage() {
                                                 children: "Providers"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                lineNumber: 457,
+                                                lineNumber: 515,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 456,
+                                            lineNumber: 514,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1513,7 +1617,7 @@ function CustomerProfilePage() {
                                                             className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 461,
+                                                            lineNumber: 519,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1523,13 +1627,13 @@ function CustomerProfilePage() {
                                                             onChange: (e)=>setProviderSearch(e.target.value)
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 462,
+                                                            lineNumber: 520,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 460,
+                                                    lineNumber: 518,
                                                     columnNumber: 17
                                                 }, this),
                                                 (()=>{
@@ -1544,7 +1648,7 @@ function CustomerProfilePage() {
                                                         children: "No assigned providers."
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 468,
+                                                        lineNumber: 526,
                                                         columnNumber: 51
                                                     }, this);
                                                     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1558,12 +1662,12 @@ function CustomerProfilePage() {
                                                                             className: "h-4 w-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 474,
+                                                                            lineNumber: 532,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 473,
+                                                                        lineNumber: 531,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1571,42 +1675,42 @@ function CustomerProfilePage() {
                                                                         children: p.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 476,
+                                                                        lineNumber: 534,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, p.name, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                lineNumber: 472,
+                                                                lineNumber: 530,
                                                                 columnNumber: 25
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                        lineNumber: 470,
+                                                        lineNumber: 528,
                                                         columnNumber: 21
                                                     }, this);
                                                 })()
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 459,
+                                            lineNumber: 517,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 455,
+                                    lineNumber: 513,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 309,
+                            lineNumber: 367,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 308,
+                        lineNumber: 366,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1618,19 +1722,19 @@ function CustomerProfilePage() {
                                         children: "Profile"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 490,
+                                        lineNumber: 548,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 489,
+                                    lineNumber: 547,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                                     className: "space-y-6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid grid-cols-1 lg:grid-cols-3 gap-6",
+                                            className: "grid grid-cols-1 gap-6",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "lg:col-span-2 space-y-6",
@@ -1645,12 +1749,12 @@ function CustomerProfilePage() {
                                                                         children: initials
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                        lineNumber: 498,
+                                                                        lineNumber: 556,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 497,
+                                                                    lineNumber: 555,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1660,7 +1764,7 @@ function CustomerProfilePage() {
                                                                             children: "Choose file"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 501,
+                                                                            lineNumber: 559,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1671,7 +1775,7 @@ function CustomerProfilePage() {
                                                                                     className: "flex-1"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 503,
+                                                                                    lineNumber: 561,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1679,13 +1783,13 @@ function CustomerProfilePage() {
                                                                                     children: "Browse"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 504,
+                                                                                    lineNumber: 562,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 502,
+                                                                            lineNumber: 560,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1693,19 +1797,19 @@ function CustomerProfilePage() {
                                                                             children: "Image size should not be more than 300px by 300px."
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 506,
+                                                                            lineNumber: 564,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 500,
+                                                                    lineNumber: 558,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 496,
+                                                            lineNumber: 554,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1717,7 +1821,7 @@ function CustomerProfilePage() {
                                                                             children: "Company name (Optional)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 512,
+                                                                            lineNumber: 570,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1729,13 +1833,13 @@ function CustomerProfilePage() {
                                                                                 })
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 513,
+                                                                            lineNumber: 571,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 511,
+                                                                    lineNumber: 569,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1747,7 +1851,7 @@ function CustomerProfilePage() {
                                                                                     children: "First name"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 518,
+                                                                                    lineNumber: 576,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1758,13 +1862,13 @@ function CustomerProfilePage() {
                                                                                         })
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 519,
+                                                                                    lineNumber: 577,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 517,
+                                                                            lineNumber: 575,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1773,7 +1877,7 @@ function CustomerProfilePage() {
                                                                                     children: "Last name"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 522,
+                                                                                    lineNumber: 580,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1784,19 +1888,19 @@ function CustomerProfilePage() {
                                                                                         })
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 523,
+                                                                                    lineNumber: 581,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 521,
+                                                                            lineNumber: 579,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 516,
+                                                                    lineNumber: 574,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1805,7 +1909,7 @@ function CustomerProfilePage() {
                                                                             children: "Gender"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 528,
+                                                                            lineNumber: 586,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1824,14 +1928,14 @@ function CustomerProfilePage() {
                                                                                                 })
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 530,
+                                                                                            lineNumber: 588,
                                                                                             columnNumber: 68
                                                                                         }, this),
                                                                                         " Male"
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 530,
+                                                                                    lineNumber: 588,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1847,14 +1951,14 @@ function CustomerProfilePage() {
                                                                                                 })
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 531,
+                                                                                            lineNumber: 589,
                                                                                             columnNumber: 68
                                                                                         }, this),
                                                                                         " Female"
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 531,
+                                                                                    lineNumber: 589,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1870,26 +1974,26 @@ function CustomerProfilePage() {
                                                                                                 })
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 532,
+                                                                                            lineNumber: 590,
                                                                                             columnNumber: 68
                                                                                         }, this),
                                                                                         " Unspecified"
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 532,
+                                                                                    lineNumber: 590,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 529,
+                                                                            lineNumber: 587,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 527,
+                                                                    lineNumber: 585,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1901,7 +2005,7 @@ function CustomerProfilePage() {
                                                                                     children: "Email address"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 538,
+                                                                                    lineNumber: 596,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1912,13 +2016,13 @@ function CustomerProfilePage() {
                                                                                         })
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 539,
+                                                                                    lineNumber: 597,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 537,
+                                                                            lineNumber: 595,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1927,7 +2031,7 @@ function CustomerProfilePage() {
                                                                                     children: "Phone no"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 542,
+                                                                                    lineNumber: 600,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1938,7 +2042,7 @@ function CustomerProfilePage() {
                                                                                         })
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 543,
+                                                                                    lineNumber: 601,
                                                                                     columnNumber: 25
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1953,32 +2057,32 @@ function CustomerProfilePage() {
                                                                                                 })
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 545,
+                                                                                            lineNumber: 603,
                                                                                             columnNumber: 27
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: "Send me reminders via text message"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                            lineNumber: 546,
+                                                                                            lineNumber: 604,
                                                                                             columnNumber: 27
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 544,
+                                                                                    lineNumber: 602,
                                                                                     columnNumber: 25
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 541,
+                                                                            lineNumber: 599,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 536,
+                                                                    lineNumber: 594,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1987,7 +2091,7 @@ function CustomerProfilePage() {
                                                                             children: "Address"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 552,
+                                                                            lineNumber: 610,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1998,13 +2102,13 @@ function CustomerProfilePage() {
                                                                                 })
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 553,
+                                                                            lineNumber: 611,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 551,
+                                                                    lineNumber: 609,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2020,7 +2124,7 @@ function CustomerProfilePage() {
                                                                             children: "+ Add Other Contact"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 557,
+                                                                            lineNumber: 615,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2034,13 +2138,13 @@ function CustomerProfilePage() {
                                                                             children: "View Other Contact(s)"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 558,
+                                                                            lineNumber: 616,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 556,
+                                                                    lineNumber: 614,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 showAddContact && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2052,7 +2156,7 @@ function CustomerProfilePage() {
                                                                                     children: "Contact Name"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 564,
+                                                                                    lineNumber: 622,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2064,13 +2168,13 @@ function CustomerProfilePage() {
                                                                                     placeholder: "Full name"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 565,
+                                                                                    lineNumber: 623,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 563,
+                                                                            lineNumber: 621,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2079,7 +2183,7 @@ function CustomerProfilePage() {
                                                                                     children: "Contact Email"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 568,
+                                                                                    lineNumber: 626,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2092,13 +2196,13 @@ function CustomerProfilePage() {
                                                                                     placeholder: "email@example.com"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 569,
+                                                                                    lineNumber: 627,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 567,
+                                                                            lineNumber: 625,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2107,7 +2211,7 @@ function CustomerProfilePage() {
                                                                                     children: "Contact Phone"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 572,
+                                                                                    lineNumber: 630,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2119,13 +2223,13 @@ function CustomerProfilePage() {
                                                                                     placeholder: "(555) 123-4567"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 573,
+                                                                                    lineNumber: 631,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 571,
+                                                                            lineNumber: 629,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2144,7 +2248,7 @@ function CustomerProfilePage() {
                                                                                     children: "Cancel"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 576,
+                                                                                    lineNumber: 634,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2156,19 +2260,19 @@ function CustomerProfilePage() {
                                                                                     children: "Save Contact"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                    lineNumber: 577,
+                                                                                    lineNumber: 635,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 575,
+                                                                            lineNumber: 633,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 562,
+                                                                    lineNumber: 620,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 showContactsList && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2179,7 +2283,7 @@ function CustomerProfilePage() {
                                                                             children: "No other contacts added."
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 585,
+                                                                            lineNumber: 643,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         contacts.map((c, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2193,7 +2297,7 @@ function CustomerProfilePage() {
                                                                                                 children: c.name
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                                lineNumber: 590,
+                                                                                                lineNumber: 648,
                                                                                                 columnNumber: 31
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2204,13 +2308,13 @@ function CustomerProfilePage() {
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                                lineNumber: 591,
+                                                                                                lineNumber: 649,
                                                                                                 columnNumber: 31
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                        lineNumber: 589,
+                                                                                        lineNumber: 647,
                                                                                         columnNumber: 29
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2220,136 +2324,70 @@ function CustomerProfilePage() {
                                                                                         children: "Remove"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                        lineNumber: 593,
+                                                                                        lineNumber: 651,
                                                                                         columnNumber: 29
                                                                                     }, this)
                                                                                 ]
                                                                             }, i, true, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                                lineNumber: 588,
+                                                                                lineNumber: 646,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 583,
+                                                                    lineNumber: 641,
                                                                     columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                            children: "Notes"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                                            lineNumber: 658,
+                                                                            columnNumber: 23
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
+                                                                            placeholder: "Add notes about this customer",
+                                                                            className: "min-h-[150px] mt-2",
+                                                                            value: profile.notes,
+                                                                            onChange: (e)=>setProfile({
+                                                                                    ...profile,
+                                                                                    notes: e.target.value
+                                                                                })
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                                            lineNumber: 659,
+                                                                            columnNumber: 23
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
+                                                                    lineNumber: 657,
+                                                                    columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 510,
+                                                            lineNumber: 568,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 495,
+                                                    lineNumber: 553,
                                                     columnNumber: 17
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "space-y-4",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                    children: "Notes"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 605,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
-                                                                    placeholder: "Add notes about this customer",
-                                                                    className: "min-h-[200px] mt-2",
-                                                                    value: profile.notes,
-                                                                    onChange: (e)=>setProfile({
-                                                                            ...profile,
-                                                                            notes: e.target.value
-                                                                        })
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 606,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 604,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "grid grid-cols-2 gap-3",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                    variant: "outline",
-                                                                    className: "justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$minus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__UserMinus$3e$__["UserMinus"], {
-                                                                            className: "h-4 w-4 mr-2"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 610,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        "Deactivate"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 609,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                    variant: "outline",
-                                                                    className: "justify-start rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/20 dark:text-amber-300",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2d$ban$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ShieldBan$3e$__["ShieldBan"], {
-                                                                            className: "h-4 w-4 mr-2"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 614,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        "Block Access"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 613,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                    className: "col-span-2 justify-start rounded-md bg-red-500 hover:bg-red-600 text-white",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__AlertCircle$3e$__["AlertCircle"], {
-                                                                            className: "h-4 w-4 mr-2"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                            lineNumber: 618,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        "Block From Booking"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                                    lineNumber: 617,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 608,
-                                                            columnNumber: 19
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {}, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 603,
+                                                    lineNumber: 670,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 493,
+                                            lineNumber: 551,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2367,7 +2405,7 @@ function CustomerProfilePage() {
                                                             children: "Resend Welcome Email"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 627,
+                                                            lineNumber: 675,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2379,13 +2417,13 @@ function CustomerProfilePage() {
                                                             children: "Resend Reset Password Email"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                            lineNumber: 628,
+                                                            lineNumber: 676,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 626,
+                                                    lineNumber: 674,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2397,30 +2435,30 @@ function CustomerProfilePage() {
                                                     children: "Save Changes"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                                    lineNumber: 630,
+                                                    lineNumber: 678,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                            lineNumber: 625,
+                                            lineNumber: 673,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 492,
+                                    lineNumber: 550,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 488,
+                            lineNumber: 546,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 487,
+                        lineNumber: 545,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2432,12 +2470,12 @@ function CustomerProfilePage() {
                                         children: "Gift cards"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 641,
+                                        lineNumber: 689,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 640,
+                                    lineNumber: 688,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2445,18 +2483,18 @@ function CustomerProfilePage() {
                                     children: "No gift cards yet."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 643,
+                                    lineNumber: 691,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 639,
+                            lineNumber: 687,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 638,
+                        lineNumber: 686,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2468,12 +2506,12 @@ function CustomerProfilePage() {
                                         children: "Referrals"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 650,
+                                        lineNumber: 698,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 649,
+                                    lineNumber: 697,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2481,18 +2519,18 @@ function CustomerProfilePage() {
                                     children: "No referrals yet."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 652,
+                                    lineNumber: 700,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 648,
+                            lineNumber: 696,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 647,
+                        lineNumber: 695,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2504,12 +2542,12 @@ function CustomerProfilePage() {
                                         children: "My drive"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 659,
+                                        lineNumber: 707,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 658,
+                                    lineNumber: 706,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2517,18 +2555,18 @@ function CustomerProfilePage() {
                                     children: "No files uploaded."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 661,
+                                    lineNumber: 709,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 657,
+                            lineNumber: 705,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 656,
+                        lineNumber: 704,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2540,12 +2578,12 @@ function CustomerProfilePage() {
                                         children: "Invoices"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 668,
+                                        lineNumber: 716,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 667,
+                                    lineNumber: 715,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2553,18 +2591,18 @@ function CustomerProfilePage() {
                                     children: "No invoices yet."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 670,
+                                    lineNumber: 718,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 666,
+                            lineNumber: 714,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 665,
+                        lineNumber: 713,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2576,12 +2614,12 @@ function CustomerProfilePage() {
                                         children: "Notifications"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                        lineNumber: 677,
+                                        lineNumber: 725,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 676,
+                                    lineNumber: 724,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2589,34 +2627,34 @@ function CustomerProfilePage() {
                                     children: "No notifications yet."
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                                    lineNumber: 679,
+                                    lineNumber: 727,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                            lineNumber: 675,
+                            lineNumber: 723,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                        lineNumber: 674,
+                        lineNumber: 722,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-                lineNumber: 283,
+                lineNumber: 341,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page.tsx",
-        lineNumber: 202,
+        lineNumber: 208,
         columnNumber: 5
     }, this);
 }
-_s(CustomerProfilePage, "RF4ysvhk25MIIjmELiNTdwQtmNk=", false, function() {
+_s(CustomerProfilePage, "K5gUlLDWjyBePO/fu2JN/wfrv18=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"],
         __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],

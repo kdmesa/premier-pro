@@ -88,8 +88,8 @@ export default function NewCouponPage() {
         <div className="flex items-start gap-2">
           <button
             type="button"
-            aria-label="Back to Coupons"
-            onClick={() => router.push('/admin/marketing/coupons')}
+            aria-label="Back to Marketing"
+            onClick={() => router.push('/admin/marketing')}
             className="mt-0.5 p-1 rounded hover:bg-muted"
           >
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
@@ -275,7 +275,7 @@ export default function NewCouponPage() {
 
         <div className="flex items-center justify-end gap-3">
           <Button type="button" variant="outline" asChild>
-            <Link href="/admin/marketing/coupons">Cancel</Link>
+            <Link href="/admin/marketing">Cancel</Link>
           </Button>
           <Button type="submit">Add Coupon</Button>
         </div>

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { UserMinus, ShieldBan, AlertCircle, BellOff, ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, User as UserIcon } from "lucide-react";
+import { UserMinus, ShieldBan, AlertCircle, BellOff, ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, User as UserIcon, UserCheck, ShieldCheck, BellRing } from "lucide-react";
 
 const CUSTOMERS_STORAGE_KEY = "adminCustomers";
 
@@ -67,6 +67,12 @@ export default function CustomerProfilePage() {
   const [showAddContact, setShowAddContact] = useState(false);
   const [showContactsList, setShowContactsList] = useState(false);
   const [newContact, setNewContact] = useState({ name: "", email: "", phone: "" });
+  const [buttonStates, setButtonStates] = useState({
+    isActive: true,
+    isBlocked: false,
+    isBookingBlocked: false,
+    isSubscribed: true
+  });
 
   useEffect(() => {
     if (!id) return;
@@ -243,35 +249,87 @@ export default function CustomerProfilePage() {
             </div>
 
             {/* Right: Action buttons column */}
-            <div className="w-full md:w-[420px]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  className="justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200"
-                >
-                  <UserMinus className="h-4 w-4 mr-2" />
-                  Deactivate
-                </Button>
-                <Button
-                  variant="outline"
-                  className="justify-start rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/20 dark:text-amber-300"
-                >
-                  <ShieldBan className="h-4 w-4 mr-2" />
-                  Block Access
-                </Button>
-                <Button
-                  className="justify-start rounded-md bg-red-500 hover:bg-red-600 text-white"
-                >
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Block From Booking
-                </Button>
-                <Button
-                  variant="outline"
-                  className="justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200"
-                >
-                  <BellOff className="h-4 w-4 mr-2" />
-                  Unsubscribe
-                </Button>
+            <div className="w-full md:w-auto">
+              <div className="flex items-center gap-3">
+                <div className="relative group">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${buttonStates.isActive ? 'bg-slate-200 hover:bg-slate-300' : 'bg-green-100 hover:bg-green-200'} text-slate-800 dark:bg-slate-800/60 dark:text-slate-200`}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isActive: !prev.isActive
+                    }))}
+                  >
+                    {buttonStates.isActive ? (
+                      <UserMinus className="h-5 w-5" />
+                    ) : (
+                      <UserCheck className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isActive ? 'Deactivate' : 'Activate'}
+                  </div>
+                </div>
+
+                <div className="relative group">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${buttonStates.isBlocked ? 'bg-red-100 hover:bg-red-200' : 'bg-amber-100 hover:bg-amber-200'} text-amber-800 dark:bg-amber-900/20 dark:text-amber-300`}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isBlocked: !prev.isBlocked
+                    }))}
+                  >
+                    {buttonStates.isBlocked ? (
+                      <ShieldCheck className="h-5 w-5" />
+                    ) : (
+                      <ShieldBan className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isBlocked ? 'Unblock Access' : 'Block Access'}
+                  </div>
+                </div>
+
+                <div className="relative group">
+                  <Button
+                    variant={buttonStates.isBookingBlocked ? 'default' : 'outline'}
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${buttonStates.isBookingBlocked ? 'bg-red-500 hover:bg-red-600' : 'bg-slate-200 hover:bg-slate-300'} text-white`}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isBookingBlocked: !prev.isBookingBlocked
+                    }))}
+                  >
+                    <AlertCircle className="h-5 w-5" />
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isBookingBlocked ? 'Unblock Booking' : 'Block Booking'}
+                  </div>
+                </div>
+
+                <div className="relative group">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${!buttonStates.isSubscribed ? 'bg-blue-100 hover:bg-blue-200' : 'bg-slate-200 hover:bg-slate-300'} text-slate-800 dark:bg-slate-800/60 dark:text-slate-200`}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isSubscribed: !prev.isSubscribed
+                    }))}
+                  >
+                    {buttonStates.isSubscribed ? (
+                      <BellOff className="h-5 w-5" />
+                    ) : (
+                      <BellRing className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -490,7 +548,7 @@ export default function CustomerProfilePage() {
               <CardTitle>Profile</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 {/* Left: avatar + fields */}
                 <div className="lg:col-span-2 space-y-6">
                   <div className="flex items-start gap-6">
@@ -596,30 +654,20 @@ export default function CustomerProfilePage() {
                       </div>
                     )}
 
+                    <div>
+                      <Label>Notes</Label>
+                      <Textarea 
+                        placeholder="Add notes about this customer" 
+                        className="min-h-[150px] mt-2" 
+                        value={profile.notes} 
+                        onChange={(e)=>setProfile({...profile, notes: e.target.value})} 
+                      />
+                    </div>
                   </div>
                 </div>
 
-                {/* Right: notes */}
-                <div className="space-y-4">
-                  <div>
-                    <Label>Notes</Label>
-                    <Textarea placeholder="Add notes about this customer" className="min-h-[200px] mt-2" value={profile.notes} onChange={(e)=>setProfile({...profile, notes: e.target.value})} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Button variant="outline" className="justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200">
-                      <UserMinus className="h-4 w-4 mr-2" />
-                      Deactivate
-                    </Button>
-                    <Button variant="outline" className="justify-start rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/20 dark:text-amber-300">
-                      <ShieldBan className="h-4 w-4 mr-2" />
-                      Block Access
-                    </Button>
-                    <Button className="col-span-2 justify-start rounded-md bg-red-500 hover:bg-red-600 text-white">
-                      <AlertCircle className="h-4 w-4 mr-2" />
-                      Block From Booking
-                    </Button>
-                  </div>
-                </div>
+                {/* Empty div to maintain grid layout */}
+                <div></div>
               </div>
               {/* Footer actions under the whole form */}
               <div className="flex items-center justify-between gap-3 flex-wrap pt-2 border-t mt-2">

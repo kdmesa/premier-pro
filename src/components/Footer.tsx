@@ -8,22 +8,19 @@ const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleSectionClick = (sectionId: string) => {
-    // If we're already on the homepage, just scroll
-    if (pathname === '/') {
+  const handleSectionClick = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
+    
+    if (pathname !== '/builder') {
+      // If not on the builder page, navigate to builder with hash
+      router.push(`/builder#${sectionId}`);
+    } else {
+      // If already on builder page, just scroll to the section
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState({}, '', `/builder#${sectionId}`);
       }
-    } else {
-      // Navigate to homepage first, then scroll after a short delay
-      router.push('/');
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
     }
   };
 
@@ -47,36 +44,61 @@ const Footer = () => {
               <h4 className="font-semibold mb-3">Quick Links</h4>
               <ul className="space-y-2 text-navy-foreground/80">
                 <li>
-                  <button 
-                    onClick={() => handleSectionClick('how-it-works')} 
-                    className="hover:text-primary transition-colors text-left"
+                  <Link 
+                    href="/builder#how-it-works"
+                    onClick={(e) => handleSectionClick(e, 'how-it-works')} 
+                    className="hover:text-primary transition-colors"
                   >
                     How It Works
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => handleSectionClick('services')} 
-                    className="hover:text-primary transition-colors text-left"
+                  <Link 
+                    href="/builder#services"
+                    onClick={(e) => handleSectionClick(e, 'services')} 
+                    className="hover:text-primary transition-colors"
                   >
                     Services
-                  </button>
+                  </Link>
                 </li>
                 <li>
-                  <button 
-                    onClick={() => handleSectionClick('reviews')} 
-                    className="hover:text-primary transition-colors text-left"
+                  <Link 
+                    href="/builder#reviews"
+                    onClick={(e) => handleSectionClick(e, 'reviews')} 
+                    className="hover:text-primary transition-colors"
                   >
                     Reviews
-                  </button>
+                  </Link>
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-3">Legal</h4>
               <ul className="space-y-2 text-navy-foreground/80">
-                <li><Link href="/terms-and-conditions" className="hover:text-primary transition-colors">Terms &amp; Conditions</Link></li>
-                <li><Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                <li>
+                  <Link 
+                    href="/terms-and-conditions" 
+                    className="hover:text-primary transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push('/terms-and-conditions');
+                    }}
+                  >
+                    Terms &amp; Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    href="/privacy-policy" 
+                    className="hover:text-primary transition-colors"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push('/privacy-policy');
+                    }}
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -88,18 +110,18 @@ const Footer = () => {
           </p>
           
           <div className="flex gap-4">
-            <a href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
+            <Link href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
               <Facebook className="w-5 h-5" />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
+            </Link>
+            <Link href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
               <Twitter className="w-5 h-5" />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
+            </Link>
+            <Link href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
               <Linkedin className="w-5 h-5" />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
+            </Link>
+            <Link href="#" className="w-10 h-10 rounded-full bg-navy-foreground/10 flex items-center justify-center hover:bg-primary transition-all hover:scale-110 border border-navy-foreground/20">
               <Youtube className="w-5 h-5" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -21,9 +21,9 @@ const steps = [
   },
 ];
 
-const HowItWorks = () => {
+export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 px-4 bg-gradient-to-b from-background to-muted/30 relative overflow-hidden">
+    <section id="how-it-works" className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
       
@@ -69,5 +69,3 @@ const HowItWorks = () => {
     </section>
   );
 };
-
-export default HowItWorks;

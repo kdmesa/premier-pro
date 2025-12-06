@@ -116,9 +116,14 @@ _s(useFormField, "eRzki+X5SldVDcAh3BokmSZW9NU=", false, function() {
     ];
 });
 const FormItemContext = /*#__PURE__*/ __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"]({});
-const FormItem = /*#__PURE__*/ _s1(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["forwardRef"](_c1 = _s1(({ className, ...props }, ref)=>{
+const FormItem = /*#__PURE__*/ _s1(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["forwardRef"](_c1 = _s1(({ className, id: idProp, ...props }, ref)=>{
     _s1();
-    const id = __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useId"]();
+    // Generate ID on the client side only
+    const clientId = __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useId"]();
+    // Use provided ID if available, otherwise use the generated client ID
+    const [id] = __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"]({
+        "FormItem.useState": ()=>idProp || `form-item-${clientId}`
+    }["FormItem.useState"]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FormItemContext.Provider, {
         value: {
             id
@@ -129,15 +134,15 @@ const FormItem = /*#__PURE__*/ _s1(__TURBOPACK__imported__module__$5b$project$5d
             ...props
         }, void 0, false, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/ui/form.tsx",
-            lineNumber: 68,
+            lineNumber: 71,
             columnNumber: 9
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/ui/form.tsx",
-        lineNumber: 67,
+        lineNumber: 70,
         columnNumber: 7
     }, ("TURBOPACK compile-time value", void 0));
-}, "WhsuKpSQZEWeFcB7gWlfDRQktoQ=")), "WhsuKpSQZEWeFcB7gWlfDRQktoQ=");
+}, "nduVtfcz3ub/YxvzUG/xHq0aL/0=")), "nduVtfcz3ub/YxvzUG/xHq0aL/0=");
 _c2 = FormItem;
 FormItem.displayName = "FormItem";
 const FormLabel = /*#__PURE__*/ _s2(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["forwardRef"](_c3 = _s2(({ className, ...props }, ref)=>{
@@ -150,7 +155,7 @@ const FormLabel = /*#__PURE__*/ _s2(__TURBOPACK__imported__module__$5b$project$5
         ...props
     }, void 0, false, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/ui/form.tsx",
-        lineNumber: 81,
+        lineNumber: 84,
         columnNumber: 10
     }, ("TURBOPACK compile-time value", void 0));
 }, "Z4R+rKjylfAcqmbRnqWEg1TfTcg=", false, function() {
@@ -175,7 +180,7 @@ const FormControl = /*#__PURE__*/ _s3(__TURBOPACK__imported__module__$5b$project
         ...props
     }, void 0, false, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/ui/form.tsx",
-        lineNumber: 90,
+        lineNumber: 93,
         columnNumber: 7
     }, ("TURBOPACK compile-time value", void 0));
 }, "mI3rlmONcPPBVtOc6UefMrXAJ6w=", false, function() {
@@ -199,7 +204,7 @@ const FormDescription = /*#__PURE__*/ _s4(__TURBOPACK__imported__module__$5b$pro
         ...props
     }, void 0, false, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/ui/form.tsx",
-        lineNumber: 106,
+        lineNumber: 109,
         columnNumber: 12
     }, ("TURBOPACK compile-time value", void 0));
 }, "573aRXA8dloSrMaQM9SdAF4A9NI=", false, function() {
@@ -228,7 +233,7 @@ const FormMessage = /*#__PURE__*/ _s5(__TURBOPACK__imported__module__$5b$project
         children: body
     }, void 0, false, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/components/ui/form.tsx",
-        lineNumber: 121,
+        lineNumber: 124,
         columnNumber: 7
     }, ("TURBOPACK compile-time value", void 0));
 }, "WONNS8VCMr8LShuUovb8QgOmMVY=", false, function() {
@@ -368,6 +373,7 @@ const AdminLogin = ()=>{
                 // Store auth token (in real app, use proper token management)
                 localStorage.setItem("adminAuth", "true");
                 localStorage.setItem("adminEmail", values.email);
+                localStorage.setItem("userRole", "admin");
                 toast({
                     title: "Login Successful!",
                     description: "Welcome to Orbit Booking Admin Dashboard"
@@ -375,6 +381,20 @@ const AdminLogin = ()=>{
                 // Redirect to admin dashboard
                 setTimeout(()=>{
                     router.push("/admin");
+                }, 500);
+            } else if (values.email === "provider@orbitbooking.com" && values.password === "provider123") {
+                // Provider login
+                localStorage.setItem("providerAuth", "true");
+                localStorage.setItem("providerEmail", values.email);
+                localStorage.setItem("providerName", "John Smith");
+                localStorage.setItem("userRole", "provider");
+                toast({
+                    title: "Login Successful!",
+                    description: "Welcome to your Provider Dashboard"
+                });
+                // Redirect to provider dashboard
+                setTimeout(()=>{
+                    router.push("/provider/dashboard");
                 }, 500);
             } else {
                 throw new Error("Invalid credentials");
@@ -409,7 +429,7 @@ const AdminLogin = ()=>{
                                                 className: "h-20 w-20"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                lineNumber: 82,
+                                                lineNumber: 99,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -418,23 +438,23 @@ const AdminLogin = ()=>{
                                                     className: "h-4 w-4 text-primary-foreground"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                    lineNumber: 84,
+                                                    lineNumber: 101,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                lineNumber: 83,
+                                                lineNumber: 100,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 81,
+                                        lineNumber: 98,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 97,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -445,7 +465,7 @@ const AdminLogin = ()=>{
                                     children: "Orbit Booking"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 105,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -453,46 +473,87 @@ const AdminLogin = ()=>{
                                     children: "Admin Dashboard Login"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                    lineNumber: 89,
+                                    lineNumber: 106,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                            lineNumber: 79,
+                            lineNumber: 96,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg",
+                            className: "mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg space-y-3",
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-xs font-semibold text-primary mb-2",
-                                    children: "Demo Credentials:"
-                                }, void 0, false, {
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs font-semibold text-primary mb-1",
+                                            children: "Admin Credentials:"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
+                                            lineNumber: 112,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-muted-foreground",
+                                            children: "Email: admin@orbitbooking.com"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
+                                            lineNumber: 113,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-muted-foreground",
+                                            children: "Password: admin123"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
+                                            lineNumber: 114,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                    lineNumber: 94,
+                                    lineNumber: 111,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-xs text-muted-foreground",
-                                    children: "Email: admin@orbitbooking.com"
-                                }, void 0, false, {
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "border-t border-primary/20 pt-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs font-semibold text-primary mb-1",
+                                            children: "Provider Credentials:"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
+                                            lineNumber: 117,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-muted-foreground",
+                                            children: "Email: provider@orbitbooking.com"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
+                                            lineNumber: 118,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-muted-foreground",
+                                            children: "Password: provider123"
+                                        }, void 0, false, {
+                                            fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
+                                            lineNumber: 119,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                    lineNumber: 95,
-                                    columnNumber: 13
-                                }, ("TURBOPACK compile-time value", void 0)),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "text-xs text-muted-foreground",
-                                    children: "Password: admin123"
-                                }, void 0, false, {
-                                    fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                    lineNumber: 96,
+                                    lineNumber: 116,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                            lineNumber: 93,
+                            lineNumber: 110,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Form"], {
@@ -511,7 +572,7 @@ const AdminLogin = ()=>{
                                                         children: "Email Address"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                        lineNumber: 107,
+                                                        lineNumber: 131,
                                                         columnNumber: 21
                                                     }, void 0),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -522,7 +583,7 @@ const AdminLogin = ()=>{
                                                                     className: "absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                    lineNumber: 110,
+                                                                    lineNumber: 134,
                                                                     columnNumber: 25
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -532,34 +593,34 @@ const AdminLogin = ()=>{
                                                                     ...field
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                    lineNumber: 111,
+                                                                    lineNumber: 135,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                            lineNumber: 109,
+                                                            lineNumber: 133,
                                                             columnNumber: 23
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                        lineNumber: 108,
+                                                        lineNumber: 132,
                                                         columnNumber: 21
                                                     }, void 0),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                        lineNumber: 119,
+                                                        lineNumber: 143,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                lineNumber: 106,
+                                                lineNumber: 130,
                                                 columnNumber: 19
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 102,
+                                        lineNumber: 126,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormField"], {
@@ -572,7 +633,7 @@ const AdminLogin = ()=>{
                                                         children: "Password"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                        lineNumber: 129,
+                                                        lineNumber: 153,
                                                         columnNumber: 21
                                                     }, void 0),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormControl"], {
@@ -583,7 +644,7 @@ const AdminLogin = ()=>{
                                                                     className: "absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                    lineNumber: 132,
+                                                                    lineNumber: 156,
                                                                     columnNumber: 25
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -593,7 +654,7 @@ const AdminLogin = ()=>{
                                                                     ...field
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                    lineNumber: 133,
+                                                                    lineNumber: 157,
                                                                     columnNumber: 25
                                                                 }, void 0),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -604,45 +665,45 @@ const AdminLogin = ()=>{
                                                                         className: "h-5 w-5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                        lineNumber: 145,
+                                                                        lineNumber: 169,
                                                                         columnNumber: 29
                                                                     }, void 0) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
                                                                         className: "h-5 w-5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                        lineNumber: 147,
+                                                                        lineNumber: 171,
                                                                         columnNumber: 29
                                                                     }, void 0)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                                    lineNumber: 139,
+                                                                    lineNumber: 163,
                                                                     columnNumber: 25
                                                                 }, void 0)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                            lineNumber: 131,
+                                                            lineNumber: 155,
                                                             columnNumber: 23
                                                         }, void 0)
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                        lineNumber: 130,
+                                                        lineNumber: 154,
                                                         columnNumber: 21
                                                     }, void 0),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$form$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FormMessage"], {}, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                        lineNumber: 152,
+                                                        lineNumber: 176,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                lineNumber: 128,
+                                                lineNumber: 152,
                                                 columnNumber: 19
                                             }, void 0)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 124,
+                                        lineNumber: 148,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -655,7 +716,7 @@ const AdminLogin = ()=>{
                                                     className: "rounded border-border"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                    lineNumber: 159,
+                                                    lineNumber: 183,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -663,18 +724,18 @@ const AdminLogin = ()=>{
                                                     children: "Remember me"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                    lineNumber: 160,
+                                                    lineNumber: 184,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                            lineNumber: 158,
+                                            lineNumber: 182,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 157,
+                                        lineNumber: 181,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -691,7 +752,7 @@ const AdminLogin = ()=>{
                                                     className: "mr-2 h-5 w-5 animate-spin"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                    lineNumber: 172,
+                                                    lineNumber: 196,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 "Signing in..."
@@ -702,7 +763,7 @@ const AdminLogin = ()=>{
                                                     className: "mr-2 h-5 w-5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                                    lineNumber: 177,
+                                                    lineNumber: 201,
                                                     columnNumber: 21
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 "Sign In to Admin Panel"
@@ -710,18 +771,18 @@ const AdminLogin = ()=>{
                                         }, void 0, true)
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 164,
+                                        lineNumber: 188,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                lineNumber: 101,
+                                lineNumber: 125,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                            lineNumber: 100,
+                            lineNumber: 124,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -733,7 +794,7 @@ const AdminLogin = ()=>{
                                         className: "h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 188,
+                                        lineNumber: 212,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -741,24 +802,24 @@ const AdminLogin = ()=>{
                                         children: "This is a secure admin area. All login attempts are monitored and logged."
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                        lineNumber: 189,
+                                        lineNumber: 213,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                                lineNumber: 187,
+                                lineNumber: 211,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                            lineNumber: 186,
+                            lineNumber: 210,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                    lineNumber: 77,
+                    lineNumber: 94,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -769,23 +830,23 @@ const AdminLogin = ()=>{
                         children: "← Back to Website"
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                        lineNumber: 198,
+                        lineNumber: 222,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 }, void 0, false, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-                    lineNumber: 197,
+                    lineNumber: 221,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-            lineNumber: 75,
+            lineNumber: 92,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page.tsx",
-        lineNumber: 74,
+        lineNumber: 91,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

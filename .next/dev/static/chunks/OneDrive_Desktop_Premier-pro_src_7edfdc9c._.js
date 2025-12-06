@@ -706,21 +706,7 @@ const AdminLayout = ({ children })=>{
         {
             icon: __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$megaphone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Megaphone$3e$__["Megaphone"],
             label: "Marketing",
-            path: "/admin/marketing",
-            children: [
-                {
-                    label: "Coupons",
-                    path: "/admin/marketing/coupons"
-                },
-                {
-                    label: "Daily Discounts",
-                    path: "/admin/marketing/daily-discounts"
-                },
-                {
-                    label: "Gift Card",
-                    path: "/admin/marketing/gift-cards"
-                }
-            ]
+            path: "/admin/marketing"
         },
         {
             icon: __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chart$2d$column$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BarChart3$3e$__["BarChart3"],
@@ -778,37 +764,11 @@ const AdminLayout = ({ children })=>{
                         },
                         ...(industries || []).map((name)=>({
                                 label: name,
-                                path: `/admin/settings/industries?industry=${encodeURIComponent(name)}`,
+                                path: `/admin/settings/industries/form-1?industry=${encodeURIComponent(name)}`,
                                 children: [
                                     {
                                         label: 'Form 1',
-                                        path: `/admin/settings/industries/form-1?industry=${encodeURIComponent(name)}`,
-                                        children: [
-                                            {
-                                                label: '1. Locations',
-                                                path: `/admin/settings/industries/form-1/locations?industry=${encodeURIComponent(name)}`
-                                            },
-                                            {
-                                                label: '2. Frequencies',
-                                                path: `/admin/settings/industries/form-1/frequencies?industry=${encodeURIComponent(name)}`
-                                            },
-                                            {
-                                                label: '3. Service Category',
-                                                path: `/admin/settings/industries/form-1/service-category?industry=${encodeURIComponent(name)}`
-                                            },
-                                            {
-                                                label: '4. Pricing Parameter',
-                                                path: `/admin/settings/industries/form-1/pricing-parameter?industry=${encodeURIComponent(name)}`
-                                            },
-                                            {
-                                                label: '5. Extras',
-                                                path: `/admin/settings/industries/form-1/extras?industry=${encodeURIComponent(name)}`
-                                            },
-                                            {
-                                                label: '6. Custom Sections',
-                                                path: `/admin/settings/industries/form-1/custom-sections?industry=${encodeURIComponent(name)}`
-                                            }
-                                        ]
+                                        path: `/admin/settings/industries/form-1?industry=${encodeURIComponent(name)}`
                                     },
                                     {
                                         label: 'Settings',
@@ -855,7 +815,7 @@ const AdminLayout = ({ children })=>{
                                                         className: "rounded"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 207,
+                                                        lineNumber: 193,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -865,7 +825,7 @@ const AdminLayout = ({ children })=>{
                                                                 children: "Orbit Booking"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 209,
+                                                                lineNumber: 195,
                                                                 columnNumber: 23
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -873,26 +833,26 @@ const AdminLayout = ({ children })=>{
                                                                 children: "Admin Panel"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 210,
+                                                                lineNumber: 196,
                                                                 columnNumber: 23
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 208,
+                                                        lineNumber: 194,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 206,
+                                                lineNumber: 192,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$separator$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Separator"], {
                                                 className: "bg-border/80"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 213,
+                                                lineNumber: 199,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -904,13 +864,13 @@ const AdminLayout = ({ children })=>{
                                                 children: "Add Booking"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 214,
+                                                lineNumber: 200,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                        lineNumber: 205,
+                                        lineNumber: 191,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -922,12 +882,12 @@ const AdminLayout = ({ children })=>{
                                             className: "h-4 w-4"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 228,
+                                            lineNumber: 214,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                        lineNumber: 222,
+                                        lineNumber: 208,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
@@ -940,17 +900,17 @@ const AdminLayout = ({ children })=>{
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                    lineNumber: 238,
+                                    lineNumber: 224,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                lineNumber: 232,
+                                lineNumber: 218,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                            lineNumber: 202,
+                            lineNumber: 188,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -984,7 +944,7 @@ const AdminLayout = ({ children })=>{
                                                     className: "h-5 w-5 flex-shrink-0"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                    lineNumber: 284,
+                                                    lineNumber: 270,
                                                     columnNumber: 23
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 sidebarOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -994,14 +954,14 @@ const AdminLayout = ({ children })=>{
                                                             children: item.label
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 287,
+                                                            lineNumber: 273,
                                                             columnNumber: 27
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                             className: `absolute right-3 h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 288,
+                                                            lineNumber: 274,
                                                             columnNumber: 27
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
@@ -1009,7 +969,7 @@ const AdminLayout = ({ children })=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 266,
+                                            lineNumber: 252,
                                             columnNumber: 21
                                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                             href: item.path,
@@ -1026,7 +986,7 @@ const AdminLayout = ({ children })=>{
                                                     className: "h-5 w-5 flex-shrink-0"
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                    lineNumber: 305,
+                                                    lineNumber: 291,
                                                     columnNumber: 23
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 sidebarOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1036,14 +996,14 @@ const AdminLayout = ({ children })=>{
                                                             children: item.label
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 308,
+                                                            lineNumber: 294,
                                                             columnNumber: 27
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         shouldHighlight && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronRight$3e$__["ChevronRight"], {
                                                             className: "h-4 w-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 309,
+                                                            lineNumber: 295,
                                                             columnNumber: 47
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
@@ -1051,7 +1011,7 @@ const AdminLayout = ({ children })=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 295,
+                                            lineNumber: 281,
                                             columnNumber: 21
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         hasChildren && sidebarOpen && isExpanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1083,20 +1043,20 @@ const AdminLayout = ({ children })=>{
                                                                         children: child.label
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                        lineNumber: 347,
+                                                                        lineNumber: 333,
                                                                         columnNumber: 33
                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                         className: `h-4 w-4 transition-transform ${child.label === 'Account' && accountOpen || child.label === 'Industries' && industriesOpen ? 'rotate-180' : ''}`
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                        lineNumber: 348,
+                                                                        lineNumber: 334,
                                                                         columnNumber: 33
                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 326,
+                                                                lineNumber: 312,
                                                                 columnNumber: 31
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             (child.label === 'Account' ? accountOpen : child.label === 'Industries' ? industriesOpen : false) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1125,20 +1085,20 @@ const AdminLayout = ({ children })=>{
                                                                                             children: gc.label
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                            lineNumber: 372,
+                                                                                            lineNumber: 358,
                                                                                             columnNumber: 45
                                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                             className: `h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                            lineNumber: 373,
+                                                                                            lineNumber: 359,
                                                                                             columnNumber: 45
                                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                    lineNumber: 366,
+                                                                                    lineNumber: 352,
                                                                                     columnNumber: 43
                                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                                 open && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1165,20 +1125,20 @@ const AdminLayout = ({ children })=>{
                                                                                                                 children: ggc.label
                                                                                                             }, void 0, false, {
                                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                                lineNumber: 391,
+                                                                                                                lineNumber: 377,
                                                                                                                 columnNumber: 57
                                                                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                                                 className: `h-4 w-4 transition-transform ${subOpen ? 'rotate-180' : ''}`
                                                                                                             }, void 0, false, {
                                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                                lineNumber: 392,
+                                                                                                                lineNumber: 378,
                                                                                                                 columnNumber: 57
                                                                                                             }, ("TURBOPACK compile-time value", void 0))
                                                                                                         ]
                                                                                                     }, void 0, true, {
                                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                        lineNumber: 385,
+                                                                                                        lineNumber: 371,
                                                                                                         columnNumber: 55
                                                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                                                     subOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1196,24 +1156,24 @@ const AdminLayout = ({ children })=>{
                                                                                                                     children: gggc.label
                                                                                                                 }, void 0, false, {
                                                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                                    lineNumber: 408,
+                                                                                                                    lineNumber: 394,
                                                                                                                     columnNumber: 65
                                                                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                                                                             }, gggc.path, false, {
                                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                                lineNumber: 400,
+                                                                                                                lineNumber: 386,
                                                                                                                 columnNumber: 63
                                                                                                             }, ("TURBOPACK compile-time value", void 0));
                                                                                                         })
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                        lineNumber: 395,
+                                                                                                        lineNumber: 381,
                                                                                                         columnNumber: 57
                                                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                                                 ]
                                                                                             }, ggc.path, true, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                lineNumber: 384,
+                                                                                                lineNumber: 370,
                                                                                                 columnNumber: 53
                                                                                             }, ("TURBOPACK compile-time value", void 0));
                                                                                         }
@@ -1225,24 +1185,24 @@ const AdminLayout = ({ children })=>{
                                                                                                 children: ggc.label
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                                lineNumber: 424,
+                                                                                                lineNumber: 410,
                                                                                                 columnNumber: 53
                                                                                             }, ("TURBOPACK compile-time value", void 0))
                                                                                         }, ggc.path, false, {
                                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                            lineNumber: 418,
+                                                                                            lineNumber: 404,
                                                                                             columnNumber: 51
                                                                                         }, ("TURBOPACK compile-time value", void 0));
                                                                                     })
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                    lineNumber: 376,
+                                                                                    lineNumber: 362,
                                                                                     columnNumber: 45
                                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                                             ]
                                                                         }, gc.path, true, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                            lineNumber: 365,
+                                                                            lineNumber: 351,
                                                                             columnNumber: 41
                                                                         }, ("TURBOPACK compile-time value", void 0));
                                                                     }
@@ -1256,24 +1216,24 @@ const AdminLayout = ({ children })=>{
                                                                             children: gc.label
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                            lineNumber: 444,
+                                                                            lineNumber: 430,
                                                                             columnNumber: 41
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     }, gc.path, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                        lineNumber: 434,
+                                                                        lineNumber: 420,
                                                                         columnNumber: 39
                                                                     }, ("TURBOPACK compile-time value", void 0));
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 355,
+                                                                lineNumber: 341,
                                                                 columnNumber: 33
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, child.path, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 325,
+                                                        lineNumber: 311,
                                                         columnNumber: 29
                                                     }, ("TURBOPACK compile-time value", void 0));
                                                 }
@@ -1287,30 +1247,30 @@ const AdminLayout = ({ children })=>{
                                                         children: child.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 464,
+                                                        lineNumber: 450,
                                                         columnNumber: 29
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 }, child.path, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                    lineNumber: 454,
+                                                    lineNumber: 440,
                                                     columnNumber: 27
                                                 }, ("TURBOPACK compile-time value", void 0));
                                             })
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 316,
+                                            lineNumber: 302,
                                             columnNumber: 21
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, item.path, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                    lineNumber: 264,
+                                    lineNumber: 250,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0));
                             })
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                            lineNumber: 244,
+                            lineNumber: 230,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1331,20 +1291,20 @@ const AdminLayout = ({ children })=>{
                                                             alt: adminEmail
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 486,
+                                                            lineNumber: 472,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$avatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AvatarFallback"], {
                                                             children: adminEmail.charAt(0).toUpperCase()
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 487,
+                                                            lineNumber: 473,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                    lineNumber: 485,
+                                                    lineNumber: 471,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 sidebarOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1357,7 +1317,7 @@ const AdminLayout = ({ children })=>{
                                                                     children: adminEmail.split('@')[0]
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                    lineNumber: 492,
+                                                                    lineNumber: 478,
                                                                     columnNumber: 25
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1365,20 +1325,20 @@ const AdminLayout = ({ children })=>{
                                                                     children: adminEmail
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                    lineNumber: 493,
+                                                                    lineNumber: 479,
                                                                     columnNumber: 25
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 491,
+                                                            lineNumber: 477,
                                                             columnNumber: 23
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                             className: "h-4 w-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 495,
+                                                            lineNumber: 481,
                                                             columnNumber: 23
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
@@ -1386,12 +1346,12 @@ const AdminLayout = ({ children })=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 479,
+                                            lineNumber: 465,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                        lineNumber: 478,
+                                        lineNumber: 464,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
@@ -1402,12 +1362,12 @@ const AdminLayout = ({ children })=>{
                                                 children: "My Account"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 501,
+                                                lineNumber: 487,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuSeparator"], {}, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 502,
+                                                lineNumber: 488,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -1417,25 +1377,25 @@ const AdminLayout = ({ children })=>{
                                                         className: "mr-2 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 504,
+                                                        lineNumber: 490,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Profile Settings"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 505,
+                                                        lineNumber: 491,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 503,
+                                                lineNumber: 489,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuSeparator"], {}, void 0, false, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 507,
+                                                lineNumber: 493,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -1446,48 +1406,48 @@ const AdminLayout = ({ children })=>{
                                                         className: "mr-2 h-4 w-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 509,
+                                                        lineNumber: 495,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Logout"
                                                     }, void 0, false, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 510,
+                                                        lineNumber: 496,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                lineNumber: 508,
+                                                lineNumber: 494,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                        lineNumber: 500,
+                                        lineNumber: 486,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                lineNumber: 477,
+                                lineNumber: 463,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                            lineNumber: 476,
+                            lineNumber: 462,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                    lineNumber: 200,
+                    lineNumber: 186,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                lineNumber: 195,
+                lineNumber: 181,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1518,7 +1478,7 @@ const AdminLayout = ({ children })=>{
                                             })()
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 528,
+                                            lineNumber: 514,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         pathname === "/admin/dashboard" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1529,13 +1489,13 @@ const AdminLayout = ({ children })=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 545,
+                                            lineNumber: 531,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                    lineNumber: 527,
+                                    lineNumber: 513,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1554,7 +1514,7 @@ const AdminLayout = ({ children })=>{
                                                                 className: "h-5 w-5"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 559,
+                                                                lineNumber: 545,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             unreadCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1562,18 +1522,18 @@ const AdminLayout = ({ children })=>{
                                                                 children: unreadCount
                                                             }, void 0, false, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 561,
+                                                                lineNumber: 547,
                                                                 columnNumber: 23
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                        lineNumber: 554,
+                                                        lineNumber: 540,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 }, void 0, false, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                    lineNumber: 553,
+                                                    lineNumber: 539,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
@@ -1587,7 +1547,7 @@ const AdminLayout = ({ children })=>{
                                                                     children: "Notifications"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                    lineNumber: 569,
+                                                                    lineNumber: 555,
                                                                     columnNumber: 21
                                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1599,7 +1559,7 @@ const AdminLayout = ({ children })=>{
                                                                             children: "Mark all as read"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                            lineNumber: 571,
+                                                                            lineNumber: 557,
                                                                             columnNumber: 23
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1607,7 +1567,7 @@ const AdminLayout = ({ children })=>{
                                                                             children: "·"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                            lineNumber: 572,
+                                                                            lineNumber: 558,
                                                                             columnNumber: 23
                                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1616,24 +1576,24 @@ const AdminLayout = ({ children })=>{
                                                                             children: "Clear all"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                            lineNumber: 573,
+                                                                            lineNumber: 559,
                                                                             columnNumber: 23
                                                                         }, ("TURBOPACK compile-time value", void 0))
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                    lineNumber: 570,
+                                                                    lineNumber: 556,
                                                                     columnNumber: 21
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 568,
+                                                            lineNumber: 554,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuSeparator"], {}, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 576,
+                                                            lineNumber: 562,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         notifications.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1641,7 +1601,7 @@ const AdminLayout = ({ children })=>{
                                                             children: "No notifications"
                                                         }, void 0, false, {
                                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                            lineNumber: 578,
+                                                            lineNumber: 564,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         notifications.map((n)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -1651,7 +1611,7 @@ const AdminLayout = ({ children })=>{
                                                                         className: `mt-1 h-2 w-2 rounded-full ${n.read ? 'bg-muted-foreground/30' : 'bg-cyan-500'}`
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                        lineNumber: 582,
+                                                                        lineNumber: 568,
                                                                         columnNumber: 23
                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1662,7 +1622,7 @@ const AdminLayout = ({ children })=>{
                                                                                 children: n.title
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                lineNumber: 584,
+                                                                                lineNumber: 570,
                                                                                 columnNumber: 25
                                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1670,13 +1630,13 @@ const AdminLayout = ({ children })=>{
                                                                                 children: n.description
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                                lineNumber: 585,
+                                                                                lineNumber: 571,
                                                                                 columnNumber: 25
                                                                             }, ("TURBOPACK compile-time value", void 0))
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                        lineNumber: 583,
+                                                                        lineNumber: 569,
                                                                         columnNumber: 23
                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1690,25 +1650,25 @@ const AdminLayout = ({ children })=>{
                                                                         children: "Delete"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                        lineNumber: 587,
+                                                                        lineNumber: 573,
                                                                         columnNumber: 23
                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                 ]
                                                             }, n.id, true, {
                                                                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                                lineNumber: 581,
+                                                                lineNumber: 567,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0)))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                                    lineNumber: 567,
+                                                    lineNumber: 553,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 552,
+                                            lineNumber: 538,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1721,24 +1681,24 @@ const AdminLayout = ({ children })=>{
                                             children: "View Website"
                                         }, void 0, false, {
                                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                            lineNumber: 599,
+                                            lineNumber: 585,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                                    lineNumber: 550,
+                                    lineNumber: 536,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                            lineNumber: 526,
+                            lineNumber: 512,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                        lineNumber: 525,
+                        lineNumber: 511,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Desktop$2f$Premier$2d$pro$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -1746,19 +1706,19 @@ const AdminLayout = ({ children })=>{
                         children: children
                     }, void 0, false, {
                         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                        lineNumber: 614,
+                        lineNumber: 600,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-                lineNumber: 519,
+                lineNumber: 505,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/OneDrive/Desktop/Premier-pro/src/layouts/AdminLayout.tsx",
-        lineNumber: 193,
+        lineNumber: 179,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

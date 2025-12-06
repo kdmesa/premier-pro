@@ -1,64 +1,48 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, Building2, Shield } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Save, Building2, Shield, CreditCard, FileText, Gift } from "lucide-react";
 
 export default function AccountSettingsPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  useEffect(() => {
-    const section = searchParams.get("section");
-    if (section) {
-      const el = document.getElementById(section);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  }, [searchParams]);
-
   return (
     <div className="space-y-6">
-      {/* In-page submenu */}
-      <div className="flex items-center justify-end">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">Account sections</Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>Go to section</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push("/admin/settings/account?section=your-info")}>Your info</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/admin/settings/account?section=earn-rewards")}>Earn Rewards</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/admin/settings/account?section=billing")}>Billing</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/admin/settings/account?section=subscription-plans")}>Subscription plans</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/admin/settings/account?section=invoices")}>Invoices</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      <Tabs defaultValue="your-info" className="w-full">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="your-info" className="flex items-center gap-2">
+            <Building2 className="h-4 w-4" />
+            <span>Your Info</span>
+          </TabsTrigger>
+          <TabsTrigger value="earn-rewards" className="flex items-center gap-2">
+            <Gift className="h-4 w-4" />
+            <span>Rewards</span>
+          </TabsTrigger>
+          <TabsTrigger value="billing" className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4" />
+            <span>Billing</span>
+          </TabsTrigger>
+          <TabsTrigger value="subscription-plans" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            <span>Plans</span>
+          </TabsTrigger>
+          <TabsTrigger value="invoices" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            <span>Invoices</span>
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Your info */}
-      <Card id="your-info">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Building2 className="h-5 w-5 text-primary" />
-            <CardTitle>Your info</CardTitle>
-          </div>
-          <CardDescription>Update your personal or company details</CardDescription>
-        </CardHeader>
+        <TabsContent value="your-info" className="pt-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-primary" />
+                <CardTitle>Your info</CardTitle>
+              </div>
+              <CardDescription>Update your personal or company details</CardDescription>
+            </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -82,34 +66,36 @@ export default function AccountSettingsPage() {
             <Save className="h-4 w-4 mr-2" />
             Save Changes
           </Button>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Earn Rewards */}
-      <Card id="earn-rewards">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <CardTitle>Earn Rewards</CardTitle>
-          </div>
-          <CardDescription>Configure referral codes and loyalty rewards</CardDescription>
-        </CardHeader>
+        <TabsContent value="earn-rewards" className="pt-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Gift className="h-5 w-5 text-primary" />
+                <CardTitle>Earn Rewards</CardTitle>
+              </div>
+              <CardDescription>Configure referral codes and loyalty rewards</CardDescription>
+            </CardHeader>
         <CardContent>
           <div className="text-sm text-muted-foreground">
             Placeholder content for rewards configuration.
           </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Billing */}
-      <Card id="billing">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <CardTitle>Billing</CardTitle>
-          </div>
-          <CardDescription>Manage your payment methods</CardDescription>
-        </CardHeader>
+        <TabsContent value="billing" className="pt-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <CreditCard className="h-5 w-5 text-primary" />
+                <CardTitle>Billing</CardTitle>
+              </div>
+              <CardDescription>Manage your payment methods</CardDescription>
+            </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -133,18 +119,19 @@ export default function AccountSettingsPage() {
             <Save className="h-4 w-4 mr-2" />
             Save Billing
           </Button>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Subscription plans */}
-      <Card id="subscription-plans">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <CardTitle>Subscription plans</CardTitle>
-          </div>
-          <CardDescription>View or change your plan</CardDescription>
-        </CardHeader>
+        <TabsContent value="subscription-plans" className="pt-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Shield className="h-5 w-5 text-primary" />
+                <CardTitle>Subscription plans</CardTitle>
+              </div>
+              <CardDescription>View or change your plan</CardDescription>
+            </CardHeader>
         <CardContent>
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>Current plan: Starter (placeholder)</p>
@@ -153,22 +140,25 @@ export default function AccountSettingsPage() {
               <Button style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}>Upgrade</Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      {/* Invoices */}
-      <Card id="invoices">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <CardTitle>Invoices</CardTitle>
-          </div>
-          <CardDescription>Download or view past invoices</CardDescription>
-        </CardHeader>
+        <TabsContent value="invoices" className="pt-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-primary" />
+                <CardTitle>Invoices</CardTitle>
+              </div>
+              <CardDescription>Download or view past invoices</CardDescription>
+            </CardHeader>
         <CardContent>
           <div className="text-sm text-muted-foreground">No invoices yet. This is a placeholder.</div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

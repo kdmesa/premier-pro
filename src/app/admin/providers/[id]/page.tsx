@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, Mail, Phone, Star, User as UserIcon, UserMinus, ShieldBan, BellOff } from "lucide-react";
+import { ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, Mail, Phone, Star, User as UserIcon, UserMinus, ShieldBan, ShieldCheck, BellOff, BellRing } from "lucide-react";
 
 const PROVIDERS_STORAGE_KEY = "adminProviders";
 const BOOKINGS_STORAGE_KEY = "adminBookings";
@@ -36,6 +36,11 @@ export default function ProviderProfilePage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const [provider, setProvider] = useState<Provider | null>(null);
+  const [buttonStates, setButtonStates] = useState({
+    isActive: true,
+    isBlocked: false,
+    isSubscribed: true
+  });
   const id = params?.id;
   const { toast } = useToast();
 
@@ -204,31 +209,72 @@ export default function ProviderProfilePage() {
               </div>
             </div>
             <div className="w-full md:w-[420px] flex md:justify-end">
-              <div className="grid grid-cols-1 gap-2 ml-auto self-end">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-64 h-11 px-4 py-3 text-base justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200"
-                >
-                  <UserMinus className="h-4 w-4 mr-2" />
-                  Deactivate
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-64 h-11 px-4 py-3 text-base justify-start rounded-md bg-amber-100 text-amber-800 hover:bg-amber-200 dark:bg-amber-900/20 dark:text-amber-300"
-                >
-                  <ShieldBan className="h-4 w-4 mr-2" />
-                  Block Access
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-64 h-11 px-4 py-3 text-base justify-start rounded-md bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800/60 dark:text-slate-200"
-                >
-                  <BellOff className="h-4 w-4 mr-2" />
-                  Unsubscribe
-                </Button>
+              <div className="flex items-center gap-2 ml-auto self-end">
+                <div className="relative group">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${buttonStates.isActive ? 'bg-slate-200 hover:bg-slate-300' : 'bg-green-100 hover:bg-green-200'} text-slate-800 dark:bg-slate-800/60 dark:text-slate-200`}
+                    title={buttonStates.isActive ? 'Deactivate' : 'Activate'}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isActive: !prev.isActive,
+                      status: !prev.isActive ? 'active' : 'inactive' as ProviderStatus
+                    }))}
+                  >
+                    {buttonStates.isActive ? (
+                      <UserMinus className="h-5 w-5" />
+                    ) : (
+                      <UserIcon className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isActive ? 'Deactivate' : 'Activate'}
+                  </div>
+                </div>
+                <div className="relative group">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${buttonStates.isBlocked ? 'bg-red-100 hover:bg-red-200' : 'bg-amber-100 hover:bg-amber-200'} text-amber-800 dark:bg-amber-900/20 dark:text-amber-300`}
+                    title={buttonStates.isBlocked ? 'Unblock Access' : 'Block Access'}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isBlocked: !prev.isBlocked,
+                      status: !prev.isBlocked ? 'suspended' : 'active' as ProviderStatus
+                    }))}
+                  >
+                    {buttonStates.isBlocked ? (
+                      <ShieldCheck className="h-5 w-5" />
+                    ) : (
+                      <ShieldBan className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isBlocked ? 'Unblock Access' : 'Block Access'}
+                  </div>
+                </div>
+                <div className="relative group">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`h-10 w-10 rounded-full ${!buttonStates.isSubscribed ? 'bg-blue-100 hover:bg-blue-200' : 'bg-slate-200 hover:bg-slate-300'} text-slate-800 dark:bg-slate-800/60 dark:text-slate-200`}
+                    title={buttonStates.isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+                    onClick={() => setButtonStates(prev => ({
+                      ...prev,
+                      isSubscribed: !prev.isSubscribed
+                    }))}
+                  >
+                    {buttonStates.isSubscribed ? (
+                      <BellOff className="h-5 w-5" />
+                    ) : (
+                      <BellRing className="h-5 w-5" />
+                    )}
+                  </Button>
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {buttonStates.isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

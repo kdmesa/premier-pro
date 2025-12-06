@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -22,7 +23,9 @@ import {
   User,
   ChevronDown,
   Layout,
-  Bell
+  Bell,
+  List,
+  Clock
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -50,6 +53,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const isIndustriesPath = pathname?.startsWith("/admin/settings/industries") ?? false;
   const [industriesOpen, setIndustriesOpen] = useState(isIndustriesPath);
   const isMarketingPath = pathname?.startsWith("/admin/marketing") ?? false;
+  const isStaffPath = pathname?.startsWith("/admin/settings/staff") ?? false;
   const [marketingOpen, setMarketingOpen] = useState(isMarketingPath);
   const [industries, setIndustries] = useState<string[]>([]);
   const [notifications, setNotifications] = useState<
@@ -115,41 +119,85 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
-    { icon: Calendar, label: "Bookings", path: "/admin/bookings" },
-    { icon: Users, label: "Customers", path: "/admin/customers" },
-    { icon: UserCog, label: "Providers", path: "/admin/providers" },
-    { icon: UserPlus, label: "Hiring", path: "/admin/hiring" },
-    {
-      icon: Megaphone,
-      label: "Marketing",
-      path: "/admin/marketing",
-      children: [
-        { label: "Coupons", path: "/admin/marketing/coupons" },
-        { label: "Daily Discounts", path: "/admin/marketing/daily-discounts" },
-        { label: "Gift Card", path: "/admin/marketing/gift-cards" },
-      ],
+    { 
+      icon: LayoutDashboard, 
+      label: "Dashboard", 
+      path: "/admin/dashboard",
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600"
     },
-    { icon: BarChart3, label: "Reports", path: "/admin/reports" },
-    { icon: FileText, label: "Logs", path: "/admin/logs" },
-    // { icon: Briefcase, label: "Services", path: "/admin/services" },
+    { 
+      icon: Calendar, 
+      label: "Bookings", 
+      path: "/admin/bookings",
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600"
+    },
+    { 
+      icon: Users, 
+      label: "Customers", 
+      path: "/admin/customers",
+      iconBg: "bg-purple-100",
+      iconColor: "text-purple-600"
+    },
+    { 
+      icon: FileText, 
+      label: "Leads", 
+      path: "/admin/leads",
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600"
+    },
+    { 
+      icon: UserPlus, 
+      label: "Hiring", 
+      path: "/admin/hiring",
+      iconBg: "bg-cyan-100",
+      iconColor: "text-cyan-600"
+    },
+    { 
+      icon: UserCog, 
+      label: "Providers", 
+      path: "/admin/providers",
+      iconBg: "bg-amber-100",
+      iconColor: "text-amber-600"
+    },
+    { 
+      icon: Megaphone, 
+      label: "Marketing", 
+      path: "/admin/marketing",
+      iconBg: "bg-pink-100",
+      iconColor: "text-pink-600"
+    },
+    { 
+      icon: BarChart3, 
+      label: "Reports", 
+      path: "/admin/reports",
+      iconBg: "bg-emerald-100",
+      iconColor: "text-emerald-600"
+    },
+    { 
+      icon: List, 
+      label: "Logs", 
+      path: "/admin/logs",
+      iconBg: "bg-gray-100",
+      iconColor: "text-gray-600"
+    },
     {
       icon: Settings,
       label: "Settings",
       path: "/admin/settings",
+      iconBg: "bg-indigo-100",
+      iconColor: "text-indigo-600",
       children: [
-        {
-          label: "Account",
-          path: "/admin/settings/account",
-          children: [
-            { label: "Your info", path: "/admin/settings/account/your-info" },
-            { label: "Earn Rewards", path: "/admin/settings/account/earn-rewards" },
-            { label: "Billing", path: "/admin/settings/account/billing" },
-            { label: "Subscription plans", path: "/admin/settings/account/subscription-plans" },
-            { label: "Invoices", path: "/admin/settings/account/invoices" },
-          ],
+        { 
+          icon: Settings,
+          label: 'General', 
+          path: '/admin/settings/general',
+          iconBg: 'bg-blue-100',
+          iconColor: 'text-blue-600'
         },
-        { label: "Design Forms & Website", path: "/admin/settings/design" },
+        { label: "Account", path: "/admin/settings/account" },
+        { label: "Website & Form Design", path: "/admin/settings/design" },
         {
           label: "Industries",
           path: "/admin/settings/industries",
@@ -157,24 +205,40 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             { label: 'Add Industries', path: '/admin/settings/industries' },
             ...(industries || []).map((name) => ({
               label: name,
-              path: `/admin/settings/industries?industry=${encodeURIComponent(name)}`,
+              path: `/admin/settings/industries/form-1?industry=${encodeURIComponent(name)}`,
               children: [
                 { 
                   label: 'Form 1', 
-                  path: `/admin/settings/industries/form-1?industry=${encodeURIComponent(name)}`,
-                  children: [
-                    { label: '1. Locations', path: `/admin/settings/industries/form-1/locations?industry=${encodeURIComponent(name)}` },
-                    { label: '2. Frequencies', path: `/admin/settings/industries/form-1/frequencies?industry=${encodeURIComponent(name)}` },
-                    { label: '3. Service Category', path: `/admin/settings/industries/form-1/service-category?industry=${encodeURIComponent(name)}` },
-                    { label: '4. Pricing Parameter', path: `/admin/settings/industries/form-1/pricing-parameter?industry=${encodeURIComponent(name)}` },
-                    { label: '5. Extras', path: `/admin/settings/industries/form-1/extras?industry=${encodeURIComponent(name)}` },
-                    { label: '6. Custom Sections', path: `/admin/settings/industries/form-1/custom-sections?industry=${encodeURIComponent(name)}` },
-                  ]
+                  path: `/admin/settings/industries/form-1?industry=${encodeURIComponent(name)}`
                 },
-                { label: 'Settings', path: `/admin/settings/industries/settings?industry=${encodeURIComponent(name)}` },
+                { 
+                  label: 'Settings', 
+                  path: `/admin/settings/industries/settings?industry=${encodeURIComponent(name)}`
+                }
               ],
             })),
           ],
+        },
+        { 
+          icon: Clock,
+          label: 'Reserve Slot', 
+          path: '/admin/settings/reserve-slot',
+          iconBg: 'bg-amber-100',
+          iconColor: 'text-amber-600'
+        },
+        { 
+          icon: Bell,
+          label: 'Notifications', 
+          path: '/admin/settings/notifications',
+          iconBg: 'bg-blue-100',
+          iconColor: 'text-blue-600'
+        },
+        { 
+          icon: Users,
+          label: 'Staff', 
+          path: '/admin/settings/staff',
+          iconBg: 'purple-100',
+          iconColor: 'text-purple-600'
         },
       ],
     },
@@ -202,22 +266,12 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex items-start justify-between p-4 border-b border-border">
             {sidebarOpen ? (
               <>
-                <div className="w-full space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Image src={logo} alt="Logo" width={44} height={44} className="rounded" />
-                    <div>
-                      <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">Orbit Booking</h2>
-                      <p className="text-xs text-muted-foreground">Admin Panel</p>
-                    </div>
+                <div className="flex items-center gap-3">
+                  <Image src={logo} alt="Logo" width={44} height={44} className="rounded" />
+                  <div>
+                    <h2 className="text-sm font-semibold uppercase tracking-wide text-foreground">Orbit Booking</h2>
+                    <p className="text-xs text-muted-foreground">Admin Panel</p>
                   </div>
-                  <Separator className="bg-border/80" />
-                  <Button
-                    className="w-full text-white shadow-sm"
-                    style={{ background: "linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)" }}
-                    onClick={() => router.push("/admin/add-booking")}
-                  >
-                    Add Booking
-                  </Button>
                 </div>
                 <Button
                   variant="ghost"
@@ -255,7 +309,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                   ? marketingOpen
                   : false
                 : false;
-              const isActive = hasChildren ? pathname === item.path && !childActive : pathname === item.path;
+              const isActive = hasChildren 
+                ? pathname === item.path && !childActive 
+                : pathname === item.path || 
+                  (item.path === '/admin/settings/staff' && isStaffPath);
               const shouldHighlight = hasChildren && item.label === "Settings"
                 ? isActive
                 : isActive;
@@ -281,7 +338,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       }`}
                       style={shouldHighlight ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
                     >
-                      <Icon className="h-5 w-5 flex-shrink-0" />
+                      <div className={cn("flex h-8 w-8 items-center justify-center rounded-full", item.iconBg, item.iconColor)}>
+                        <Icon className="h-4 w-4" />
+                      </div>
                       {sidebarOpen && (
                         <>
                           <span className="flex-1 text-sm font-medium text-left">{item.label}</span>
@@ -302,7 +361,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       }`}
                       style={isActive ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
                     >
-                      <Icon className="h-5 w-5 flex-shrink-0" />
+                      <div className={cn("flex h-8 w-8 items-center justify-center rounded-full", item.iconBg, item.iconColor)}>
+                        <Icon className="h-4 w-4" />
+                      </div>
                       {sidebarOpen && (
                         <>
                           <span className="flex-1 text-sm font-medium">{item.label}</span>
@@ -535,10 +596,19 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                   if (pathname?.startsWith("/admin/providers/") && pathname !== "/admin/providers") {
                     return "Provider Profile";
                   }
-                  if (pathname?.startsWith("/admin/marketing")) {
-                    return "Marketing";
-                  }
-                  return menuItems.find((item) => item.path === pathname)?.label || "Dashboard";
+                  // Find the active menu item by checking paths
+                  const findActiveLabel = (items: any[], currentPath: string): string | undefined => {
+                    for (const item of items) {
+                      if (item.path === currentPath) return item.label;
+                      if (item.children) {
+                        const childMatch = findActiveLabel(item.children, currentPath);
+                        if (childMatch) return childMatch;
+                      }
+                    }
+                    return undefined;
+                  };
+                  
+                  return findActiveLabel(menuItems, pathname || '') || 'Dashboard';
                 })()}
               </h1>
               {pathname === "/admin/dashboard" && (
@@ -596,16 +666,16 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => router.push("/")}
-                className="hover:text-white transition-all"
+              <a
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 hover:text-white transition-all"
                 onMouseEnter={(e) => e.currentTarget.style.background = 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = ''}
               >
                 View Website
-              </Button>
+              </a>
             </div>
           </div>
         </header>
