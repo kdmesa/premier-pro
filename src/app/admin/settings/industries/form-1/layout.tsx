@@ -24,7 +24,6 @@ export default function Form1Layout({
     { id: "service-category", label: "Service Category" },
     { id: "pricing-parameter", label: "Pricing Parameter" },
     { id: "extras", label: "Extras" },
-    { id: "custom-sections", label: "Custom Sections" },
   ];
 
   return (

@@ -1,87 +1,30 @@
 {
   "app": {
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/_not-found/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/add-booking/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/add-provider/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/bookings/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/[id]/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/customers/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/dashboard/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/hiring/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/login/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/new/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/coupons/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/providers/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/form-1/frequencies/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/staff/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/form-1/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/builder/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/form-1/service-category/new/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/history/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/form-1/service-category/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/appointments/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/customer/dashboard/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/login/page": [
+    "[project]/OneDrive/Desktop/Premier-pro/src/app/admin/settings/industries/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
     "[project]/OneDrive/Desktop/Premier-pro/src/app/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/availability/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/bookings/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/dashboard/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/drive/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/earnings/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/profile/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
-    "[project]/OneDrive/Desktop/Premier-pro/src/app/provider/settings/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ]
   },

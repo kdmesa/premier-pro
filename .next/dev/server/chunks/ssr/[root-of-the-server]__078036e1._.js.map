@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/kayed/OneDrive/Desktop/Premier-pro/src/app/admin/marketing/gift-cards/page.tsx"],"sourcesContent":["export default function GiftCardsPage() {\r\n  return (\r\n    <div className=\"space-y-4\">\r\n      <h2 className=\"text-xl font-semibold\">Gift Cards</h2>\r\n      <p className=\"text-muted-foreground text-sm\">Issue and track gift cards.</p>\r\n    </div>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,uRAAC;QAAI,WAAU;;0BACb,uRAAC;gBAAG,WAAU;0BAAwB;;;;;;0BACtC,uRAAC;gBAAE,WAAU;0BAAgC;;;;;;;;;;;;AAGnD","debugId":null}}]
-}

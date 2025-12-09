@@ -261,10 +261,10 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
-// Validate ../../../src/app/admin/settings/industries/form-1/custom-sections/page.tsx
+// Validate ../../../src/app/admin/settings/industries/form-1/extras/new/page.tsx
 {
-  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/custom-sections">> = Specific
-  const handler = {} as typeof import("../../../src/app/admin/settings/industries/form-1/custom-sections/page.js")
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/extras/new">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/industries/form-1/extras/new/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
@@ -315,10 +315,37 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/admin/settings/industries/form-1/pricing-parameter/manage-variables/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/pricing-parameter/manage-variables">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/industries/form-1/pricing-parameter/manage-variables/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/admin/settings/industries/form-1/pricing-parameter/new/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/pricing-parameter/new">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/industries/form-1/pricing-parameter/new/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/admin/settings/industries/form-1/pricing-parameter/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/pricing-parameter">> = Specific
   const handler = {} as typeof import("../../../src/app/admin/settings/industries/form-1/pricing-parameter/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/admin/settings/industries/form-1/service-category/new/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/service-category/new">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/industries/form-1/service-category/new/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

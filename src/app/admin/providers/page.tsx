@@ -324,12 +324,37 @@ const ProvidersPage = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
-                        <DropdownMenuItem>Edit Provider</DropdownMenuItem>
-                        <DropdownMenuItem>View Jobs</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push(`/admin/providers/${provider.id}`)}>
+                          View Details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push(`/admin/providers/${provider.id}`)}>
+                          Edit Provider
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                          toast({
+                            title: "View Jobs",
+                            description: `Viewing jobs for ${provider.name}`,
+                          });
+                        }}>
+                          View Jobs
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600">
-                          Suspend Provider
+                        <DropdownMenuItem 
+                          className="text-red-600"
+                          onClick={() => {
+                            const newStatus: ProviderStatus = provider.status === 'suspended' ? 'active' : 'suspended';
+                            setProviders(providers.map(p => 
+                              p.id === provider.id 
+                                ? { ...p, status: newStatus }
+                                : p
+                            ));
+                            toast({
+                              title: newStatus === 'suspended' ? "Provider Suspended" : "Provider Activated",
+                              description: `${provider.name} has been ${newStatus === 'suspended' ? 'suspended' : 'activated'}.`,
+                            });
+                          }}
+                        >
+                          {provider.status === 'suspended' ? 'Activate Provider' : 'Suspend Provider'}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

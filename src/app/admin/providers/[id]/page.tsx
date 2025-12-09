@@ -472,19 +472,31 @@ export default function ProviderProfilePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label>Name</Label>
-                  <Input value={provider.name} readOnly />
+                  <Input 
+                    value={provider.name} 
+                    onChange={(e) => setProvider({...provider, name: e.target.value})}
+                  />
                 </div>
                 <div>
                   <Label>Email</Label>
-                  <Input value={provider.email} readOnly />
+                  <Input 
+                    value={provider.email} 
+                    onChange={(e) => setProvider({...provider, email: e.target.value})}
+                  />
                 </div>
                 <div>
                   <Label>Phone</Label>
-                  <Input value={provider.phone} readOnly />
+                  <Input 
+                    value={provider.phone} 
+                    onChange={(e) => setProvider({...provider, phone: e.target.value})}
+                  />
                 </div>
                 <div>
                   <Label>Specialization</Label>
-                  <Input value={provider.specialization} readOnly />
+                  <Input 
+                    value={provider.specialization} 
+                    onChange={(e) => setProvider({...provider, specialization: e.target.value})}
+                  />
                 </div>
                 <div>
                   <Label>Completed Jobs</Label>
@@ -498,7 +510,22 @@ export default function ProviderProfilePage() {
               <div className="flex items-center justify-end pt-2 mt-2 border-t">
                 <Button
                   className="text-white"
-                  onClick={() => toast({ title: "Changes saved", description: "Provider profile updated." })}
+                  onClick={() => {
+                    try {
+                      const stored = localStorage.getItem(PROVIDERS_STORAGE_KEY);
+                      if (stored) {
+                        const list: Provider[] = JSON.parse(stored);
+                        const index = list.findIndex((p) => String(p.id) === String(id));
+                        if (index !== -1) {
+                          list[index] = provider;
+                          localStorage.setItem(PROVIDERS_STORAGE_KEY, JSON.stringify(list));
+                        }
+                      }
+                      toast({ title: "Changes saved", description: "Provider profile updated successfully." });
+                    } catch (error) {
+                      toast({ title: "Error", description: "Failed to save changes.", variant: "destructive" });
+                    }
+                  }}
                   style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' }}
                 >
                   Save Changes

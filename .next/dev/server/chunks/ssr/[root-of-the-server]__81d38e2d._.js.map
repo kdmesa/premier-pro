@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/kayed/OneDrive/Desktop/Premier-pro-main%20-%20Copy/src/app/admin/settings/page.tsx"],"sourcesContent":["import Settings from \"@/pages/admin/Settings\";\r\n\r\nexport default function AdminSettingsPage() {\r\n  return <Settings />;\r\n}\r\n"],"names":[],"mappings":";;;;;;;;;;;;AAEe,SAAS;IACtB,qBAAO,2SAAC;;;;;AACV","debugId":null}}]
-}
