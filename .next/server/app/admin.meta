@@ -9,6 +9,7 @@
     "/_full",
     "/admin/__PAGE__",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -10,6 +10,7 @@
     "/admin/providers/__PAGE__",
     "/admin/providers",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

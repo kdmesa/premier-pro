@@ -11,6 +11,7 @@
     "/customer/appointments/canceled",
     "/customer/appointments",
     "/customer",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

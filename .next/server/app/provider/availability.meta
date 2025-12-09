@@ -10,6 +10,7 @@
     "/provider/availability/__PAGE__",
     "/provider/availability",
     "/provider",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

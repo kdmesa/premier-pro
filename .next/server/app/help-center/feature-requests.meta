@@ -10,6 +10,7 @@
     "/help-center/feature-requests/__PAGE__",
     "/help-center/feature-requests",
     "/help-center",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -11,6 +11,7 @@
     "/admin/settings/staff",
     "/admin/settings",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

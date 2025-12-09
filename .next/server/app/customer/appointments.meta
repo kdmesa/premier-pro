@@ -10,6 +10,7 @@
     "/customer/appointments/__PAGE__",
     "/customer/appointments",
     "/customer",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

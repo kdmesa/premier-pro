@@ -10,6 +10,7 @@
     "/provider/dashboard/__PAGE__",
     "/provider/dashboard",
     "/provider",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

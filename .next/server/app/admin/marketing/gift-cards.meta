@@ -11,6 +11,7 @@
     "/admin/marketing/gift-cards",
     "/admin/marketing",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

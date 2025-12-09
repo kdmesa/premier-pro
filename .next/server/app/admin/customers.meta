@@ -10,6 +10,7 @@
     "/admin/customers/__PAGE__",
     "/admin/customers",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -13,6 +13,7 @@
     "/admin/settings/industries",
     "/admin/settings",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

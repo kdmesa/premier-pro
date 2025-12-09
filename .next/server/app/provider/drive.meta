@@ -10,6 +10,7 @@
     "/provider/drive/__PAGE__",
     "/provider/drive",
     "/provider",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -10,6 +10,7 @@
     "/admin/bookings/__PAGE__",
     "/admin/bookings",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -10,6 +10,7 @@
     "/customer/profile/__PAGE__",
     "/customer/profile",
     "/customer",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

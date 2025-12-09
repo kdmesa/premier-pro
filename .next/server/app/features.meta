@@ -9,6 +9,7 @@
     "/_full",
     "/features/__PAGE__",
     "/features",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -10,6 +10,7 @@
     "/admin/services/__PAGE__",
     "/admin/services",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

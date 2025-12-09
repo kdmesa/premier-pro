@@ -10,6 +10,7 @@
     "/customer/dashboard/__PAGE__",
     "/customer/dashboard",
     "/customer",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

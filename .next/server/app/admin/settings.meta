@@ -10,6 +10,7 @@
     "/admin/settings/__PAGE__",
     "/admin/settings",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

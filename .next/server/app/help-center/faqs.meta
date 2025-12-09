@@ -10,6 +10,7 @@
     "/help-center/faqs/__PAGE__",
     "/help-center/faqs",
     "/help-center",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

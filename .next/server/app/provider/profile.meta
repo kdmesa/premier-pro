@@ -10,6 +10,7 @@
     "/provider/profile/__PAGE__",
     "/provider/profile",
     "/provider",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

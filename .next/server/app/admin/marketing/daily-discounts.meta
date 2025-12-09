@@ -11,6 +11,7 @@
     "/admin/marketing/daily-discounts",
     "/admin/marketing",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

@@ -10,6 +10,7 @@
     "/admin/leads/__PAGE__",
     "/admin/leads",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

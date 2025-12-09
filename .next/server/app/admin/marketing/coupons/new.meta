@@ -12,6 +12,7 @@
     "/admin/marketing/coupons",
     "/admin/marketing",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

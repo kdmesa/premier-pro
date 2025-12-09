@@ -9,6 +9,7 @@
     "/_full",
     "/builder/__PAGE__",
     "/builder",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }

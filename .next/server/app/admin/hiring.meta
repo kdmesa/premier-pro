@@ -10,6 +10,7 @@
     "/admin/hiring/__PAGE__",
     "/admin/hiring",
     "/admin",
-    "/_index"
+    "/_index",
+    "/_head"
   ]
 }
