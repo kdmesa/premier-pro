@@ -218,8 +218,10 @@ export default function AddBookingPage() {
       description: `New booking created for ${customerName}`,
     });
 
-    // Redirect back to bookings page
-    router.push("/admin/bookings");
+    // Redirect back to bookings page after a short delay to allow toast to render
+    setTimeout(() => {
+      router.push("/admin/bookings");
+    }, 100);
   };
 
   const handleCancel = () => {
@@ -228,7 +230,172 @@ export default function AddBookingPage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[0.8fr_2fr]">
+        {/* Summary Sidebar - Now on the LEFT */}
+        <div className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Booking Summary</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Industry</span>
+                <span className="font-medium">Home Cleaning</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Service</span>
+                <span className="font-medium">{newBooking.service || ""}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Frequency</span>
+                <span className="font-medium">{newBooking.frequency || "One-time"}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Length</span>
+                <span className="font-medium">{newBooking.duration} {newBooking.durationUnit === "Hours" ? "Hr" : "Min"} {newBooking.duration !== "01" && newBooking.durationUnit === "Hours" ? "0 Min" : ""}</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Payment Summary</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Service Total</span>
+                <span className="font-medium">${estimatedCost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Discounted Total</span>
+                <span className="font-medium">${discountedCost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-semibold">
+                <span>TOTAL</span>
+                <span>${discountedCost.toFixed(2)}</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Note Cards */}
+          <div className="space-y-3">
+            <Card className="border border-gray-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-4">
+                <CardTitle className="text-base font-medium text-gray-900">Private Booking Note</CardTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowPrivateBookingNote(!showPrivateBookingNote)}
+                  className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 ml-auto"
+                >
+                  {showPrivateBookingNote ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                </Button>
+              </CardHeader>
+              {showPrivateBookingNote && (
+                <CardContent className="pt-0 px-4 pb-4">
+                  <Input
+                    placeholder="Add private booking note..."
+                    value={newBooking.privateBookingNote}
+                    onChange={(e) => setNewBooking({ ...newBooking, privateBookingNote: e.target.value })}
+                  />
+                </CardContent>
+              )}
+            </Card>
+
+            <Card className="border border-gray-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-4">
+                <CardTitle className="text-base font-medium text-gray-900">Private Customer Note</CardTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowPrivateCustomerNote(!showPrivateCustomerNote)}
+                  className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 ml-auto"
+                >
+                  {showPrivateCustomerNote ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                </Button>
+              </CardHeader>
+              {showPrivateCustomerNote && (
+                <CardContent className="pt-0 px-4 pb-4">
+                  <Input
+                    placeholder="Add private customer note..."
+                    value={newBooking.privateCustomerNote}
+                    onChange={(e) => setNewBooking({ ...newBooking, privateCustomerNote: e.target.value })}
+                  />
+                </CardContent>
+              )}
+            </Card>
+
+            <Card className="border border-gray-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-4">
+                <CardTitle className="text-base font-medium text-gray-900">Note For Service Provider</CardTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowServiceProviderNote(!showServiceProviderNote)}
+                  className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 ml-auto"
+                >
+                  {showServiceProviderNote ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                </Button>
+              </CardHeader>
+              {showServiceProviderNote && (
+                <CardContent className="pt-0 px-4 pb-4">
+                  <Input
+                    placeholder="Add note for service provider..."
+                    value={newBooking.serviceProviderNote}
+                    onChange={(e) => setNewBooking({ ...newBooking, serviceProviderNote: e.target.value })}
+                  />
+                </CardContent>
+              )}
+            </Card>
+          </div>
+
+          {/* Exclude Options */}
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="exclude-cancellation-fee"
+                checked={newBooking.excludeCancellationFee}
+                onCheckedChange={(checked) => setNewBooking({ ...newBooking, excludeCancellationFee: !!checked })}
+              />
+              <Label htmlFor="exclude-cancellation-fee" className="text-sm">Exclude cancellation fee</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="exclude-minimum-fee"
+                checked={newBooking.excludeMinimumFee}
+                onCheckedChange={(checked) => setNewBooking({ ...newBooking, excludeMinimumFee: !!checked })}
+              />
+              <Label htmlFor="exclude-minimum-fee" className="text-sm">Exclude minimum fee</Label>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col gap-2 w-full">
+            <Button
+              onClick={handleAddBooking}
+              className="text-white w-full transition-all duration-200 hover:opacity-90 hover:shadow-lg"
+              style={{ backgroundColor: '#10B981' }}
+            >
+              Save Booking
+            </Button>
+            <Button
+              onClick={handleAddBooking}
+              className="text-white w-full transition-all duration-200 hover:opacity-90 hover:shadow-lg"
+              style={{ backgroundColor: '#A7B3D1' }}
+            >
+              Save As Draft
+            </Button>
+            <Button
+              onClick={handleAddBooking}
+              className="text-white w-full transition-all duration-200 hover:opacity-90 hover:shadow-lg"
+              style={{ backgroundColor: '#F5A250' }}
+            >
+              Save As Quote
+            </Button>
+          </div>
+        </div>
+
+        {/* Customer Details - Now on the RIGHT */}
         <Card className="border-primary/20 shadow-lg">
           <CardHeader className="space-y-1">
             <CardTitle>Customer Details</CardTitle>
@@ -496,191 +663,10 @@ export default function AddBookingPage() {
                     onChange={(e) => setNewBooking({ ...newBooking, notes: e.target.value })}
                   />
                 </div>
-
               </div>
             </div>
           </CardContent>
         </Card>
-
-        {/* Summary Sidebar */}
-        <div className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Booking Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Industry</span>
-                <span className="font-medium">Home Cleaning</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Service</span>
-                <span className="font-medium">{newBooking.service || ""}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Frequency</span>
-                <span className="font-medium">{newBooking.frequency || "One-time"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Length</span>
-                <span className="font-medium">{newBooking.duration} {newBooking.durationUnit === "Hours" ? "Hr" : "Min"} {newBooking.duration !== "01" && newBooking.durationUnit === "Hours" ? "0 Min" : ""}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Payment Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Service Total</span>
-                <span className="font-medium">${estimatedCost.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Discounted Total</span>
-                <span className="font-medium">${discountedCost.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between font-semibold">
-                <span>TOTAL</span>
-                <span>${discountedCost.toFixed(2)}</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Note Cards */}
-          <div className="space-y-3">
-            <Card className="border border-gray-200">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-4">
-                <CardTitle className="text-base font-medium text-gray-900">Private Booking Note</CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowPrivateBookingNote(!showPrivateBookingNote)}
-                  className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 ml-auto"
-                >
-                  {showPrivateBookingNote ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                </Button>
-              </CardHeader>
-              {showPrivateBookingNote && (
-                <CardContent className="pt-0 px-4 pb-4">
-                  <Input
-                    placeholder="Add private booking note..."
-                    value={newBooking.privateBookingNote}
-                    onChange={(e) => setNewBooking({ ...newBooking, privateBookingNote: e.target.value })}
-                  />
-                </CardContent>
-              )}
-            </Card>
-
-            <Card className="border border-gray-200">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-4">
-                <CardTitle className="text-base font-medium text-gray-900">Private Customer Note</CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowPrivateCustomerNote(!showPrivateCustomerNote)}
-                  className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 ml-auto"
-                >
-                  {showPrivateCustomerNote ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                </Button>
-              </CardHeader>
-              {showPrivateCustomerNote && (
-                <CardContent className="pt-0 px-4 pb-4">
-                  <Input
-                    placeholder="Add private customer note..."
-                    value={newBooking.privateCustomerNote}
-                    onChange={(e) => setNewBooking({ ...newBooking, privateCustomerNote: e.target.value })}
-                  />
-                </CardContent>
-              )}
-            </Card>
-
-            <Card className="border border-gray-200">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 py-4 px-4">
-                <CardTitle className="text-base font-medium text-gray-900">Note For Service Provider</CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowServiceProviderNote(!showServiceProviderNote)}
-                  className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 ml-auto"
-                >
-                  {showServiceProviderNote ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                </Button>
-              </CardHeader>
-              {showServiceProviderNote && (
-                <CardContent className="pt-0 px-4 pb-4">
-                  <Input
-                    placeholder="Add note for service provider..."
-                    value={newBooking.serviceProviderNote}
-                    onChange={(e) => setNewBooking({ ...newBooking, serviceProviderNote: e.target.value })}
-                  />
-                </CardContent>
-              )}
-            </Card>
-          </div>
-
-          {/* Exclude Options */}
-          <div className="space-y-3">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="exclude-cancellation-fee"
-                checked={newBooking.excludeCancellationFee}
-                onCheckedChange={(checked) => setNewBooking({ ...newBooking, excludeCancellationFee: !!checked })}
-              />
-              <Label htmlFor="exclude-cancellation-fee" className="text-sm">Exclude cancellation fee</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="exclude-minimum-fee"
-                checked={newBooking.excludeMinimumFee}
-                onCheckedChange={(checked) => setNewBooking({ ...newBooking, excludeMinimumFee: !!checked })}
-              />
-              <Label htmlFor="exclude-minimum-fee" className="text-sm">Exclude minimum fee</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="exclude-customer-notification"
-                checked={newBooking.excludeCustomerNotification}
-                onCheckedChange={(checked) => setNewBooking({ ...newBooking, excludeCustomerNotification: !!checked })}
-              />
-              <Label htmlFor="exclude-customer-notification" className="text-sm">Exclude customer notification</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="exclude-provider-notification"
-                checked={newBooking.excludeProviderNotification}
-                onCheckedChange={(checked) => setNewBooking({ ...newBooking, excludeProviderNotification: !!checked })}
-              />
-              <Label htmlFor="exclude-provider-notification" className="text-sm">Exclude provider notification</Label>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-2 w-full">
-            <Button
-              onClick={handleAddBooking}
-              className="text-white w-full"
-              style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}
-            >
-              Save Booking
-            </Button>
-            <Button
-              onClick={handleAddBooking}
-              className="text-white w-full"
-              style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)' }}
-            >
-              Save As Draft
-            </Button>
-            <Button
-              onClick={handleAddBooking}
-              className="text-white w-full"
-              style={{ background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)' }}
-            >
-              Save As Quote
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   );

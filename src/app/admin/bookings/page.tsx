@@ -36,7 +36,8 @@ import {
   Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
-  Send
+  Send,
+  UserPlus
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
@@ -109,6 +110,17 @@ const defaultBookings = [
 
 type Booking = typeof defaultBookings[number];
 
+// Mock providers data
+const mockProviders = [
+  { id: "P001", name: "Sarah Johnson", rating: 4.9, completedJobs: 156, specialties: ["Deep Cleaning", "Standard Cleaning"] },
+  { id: "P002", name: "Michael Chen", rating: 4.8, completedJobs: 142, specialties: ["Office Cleaning", "Carpet Cleaning"] },
+  { id: "P003", name: "Emily Rodriguez", rating: 4.7, completedJobs: 128, specialties: ["Move In/Out", "Deep Cleaning"] },
+  { id: "P004", name: "David Kim", rating: 4.9, completedJobs: 189, specialties: ["Standard Cleaning", "Office Cleaning"] },
+  { id: "P005", name: "Jessica Martinez", rating: 4.6, completedJobs: 95, specialties: ["Carpet Cleaning", "Deep Cleaning"] },
+];
+
+type Provider = typeof mockProviders[number];
+
 
 const getStatusBadge = (status: string) => {
   const styles = {
@@ -167,6 +179,8 @@ export default function BookingsPage() {
   const [hydrated, setHydrated] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [showProviderDialog, setShowProviderDialog] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
   const [currentDate, setCurrentDate] = useState(new Date());
   const { toast } = useToast();
@@ -228,6 +242,29 @@ export default function BookingsPage() {
       return updated;
     });
     setShowDetails(false);
+  };
+
+  const handleAssignProvider = () => {
+    if (!selectedProvider || !selectedBooking) return;
+    
+    setBookings((prev) => {
+      const updated = prev.map((booking) =>
+        booking.id === selectedBooking.id 
+          ? { ...booking, assignedProvider: selectedProvider.name } 
+          : booking
+      );
+      const activeSelection = updated.find((booking) => booking.id === selectedBooking.id) || null;
+      setSelectedBooking(activeSelection);
+      return updated;
+    });
+    
+    toast({
+      title: "Provider Assigned",
+      description: `${selectedProvider.name} has been assigned to booking ${selectedBooking.id}`,
+    });
+    
+    setShowProviderDialog(false);
+    setSelectedProvider(null);
   };
 
 
@@ -442,17 +479,17 @@ export default function BookingsPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1">
               {/* Day headers */}
               {dayNames.map(day => (
-                <div key={day} className="text-center font-semibold text-sm text-muted-foreground py-2">
+                <div key={day} className="text-center font-semibold text-xs text-muted-foreground py-1">
                   {day}
                 </div>
               ))}
               
               {/* Empty cells for days before month starts */}
               {Array.from({ length: startingDayOfWeek }).map((_, index) => (
-                <div key={`empty-${index}`} className="aspect-square" />
+                <div key={`empty-${index}`} className="h-20" />
               ))}
               
               {/* Calendar days */}
@@ -469,25 +506,25 @@ export default function BookingsPage() {
                 return (
                   <div
                     key={day}
-                    className={`aspect-square border rounded-lg p-2 hover:bg-muted/50 transition-colors cursor-pointer ${
+                    className={`h-20 border rounded-md p-1 hover:bg-muted/50 transition-colors cursor-pointer ${
                       isToday ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20' : 'border-border'
                     }`}
                   >
                     <div className="flex flex-col h-full">
-                      <div className={`text-sm font-medium mb-1 ${
+                      <div className={`text-xs font-medium mb-0.5 ${
                         isToday ? 'text-cyan-600 dark:text-cyan-400' : ''
                       }`}>
                         {day}
                       </div>
                       {hasBookings && (
-                        <div className="flex-1 space-y-1 overflow-y-auto">
-                          {dayBookings.slice(0, 3).map((booking) => {
+                        <div className="flex-1 space-y-0.5 overflow-y-auto">
+                          {dayBookings.slice(0, 2).map((booking) => {
                             const tone = getStatusTone(booking.status);
                             return (
                               <div
                                 key={booking.id}
                                 onClick={() => handleViewDetails(booking)}
-                                className="text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity text-white"
+                                className="text-[10px] px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity text-white"
                                 style={{ background: tone.chip }}
                               >
                                 <div className="truncate font-medium">{booking.time}</div>
@@ -495,9 +532,9 @@ export default function BookingsPage() {
                               </div>
                             );
                           })}
-                          {dayBookings.length > 3 && (
-                            <div className="text-xs text-muted-foreground text-center">
-                              +{dayBookings.length - 3} more
+                          {dayBookings.length > 2 && (
+                            <div className="text-[10px] text-muted-foreground text-center">
+                              +{dayBookings.length - 2}
                             </div>
                           )}
                         </div>
@@ -534,7 +571,7 @@ export default function BookingsPage() {
 
       {/* Booking Details Dialog */}
       <Dialog open={showDetails} onOpenChange={setShowDetails}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Booking Details - {selectedBooking?.id}</DialogTitle>
             <DialogDescription>
@@ -543,7 +580,7 @@ export default function BookingsPage() {
           </DialogHeader>
 
           {selectedBooking && (
-            <div className="space-y-6">
+            <div className="flex-1 overflow-y-auto pr-2 space-y-4">
               {/* Status */}
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Current Status:</span>
@@ -551,28 +588,28 @@ export default function BookingsPage() {
               </div>
 
               {/* Customer Info */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <h3 className="font-semibold text-sm">Customer Information</h3>
-                <div className="grid gap-3 bg-muted/50 p-4 rounded-lg">
+                <div className="grid gap-2 bg-muted/50 p-3 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{selectedBooking.customer.email}</span>
+                    <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm truncate">{selectedBooking.customer.email}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
+                    <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     <span className="text-sm">{selectedBooking.customer.phone}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     <span className="text-sm">{selectedBooking.address}</span>
                   </div>
                 </div>
               </div>
 
               {/* Service Details */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <h3 className="font-semibold text-sm">Service Details</h3>
-                <div className="grid gap-3 bg-muted/50 p-4 rounded-lg">
+                <div className="grid gap-2 bg-muted/50 p-3 rounded-lg">
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Service:</span>
                     <span className="text-sm font-medium">{selectedBooking.service}</span>
@@ -593,6 +630,12 @@ export default function BookingsPage() {
                     <span className="text-sm text-muted-foreground">Amount:</span>
                     <span className="text-sm font-bold">{selectedBooking.amount}</span>
                   </div>
+                  {(selectedBooking as any).assignedProvider && (
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Assigned Provider:</span>
+                      <span className="text-sm font-medium text-cyan-600">{(selectedBooking as any).assignedProvider}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -607,44 +650,111 @@ export default function BookingsPage() {
               )}
 
               {/* Actions */}
-              <div className="flex gap-2">
-                {selectedBooking.status === "pending" && (
-                  <Button 
-                    className="flex-1"
-                    style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
-                    onClick={() => handleStatusChange(selectedBooking.id, "confirmed")}
-                  >
-                    <CheckCircle2 className="h-4 w-4 mr-2" />
-                    Confirm Booking
-                  </Button>
-                )}
+              <div className="space-y-2 pt-2">
+                {/* Assign Provider Button - Only visible for confirmed bookings */}
                 {selectedBooking.status === "confirmed" && (
                   <Button 
-                    className="flex-1"
+                    className="w-full"
                     style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
-                    onClick={() => handleStatusChange(selectedBooking.id, "completed")}
+                    onClick={() => setShowProviderDialog(true)}
                   >
-                    <CheckCircle2 className="h-4 w-4 mr-2" />
-                    Mark as Completed
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    Assign Provider
                   </Button>
                 )}
-                {(selectedBooking.status === "pending" || selectedBooking.status === "confirmed") && (
-                  <Button 
-                    variant="destructive"
-                    className="flex-1"
-                    onClick={() => handleStatusChange(selectedBooking.id, "cancelled")}
-                  >
-                    <XCircle className="h-4 w-4 mr-2" />
-                    Cancel Booking
-                  </Button>
-                )}
+
+                {/* Status Action Buttons */}
+                <div className="flex gap-2">
+                  {selectedBooking.status === "pending" && (
+                    <Button 
+                      className="flex-1"
+                      style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
+                      onClick={() => handleStatusChange(selectedBooking.id, "confirmed")}
+                    >
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                      Confirm Booking
+                    </Button>
+                  )}
+                  {selectedBooking.status === "confirmed" && (
+                    <Button 
+                      className="flex-1"
+                      style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', color: 'white' }}
+                      onClick={() => handleStatusChange(selectedBooking.id, "completed")}
+                    >
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                      Mark as Completed
+                    </Button>
+                  )}
+                  {(selectedBooking.status === "pending" || selectedBooking.status === "confirmed") && (
+                    <Button 
+                      variant="destructive"
+                      className="flex-1"
+                      onClick={() => handleStatusChange(selectedBooking.id, "cancelled")}
+                    >
+                      <XCircle className="h-4 w-4 mr-2" />
+                      Cancel Booking
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           )}
 
-          <DialogFooter>
+          <DialogFooter className="mt-4">
             <Button variant="outline" onClick={() => setShowDetails(false)}>
               Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Provider Assignment Dialog */}
+      <Dialog open={showProviderDialog} onOpenChange={setShowProviderDialog}>
+        <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Assign Provider</DialogTitle>
+            <DialogDescription>
+              Select an available provider for {selectedBooking?.service} on {selectedBooking?.date} at {selectedBooking?.time}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-y-auto pr-2 space-y-2">
+            {mockProviders.map((provider) => (
+              <div
+                key={provider.id}
+                className={`border rounded-lg p-3 cursor-pointer transition-all hover:shadow-md ${
+                  selectedProvider?.id === provider.id
+                    ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20'
+                    : 'border-border hover:border-cyan-300'
+                }`}
+                onClick={() => setSelectedProvider(provider)}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="font-semibold text-base">{provider.name}</h3>
+                  {selectedProvider?.id === provider.id && (
+                    <CheckCircle2 className="h-5 w-5 text-cyan-500 flex-shrink-0" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <DialogFooter className="mt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setShowProviderDialog(false);
+                setSelectedProvider(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={!selectedProvider}
+              style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
+              onClick={handleAssignProvider}
+            >
+              Assign Provider
             </Button>
           </DialogFooter>
         </DialogContent>
