@@ -1,6 +1,6 @@
   "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -270,7 +270,7 @@ const toFormCustomization = (customization: ServiceCustomization | null) => ({
   extras: (customization?.extras ?? []).join(", "),
 });
 
-export default function BookingPage() {
+function BookingPageContent() {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -1560,4 +1560,19 @@ export default function BookingPage() {
 
   // Fallback - redirect to service selection if accessed directly
   return null;
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading booking form...</p>
+        </div>
+      </div>
+    }>
+      <BookingPageContent />
+    </Suspense>
+  );
 }
