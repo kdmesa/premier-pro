@@ -117,6 +117,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/admin/logs/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/logs">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/logs/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/admin/marketing/coupons/new/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/admin/marketing/coupons/new">> = Specific
@@ -261,6 +270,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/admin/settings/general/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/general">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/general/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/admin/settings/industries/form-1/extras/new/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/admin/settings/industries/form-1/extras/new">> = Specific
@@ -378,10 +396,28 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../../src/app/admin/settings/notifications/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/notifications">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/notifications/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../../src/app/admin/settings/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/admin/settings">> = Specific
   const handler = {} as typeof import("../../../src/app/admin/settings/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../../src/app/admin/settings/reserve-slot/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/admin/settings/reserve-slot">> = Specific
+  const handler = {} as typeof import("../../../src/app/admin/settings/reserve-slot/page.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check
