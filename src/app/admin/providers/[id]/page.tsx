@@ -11,12 +11,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, Mail, Phone, Star, User as UserIcon, UserMinus, ShieldBan, ShieldCheck, BellOff, BellRing } from "lucide-react";
+import { ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, Mail, Phone, Star, User as UserIcon, UserMinus, ShieldBan, ShieldCheck, BellOff, BellRing, Plus, X } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const PROVIDERS_STORAGE_KEY = "adminProviders";
 const BOOKINGS_STORAGE_KEY = "adminBookings";
 const PROVIDER_SETTINGS_KEY = "adminProviderSettings"; // map id -> settings
 const PROVIDER_AVATARS_KEY = "adminProviderAvatars"; // map id -> dataURL
+const PROVIDER_SCHEDULES_KEY = "providerSchedules"; // map providerId -> schedule slots
 
 type ProviderStatus = "active" | "inactive" | "suspended";
 
@@ -83,6 +86,24 @@ export default function ProviderProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Schedule management state
+  type TimeSlot = {
+    id: string;
+    date: string; // YYYY-MM-DD
+    startTime: string;
+    endTime: string;
+  };
+  const [scheduleSlots, setScheduleSlots] = useState<TimeSlot[]>([]);
+  const [showScheduleDialog, setShowScheduleDialog] = useState(false);
+  const [scheduleType, setScheduleType] = useState<"single" | "range">("single");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [editingSlot, setEditingSlot] = useState<TimeSlot | null>(null);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+
   useEffect(() => {
     if (!id || typeof window === "undefined") return;
     try {
@@ -109,6 +130,12 @@ export default function ProviderProfilePage() {
         const amap = JSON.parse(avatarsRaw) as Record<string, string>;
         if (amap[id]) setAvatarUrl(amap[id]);
       }
+      // load schedule slots
+      const schedulesRaw = localStorage.getItem(PROVIDER_SCHEDULES_KEY);
+      if (schedulesRaw && typeof id === 'string') {
+        const schedMap = JSON.parse(schedulesRaw) as Record<string, TimeSlot[]>;
+        if (schedMap[id]) setScheduleSlots(schedMap[id]);
+      }
     } catch {}
   }, [id]);
 
@@ -122,6 +149,139 @@ export default function ProviderProfilePage() {
       map[id] = updated;
       localStorage.setItem(PROVIDER_SETTINGS_KEY, JSON.stringify(map));
     } catch {}
+  };
+
+  const addScheduleSlot = () => {
+    if (!startTime || !endTime || !id) {
+      toast({ title: "Error", description: "Please fill all fields", variant: "destructive" });
+      return;
+    }
+
+    if (scheduleType === "single" && !selectedDate) {
+      toast({ title: "Error", description: "Please select a date", variant: "destructive" });
+      return;
+    }
+
+    if (scheduleType === "range" && (!startDate || !endDate)) {
+      toast({ title: "Error", description: "Please select start and end dates", variant: "destructive" });
+      return;
+    }
+
+    const newSlots: TimeSlot[] = [];
+
+    if (scheduleType === "single") {
+      newSlots.push({
+        id: `slot-${Date.now()}`,
+        date: selectedDate,
+        startTime,
+        endTime,
+      });
+    } else {
+      // Generate slots for date range
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      
+      if (start > end) {
+        toast({ title: "Error", description: "Start date must be before end date", variant: "destructive" });
+        return;
+      }
+
+      let currentDate = new Date(start);
+      let counter = 0;
+      while (currentDate <= end) {
+        const dateStr = currentDate.toISOString().split('T')[0];
+        newSlots.push({
+          id: `slot-${Date.now()}-${counter++}`,
+          date: dateStr,
+          startTime,
+          endTime,
+        });
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+    }
+
+    const updated = [...scheduleSlots, ...newSlots];
+    setScheduleSlots(updated);
+    try {
+      const raw = localStorage.getItem(PROVIDER_SCHEDULES_KEY);
+      const map = raw ? (JSON.parse(raw) as Record<string, TimeSlot[]>) : {};
+      map[id] = updated;
+      localStorage.setItem(PROVIDER_SCHEDULES_KEY, JSON.stringify(map));
+      toast({ 
+        title: "Success", 
+        description: `${newSlots.length} schedule slot(s) added successfully` 
+      });
+      setSelectedDate("");
+      setStartDate("");
+      setEndDate("");
+      setStartTime("");
+      setEndTime("");
+    } catch {
+      toast({ title: "Error", description: "Failed to save schedule", variant: "destructive" });
+    }
+  };
+
+  const removeScheduleSlot = (slotId: string) => {
+    if (!id) return;
+    const updated = scheduleSlots.filter(s => s.id !== slotId);
+    setScheduleSlots(updated);
+    try {
+      const raw = localStorage.getItem(PROVIDER_SCHEDULES_KEY);
+      const map = raw ? (JSON.parse(raw) as Record<string, TimeSlot[]>) : {};
+      map[id] = updated;
+      localStorage.setItem(PROVIDER_SCHEDULES_KEY, JSON.stringify(map));
+      toast({ title: "Success", description: "Schedule slot removed" });
+    } catch {}
+  };
+
+  const handleEditSlot = (slot: TimeSlot) => {
+    setEditingSlot(slot);
+    setSelectedDate(slot.date);
+    setStartTime(slot.startTime);
+    setEndTime(slot.endTime);
+    setShowEditDialog(true);
+  };
+
+  const updateScheduleSlot = () => {
+    if (!editingSlot || !startTime || !endTime || !id) {
+      toast({ title: "Error", description: "Please fill all fields", variant: "destructive" });
+      return;
+    }
+
+    const updated = scheduleSlots.map(s => 
+      s.id === editingSlot.id 
+        ? { ...s, startTime, endTime }
+        : s
+    );
+    setScheduleSlots(updated);
+    
+    try {
+      const raw = localStorage.getItem(PROVIDER_SCHEDULES_KEY);
+      const map = raw ? (JSON.parse(raw) as Record<string, TimeSlot[]>) : {};
+      map[id] = updated;
+      localStorage.setItem(PROVIDER_SCHEDULES_KEY, JSON.stringify(map));
+      toast({ title: "Success", description: "Schedule slot updated successfully" });
+      setShowEditDialog(false);
+      setEditingSlot(null);
+      setSelectedDate("");
+      setStartTime("");
+      setEndTime("");
+    } catch {
+      toast({ title: "Error", description: "Failed to update schedule", variant: "destructive" });
+    }
+  };
+
+  const generateTimeOptions = () => {
+    const times = [];
+    for (let h = 0; h < 24; h++) {
+      for (let m = 0; m < 60; m += 30) {
+        const hour12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+        const min = m.toString().padStart(2, '0');
+        const period = h >= 12 ? 'PM' : 'AM';
+        times.push(`${hour12}:${min} ${period}`);
+      }
+    }
+    return times;
   };
 
   const initials = useMemo(() => {
@@ -359,24 +519,24 @@ export default function ProviderProfilePage() {
                         {dayNames.map(d => (
                           <div key={d} className="text-center font-semibold text-sm text-muted-foreground py-2">{d}</div>
                         ))}
-                        {Array.from({length: startEmpty}).map((_,i)=>(<div key={`empty-${i}`} className="aspect-square" />))}
+                        {Array.from({length: startEmpty}).map((_,i)=>(<div key={`empty-${i}`} className="h-20" />))}
                         {Array.from({length: days}).map((_,i)=>{
                           const day=i+1; const key=format(year,month,day);
                           const items=myBookings.filter(b=>b.date===key);
                           const today=new Date(); const isToday=today.getDate()===day && today.getMonth()===month && today.getFullYear()===year;
                           return (
-                            <div key={key} className={`aspect-square border rounded-lg p-2 ${isToday? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20':'border-border'}`}>
+                            <div key={key} className={`h-20 border rounded-lg p-1.5 ${isToday? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20':'border-border'}`}>
                               <div className="flex flex-col h-full">
-                                <div className={`text-sm font-medium mb-1 ${isToday?'text-cyan-600 dark:text-cyan-400':''}`}>{day}</div>
-                                <div className="flex-1 space-y-1 overflow-y-auto">
-                                  {items.slice(0,3).map(b=> (
-                                    <div key={b.id} className="text-xs p-1 rounded text-white" style={{background:'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'}}>
+                                <div className={`text-xs font-medium mb-0.5 ${isToday?'text-cyan-600 dark:text-cyan-400':''}`}>{day}</div>
+                                <div className="flex-1 space-y-0.5 overflow-y-auto">
+                                  {items.slice(0,2).map(b=> (
+                                    <div key={b.id} className="text-[10px] px-1 py-0.5 rounded text-white" style={{background:'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'}}>
                                       <div className="truncate font-medium">{b.time}</div>
                                       <div className="truncate">{b.service}</div>
                                     </div>
                                   ))}
-                                  {items.length>3 && (
-                                    <div className="text-xs text-muted-foreground text-center">+{items.length-3} more</div>
+                                  {items.length>2 && (
+                                    <div className="text-[9px] text-muted-foreground text-center">+{items.length-2}</div>
                                   )}
                                 </div>
                               </div>
@@ -537,10 +697,174 @@ export default function ProviderProfilePage() {
 
         <TabsContent value="schedule">
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
               <CardTitle>Schedule</CardTitle>
+              <Button
+                className="text-white"
+                style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' }}
+                onClick={() => setShowScheduleDialog(true)}
+              >
+                Manage Schedule
+              </Button>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">No schedule configured.</CardContent>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold">
+                    {new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" }).format(currentDate)}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="icon" onClick={() => setCurrentDate(new Date())} title="Today">
+                      <CalendarIcon className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentDate(d => new Date(d.getFullYear(), d.getMonth()-1, 1))}
+                      aria-label="Previous"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentDate(d => new Date(d.getFullYear(), d.getMonth()+1, 1))}
+                      aria-label="Next"
+                    >
+                      <ChevronRightIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                {(() => {
+                  if (!provider) return null;
+                  const myBookings = allBookings.filter(b => (b.provider?.id && String(b.provider.id) === String(provider.id)) || b.provider?.name === provider.name);
+                  const date = currentDate;
+                  const year = date.getFullYear();
+                  const month = date.getMonth();
+                  const first = new Date(year, month, 1);
+                  const last = new Date(year, month + 1, 0);
+                  const days = last.getDate();
+                  const startEmpty = first.getDay();
+                  const format = (y:number,m:number,day:number) => `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                  const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                  
+                  if (calView === 'month') {
+                    return (
+                      <div className="grid grid-cols-7 gap-2">
+                        {dayNames.map(d => (
+                          <div key={d} className="text-center font-semibold text-sm text-muted-foreground py-2">{d}</div>
+                        ))}
+                        {Array.from({length: startEmpty}).map((_,i)=>(<div key={`empty-${i}`} className="h-20" />))}
+                        {Array.from({length: days}).map((_,i)=>{
+                          const day=i+1; const key=format(year,month,day);
+                          const items=myBookings.filter(b=>b.date===key);
+                          const slots=scheduleSlots.filter(s=>s.date===key);
+                          const today=new Date(); const isToday=today.getDate()===day && today.getMonth()===month && today.getFullYear()===year;
+                          return (
+                            <div key={key} className={`h-20 border rounded-lg p-1.5 ${isToday? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20':'border-border'}`}>
+                              <div className="flex flex-col h-full">
+                                <div className={`text-xs font-medium mb-0.5 ${isToday?'text-cyan-600 dark:text-cyan-400':''}`}>{day}</div>
+                                <div className="flex-1 space-y-0.5 overflow-y-auto">
+                                  {slots.map(s=> (
+                                    <div 
+                                      key={s.id} 
+                                      className="text-[10px] px-1 py-0.5 rounded bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 border border-green-300 dark:border-green-700 cursor-pointer hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
+                                      onClick={() => handleEditSlot(s)}
+                                    >
+                                      <div className="truncate font-medium">{s.startTime} - {s.endTime}</div>
+                                    </div>
+                                  ))}
+                                  {items.slice(0,2).map(b=> (
+                                    <div key={b.id} className="text-[10px] px-1 py-0.5 rounded text-white" style={{background:'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'}}>
+                                      <div className="truncate font-medium">{b.time}</div>
+                                      <div className="truncate">{b.service}</div>
+                                    </div>
+                                  ))}
+                                  {items.length>2 && (
+                                    <div className="text-[9px] text-muted-foreground text-center">+{items.length-2}</div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }
+                  
+                  if (calView === 'week') {
+                    const d = new Date(currentDate);
+                    const sunday = new Date(d);
+                    sunday.setDate(d.getDate() - d.getDay());
+                    const daysArr = Array.from({length:7}).map((_,i)=>{
+                      const dayDate = new Date(sunday);
+                      dayDate.setDate(sunday.getDate()+i);
+                      const key = format(dayDate.getFullYear(), dayDate.getMonth(), dayDate.getDate());
+                      return { label: dayNames[i], num: dayDate.getDate(), key, isToday: (new Date()).toDateString()===dayDate.toDateString() };
+                    });
+                    return (
+                      <div className="grid grid-cols-7 gap-2">
+                        {daysArr.map(({label,num,key,isToday})=>{
+                          const items=myBookings.filter(b=>b.date===key);
+                          const slots=scheduleSlots.filter(s=>s.date===key);
+                          return (
+                            <div key={key} className={`min-h-[140px] border rounded-lg p-2 ${isToday? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20':'border-border'}`}>
+                              <div className="text-sm font-medium mb-1">
+                                <span className="text-muted-foreground mr-1">{label}</span>{num}
+                              </div>
+                              <div className="space-y-1">
+                                {slots.length===0 && items.length===0 && <div className="text-xs text-muted-foreground">No schedule</div>}
+                                {slots.map(s=> (
+                                  <div key={s.id} className="text-xs p-1 rounded bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400 border border-green-300 dark:border-green-700">
+                                    <div className="truncate font-medium">{s.startTime} - {s.endTime}</div>
+                                    <div className="truncate text-[10px]">Available</div>
+                                  </div>
+                                ))}
+                                {items.map(b=> (
+                                  <div key={b.id} className="text-xs p-1 rounded text-white" style={{background:'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'}}>
+                                    <div className="truncate font-medium">{b.time}</div>
+                                    <div className="truncate">{b.service}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }
+                  
+                  const key = format(year, month, date.getDate());
+                  const items = myBookings.filter(b=>b.date===key);
+                  const slots = scheduleSlots.filter(s=>s.date===key);
+                  return (
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground">{slots.length} available slot(s), {items.length} booking(s) on this day</div>
+                      {slots.length===0 && items.length===0 && <div className="text-sm text-muted-foreground">No schedule configured.</div>}
+                      {slots.map(s => (
+                        <div key={s.id} className="p-3 rounded-md border border-green-300 bg-green-50 dark:bg-green-900/10">
+                          <div className="flex items-center justify-between">
+                            <div className="font-medium text-green-700 dark:text-green-400">Available Time</div>
+                            <div className="text-sm">{s.startTime} - {s.endTime}</div>
+                          </div>
+                        </div>
+                      ))}
+                      {items.map(b => (
+                        <div key={b.id} className="p-3 rounded-md border">
+                          <div className="flex items-center justify-between">
+                            <div className="font-medium">{b.service}</div>
+                            <div className="text-sm">{b.time}</div>
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-1">Customer: {b.customer.name}</div>
+                          {b.address && <div className="text-xs text-muted-foreground">{b.address}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+            </CardContent>
           </Card>
         </TabsContent>
 
@@ -712,6 +1036,261 @@ export default function ProviderProfilePage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Schedule Management Dialog */}
+      <Dialog open={showScheduleDialog} onOpenChange={setShowScheduleDialog}>
+        <DialogContent className="max-w-2xl max-h-[85vh]">
+          <DialogHeader>
+            <DialogTitle>Manage Provider Schedule</DialogTitle>
+            <DialogDescription>
+              Set available time slots for {provider?.name}. These will appear on the calendar.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4 overflow-y-auto max-h-[calc(85vh-180px)]">
+            {/* Schedule Type Toggle */}
+            <div className="space-y-2">
+              <Label>Schedule Type</Label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="scheduleType"
+                    checked={scheduleType === "single"}
+                    onChange={() => setScheduleType("single")}
+                    className="w-4 h-4"
+                  />
+                  <span className="text-sm">Single Date</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="scheduleType"
+                    checked={scheduleType === "range"}
+                    onChange={() => setScheduleType("range")}
+                    className="w-4 h-4"
+                  />
+                  <span className="text-sm">Date Range</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Date Fields */}
+            {scheduleType === "single" ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="date">Date</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="startTime">Start Time</Label>
+                  <Select value={startTime} onValueChange={setStartTime}>
+                    <SelectTrigger id="startTime">
+                      <SelectValue placeholder="Select start time" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[200px]">
+                    {generateTimeOptions().map((time) => (
+                      <SelectItem key={time} value={time}>
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="endTime">End Time</Label>
+                <Select value={endTime} onValueChange={setEndTime}>
+                  <SelectTrigger id="endTime">
+                    <SelectValue placeholder="Select end time" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px]">
+                    {generateTimeOptions().map((time) => (
+                      <SelectItem key={time} value={time}>
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="startDate">Start Date</Label>
+                    <Input
+                      id="startDate"
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="endDate">End Date</Label>
+                    <Input
+                      id="endDate"
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="startTime2">Start Time</Label>
+                    <Select value={startTime} onValueChange={setStartTime}>
+                      <SelectTrigger id="startTime2">
+                        <SelectValue placeholder="Select start time" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px]">
+                        {generateTimeOptions().map((time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="endTime2">End Time</Label>
+                    <Select value={endTime} onValueChange={setEndTime}>
+                      <SelectTrigger id="endTime2">
+                        <SelectValue placeholder="Select end time" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[200px]">
+                        {generateTimeOptions().map((time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <Button
+              onClick={addScheduleSlot}
+              className="w-full text-white"
+              style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' }}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Time Slot
+            </Button>
+
+            <div className="space-y-2">
+              <Label>Current Schedule Slots ({scheduleSlots.length})</Label>
+              {scheduleSlots.length === 0 ? (
+                <div className="text-sm text-muted-foreground text-center py-4 border rounded-md">
+                  No schedule slots configured yet
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-[300px] overflow-y-auto">
+                  {scheduleSlots.map((slot) => (
+                    <div
+                      key={slot.id}
+                      className="flex items-center justify-between p-3 border rounded-md bg-green-50 dark:bg-green-900/10"
+                    >
+                      <div className="flex-1">
+                        <div className="font-medium text-sm">{slot.date}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {slot.startTime} - {slot.endTime}
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeScheduleSlot(slot.id)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowScheduleDialog(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Schedule Slot Dialog */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Schedule Slot</DialogTitle>
+            <DialogDescription>
+              Update the time for {editingSlot?.date}.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="editStartTime">Start Time</Label>
+                <Select value={startTime} onValueChange={setStartTime}>
+                  <SelectTrigger id="editStartTime">
+                    <SelectValue placeholder="Select start time" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px]">
+                    {generateTimeOptions().map((time) => (
+                      <SelectItem key={time} value={time}>
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="editEndTime">End Time</Label>
+                <Select value={endTime} onValueChange={setEndTime}>
+                  <SelectTrigger id="editEndTime">
+                    <SelectValue placeholder="Select end time" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[200px]">
+                    {generateTimeOptions().map((time) => (
+                      <SelectItem key={time} value={time}>
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setShowEditDialog(false);
+              setEditingSlot(null);
+              setSelectedDate("");
+              setStartTime("");
+              setEndTime("");
+            }}>
+              Cancel
+            </Button>
+            <Button
+              onClick={updateScheduleSlot}
+              className="text-white"
+              style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' }}
+            >
+              Update
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
