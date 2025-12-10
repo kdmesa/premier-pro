@@ -1,18 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/add-booking/page": "app/admin/add-booking/page.js",
-  "/admin/bookings/page": "app/admin/bookings/page.js",
-  "/admin/customers/page": "app/admin/customers/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/hiring/page": "app/admin/hiring/page.js",
-  "/admin/leads/page": "app/admin/leads/page.js",
   "/admin/login/page": "app/admin/login/page.js",
-  "/admin/logs/page": "app/admin/logs/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/providers/[id]/page": "app/admin/providers/[id]/page.js",
-  "/admin/providers/page": "app/admin/providers/page.js",
-  "/admin/settings/general/page": "app/admin/settings/general/page.js",
-  "/admin/settings/notifications/page": "app/admin/settings/notifications/page.js",
-  "/admin/settings/reserve-slot/page": "app/admin/settings/reserve-slot/page.js",
   "/page": "app/page.js"
 }

@@ -103,7 +103,7 @@ const AdminLogin = () => {
               </div>
             </div>
             <h1 className="text-3xl font-bold mb-2" style={{ color: '#0C2B4E' }}>Orbit Booking</h1>
-            <p className="text-muted-foreground text-sm">Admin Dashboard Login</p>
+            <p className="text-muted-foreground text-sm">Login</p>
           </div>
 
           {/* Demo Credentials Info */}
@@ -134,7 +134,7 @@ const AdminLogin = () => {
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                         <Input 
                           type="email"
-                          placeholder="admin@orbitbooking.com"
+                          placeholder="Enter your email"
                           className="pl-10 h-11"
                           {...field} 
                         />
@@ -156,7 +156,7 @@ const AdminLogin = () => {
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
                         <Input 
                           type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
+                          placeholder="Enter your password"
                           className="pl-10 pr-10 h-11"
                           {...field} 
                         />

@@ -1,6 +1,8 @@
 module.exports = [
-"[project]/OneDrive/Desktop/Premier-pro/.next-internal/server/app/admin/settings/industries/form-1/service-category/page/actions.js [app-rsc] (server actions loader, ecmascript)", ((__turbopack_context__, module, exports) => {
+"[project]/OneDrive/Desktop/Premier-pro/.next-internal/server/app/admin/settings/industries/form-1/service-category/page/actions.js [app-rsc] (server actions loader, ecmascript)", ((__turbopack_context__) => {
+"use strict";
 
+__turbopack_context__.s([]);
 }),
 ];
 

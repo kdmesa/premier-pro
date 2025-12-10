@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Premier Pro Cleaners - Professional Cleaning Services",
+  title: "Orbit Booking - Professional Cleaning Services",
   description: "Professional cleaning services for homes and businesses in Chicago, Illinois",
 };
 
