@@ -88,6 +88,13 @@ export default function AddBookingPage() {
   const [showPrivateBookingNote, setShowPrivateBookingNote] = useState(false);
   const [showPrivateCustomerNote, setShowPrivateCustomerNote] = useState(false);
   const [showServiceProviderNote, setShowServiceProviderNote] = useState(false);
+  const [minDate, setMinDate] = useState("");
+
+  useEffect(() => {
+    // Set min date on client side only to avoid hydration issues
+    const today = new Date();
+    setMinDate(today.toISOString().split('T')[0]);
+  }, []);
 
   useEffect(() => {
     try {
@@ -156,7 +163,7 @@ export default function AddBookingPage() {
     return v < 0 ? 0 : v;
   }, [estimatedCost, frequencies, newBooking.frequency]);
 
-  const handleAddBooking = () => {
+  const handleAddBooking = (status: "confirmed" | "draft" | "quote") => {
     // Validate required fields
     const nextErrors = {
       firstName: !newBooking.firstName.trim(),
@@ -182,6 +189,14 @@ export default function AddBookingPage() {
 
     const customerName = `${newBooking.firstName} ${newBooking.lastName}`.trim();
 
+    // Map status to the correct value
+    let bookingStatus = "pending";
+    if (status === "confirmed") {
+      bookingStatus = "confirmed";
+    } else if (status === "draft" || status === "quote") {
+      bookingStatus = "pending"; // Both draft and quote use pending status
+    }
+
     const newEntry = {
       id: `BK${Date.now()}`,
       customer: {
@@ -193,10 +208,14 @@ export default function AddBookingPage() {
       date: newBooking.date,
       time: newBooking.time,
       address: newBooking.address,
-      status: "pending",
+      status: bookingStatus,
+      bookingType: status === "draft" ? "draft" : status === "quote" ? "quote" : "booking", // Track the type
       amount: `$${discountedCost.toFixed(0)}`,
       paymentMethod: newBooking.paymentMethod || "Not specified",
       notes: newBooking.notes,
+      privateBookingNote: newBooking.privateBookingNote,
+      privateCustomerNote: newBooking.privateCustomerNote,
+      serviceProviderNote: newBooking.serviceProviderNote,
     };
 
     // Get existing bookings and add new one
@@ -213,9 +232,16 @@ export default function AddBookingPage() {
     bookings.unshift(newEntry);
     localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(bookings));
 
+    const actionText = status === "confirmed" ? "Booking Added" : status === "draft" ? "Draft Saved" : "Quote Saved";
+    const descriptionText = status === "confirmed" 
+      ? `New booking created for ${customerName}` 
+      : status === "draft"
+      ? `Draft booking saved for ${customerName}`
+      : `Quote saved for ${customerName}`;
+
     toast({
-      title: "Booking Added",
-      description: `New booking created for ${customerName}`,
+      title: actionText,
+      description: descriptionText,
     });
 
     // Redirect back to bookings page after a short delay to allow toast to render
@@ -372,21 +398,21 @@ export default function AddBookingPage() {
           {/* Action Buttons */}
           <div className="flex flex-col gap-2 w-full">
             <Button
-              onClick={handleAddBooking}
+              onClick={() => handleAddBooking("confirmed")}
               className="text-white w-full transition-all duration-200 hover:opacity-90 hover:shadow-lg"
               style={{ backgroundColor: '#10B981' }}
             >
               Save Booking
             </Button>
             <Button
-              onClick={handleAddBooking}
+              onClick={() => handleAddBooking("draft")}
               className="text-white w-full transition-all duration-200 hover:opacity-90 hover:shadow-lg"
               style={{ backgroundColor: '#A7B3D1' }}
             >
               Save As Draft
             </Button>
             <Button
-              onClick={handleAddBooking}
+              onClick={() => handleAddBooking("quote")}
               className="text-white w-full transition-all duration-200 hover:opacity-90 hover:shadow-lg"
               style={{ backgroundColor: '#F5A250' }}
             >
@@ -606,26 +632,91 @@ export default function AddBookingPage() {
                     <Input
                       id="date"
                       type="date"
+                      min={minDate}
                       value={newBooking.date}
                       onChange={(e) => {
-                        setNewBooking({ ...newBooking, date: e.target.value });
+                        const selectedDate = e.target.value;
+                        const today = new Date().toISOString().split('T')[0];
+                        
+                        // Prevent selecting past dates
+                        if (selectedDate < today) {
+                          toast({
+                            title: "Invalid Date",
+                            description: "Cannot select a past date. Please choose today or a future date.",
+                            variant: "destructive",
+                          });
+                          return;
+                        }
+                        
+                        setNewBooking({ ...newBooking, date: selectedDate });
                         setErrors(prev => ({ ...prev, date: false }));
                       }}
                       className={errors.date ? "border-red-500" : ""}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="time" className="text-sm font-medium mb-2 block">Time</Label>
-                    <Input
-                      id="time"
-                      type="time"
-                      value={newBooking.time}
-                      onChange={(e) => {
-                        setNewBooking({ ...newBooking, time: e.target.value });
-                        setErrors(prev => ({ ...prev, time: false }));
-                      }}
-                      className={errors.time ? "border-red-500" : ""}
-                    />
+                    <Label className="text-sm font-medium mb-2 block">Time</Label>
+                    <div className="flex gap-2">
+                      {/* Hour Select (1-12) */}
+                      <Select
+                        value={newBooking.time.split(':')[0]?.split(' ')[0] || ""}
+                        onValueChange={(hour) => {
+                          const currentMinute = newBooking.time.includes(':') ? newBooking.time.split(':')[1]?.split(' ')[0] : '00';
+                          const currentPeriod = newBooking.time.includes('AM') ? 'AM' : newBooking.time.includes('PM') ? 'PM' : 'AM';
+                          setNewBooking({ ...newBooking, time: `${hour}:${currentMinute} ${currentPeriod}` });
+                          setErrors(prev => ({ ...prev, time: false }));
+                        }}
+                      >
+                        <SelectTrigger className={`flex-1 ${errors.time ? "border-red-500" : ""}`}>
+                          <SelectValue placeholder="Hour" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((hour) => (
+                            <SelectItem key={hour} value={hour.toString()}>
+                              {hour}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      {/* Minute Select (00 or 30) */}
+                      <Select
+                        value={newBooking.time.includes(':') ? newBooking.time.split(':')[1]?.split(' ')[0] : ""}
+                        onValueChange={(minute) => {
+                          const currentHour = newBooking.time.split(':')[0] || '6';
+                          const currentPeriod = newBooking.time.includes('AM') ? 'AM' : newBooking.time.includes('PM') ? 'PM' : 'AM';
+                          setNewBooking({ ...newBooking, time: `${currentHour}:${minute} ${currentPeriod}` });
+                          setErrors(prev => ({ ...prev, time: false }));
+                        }}
+                      >
+                        <SelectTrigger className={`flex-1 ${errors.time ? "border-red-500" : ""}`}>
+                          <SelectValue placeholder="Min" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="00">00</SelectItem>
+                          <SelectItem value="30">30</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      {/* AM/PM Select */}
+                      <Select
+                        value={newBooking.time.includes('AM') ? 'AM' : newBooking.time.includes('PM') ? 'PM' : ''}
+                        onValueChange={(period) => {
+                          const currentHour = newBooking.time.split(':')[0] || '6';
+                          const currentMinute = newBooking.time.includes(':') ? newBooking.time.split(':')[1]?.split(' ')[0] : '00';
+                          setNewBooking({ ...newBooking, time: `${currentHour}:${currentMinute} ${period}` });
+                          setErrors(prev => ({ ...prev, time: false }));
+                        }}
+                      >
+                        <SelectTrigger className={`flex-1 ${errors.time ? "border-red-500" : ""}`}>
+                          <SelectValue placeholder="AM/PM" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="AM">AM</SelectItem>
+                          <SelectItem value="PM">PM</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
                 <div>

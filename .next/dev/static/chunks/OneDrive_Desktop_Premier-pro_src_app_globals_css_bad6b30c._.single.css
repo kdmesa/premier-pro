@@ -1012,6 +1012,10 @@ body {
   max-height: 24rem;
 }
 
+.max-h-\[200px\] {
+  max-height: 200px;
+}
+
 .max-h-\[300px\] {
   max-height: 300px;
 }
@@ -1028,20 +1032,12 @@ body {
   max-height: 90vh;
 }
 
-.max-h-screen {
-  max-height: 100vh;
-}
-
-.max-h-\[80vh\] {
-  max-height: 80vh;
-}
-
 .max-h-\[calc\(85vh-180px\)\] {
   max-height: calc(85vh - 180px);
 }
 
-.max-h-\[200px\] {
-  max-height: 200px;
+.max-h-screen {
+  max-height: 100vh;
 }
 
 .min-h-0 {
@@ -1066,6 +1062,10 @@ body {
 
 .min-h-\[32px\] {
   min-height: 32px;
+}
+
+.min-h-\[60px\] {
+  min-height: 60px;
 }
 
 .min-h-\[80px\] {
@@ -1528,6 +1528,10 @@ body {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
+.grid-cols-\[80px_1fr_1fr\] {
+  grid-template-columns: 80px 1fr 1fr;
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -1574,6 +1578,10 @@ body {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-0 {
+  gap: 0;
 }
 
 .gap-1 {
@@ -1729,10 +1737,6 @@ body {
 
 .overflow-hidden {
   overflow: hidden;
-}
-
-.overflow-visible {
-  overflow: visible;
 }
 
 .overflow-x-auto {
@@ -2004,6 +2008,11 @@ body {
   border-color: rgb(187 247 208 / var(--tw-border-opacity, 1));
 }
 
+.border-green-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(134 239 172 / var(--tw-border-opacity, 1));
+}
+
 .border-input {
   border-color: hsl(var(--input));
 }
@@ -2094,11 +2103,6 @@ body {
 .border-yellow-400 {
   --tw-border-opacity: 1;
   border-color: rgb(250 204 21 / var(--tw-border-opacity, 1));
-}
-
-.border-green-300 {
-  --tw-border-opacity: 1;
-  border-color: rgb(134 239 172 / var(--tw-border-opacity, 1));
 }
 
 .border-l-transparent {
@@ -2343,6 +2347,11 @@ body {
 .bg-orange-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 237 213 / var(--tw-bg-opacity, 1));
+}
+
+.bg-orange-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
 }
 
 .bg-orange-500\/10 {
@@ -3433,6 +3442,11 @@ body {
 .text-orange-600 {
   --tw-text-opacity: 1;
   color: rgb(234 88 12 / var(--tw-text-opacity, 1));
+}
+
+.text-orange-700 {
+  --tw-text-opacity: 1;
+  color: rgb(194 65 12 / var(--tw-text-opacity, 1));
 }
 
 .text-orange-800 {
@@ -5421,6 +5435,11 @@ html {
   border-color: rgb(31 41 55 / var(--tw-border-opacity, 1));
 }
 
+.dark\:border-green-700:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(21 128 61 / var(--tw-border-opacity, 1));
+}
+
 .dark\:border-green-800:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(22 101 52 / var(--tw-border-opacity, 1));
@@ -5434,11 +5453,6 @@ html {
 .dark\:border-red-800:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(153 27 27 / var(--tw-border-opacity, 1));
-}
-
-.dark\:border-green-700:is(.dark *) {
-  --tw-border-opacity: 1;
-  border-color: rgb(21 128 61 / var(--tw-border-opacity, 1));
 }
 
 .dark\:bg-amber-900\/20:is(.dark *) {
@@ -5469,12 +5483,21 @@ html {
   background-color: #08334433;
 }
 
+.dark\:bg-gray-800:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+}
+
 .dark\:bg-gray-900\/20:is(.dark *) {
   background-color: #11182733;
 }
 
 .dark\:bg-gray-900\/50:is(.dark *) {
   background-color: #11182780;
+}
+
+.dark\:bg-green-900\/10:is(.dark *) {
+  background-color: #14532d1a;
 }
 
 .dark\:bg-green-900\/20:is(.dark *) {
@@ -5511,10 +5534,6 @@ html {
 
 .dark\:bg-yellow-900\/30:is(.dark *) {
   background-color: #713f124d;
-}
-
-.dark\:bg-green-900\/10:is(.dark *) {
-  background-color: #14532d1a;
 }
 
 .dark\:from-cyan-900\/10:is(.dark *) {
@@ -5565,6 +5584,11 @@ html {
 .dark\:text-cyan-400:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(34 211 238 / var(--tw-text-opacity, 1));
+}
+
+.dark\:text-gray-300:is(.dark *) {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity, 1));
 }
 
 .dark\:text-gray-400:is(.dark *) {
@@ -5740,6 +5764,11 @@ html {
   .sm\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .sm\:text-sm {
+    font-size: .875rem;
+    line-height: 1.25rem;
   }
 
   .data-\[state\=open\]\:sm\:slide-in-from-bottom-full[data-state="open"] {

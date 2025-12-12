@@ -20,6 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search, 
   Filter, 
@@ -44,69 +45,25 @@ import { cn } from "@/lib/utils";
 
 const BOOKINGS_STORAGE_KEY = "adminBookings";
 
-// Mock data fallback
-const defaultBookings = [
-  {
-    id: "BK001",
-    customer: { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" },
-    service: "Deep Cleaning",
-    date: "2025-11-15",
-    time: "9:00 AM",
-    address: "123 Main St, Chicago, IL",
-    status: "confirmed",
-    amount: "$250",
-    paymentMethod: "Credit Card",
-    notes: "Please bring extra cleaning supplies"
-  },
-  {
-    id: "BK002",
-    customer: { name: "Jane Smith", email: "jane@example.com", phone: "(555) 234-5678" },
-    service: "Standard Cleaning",
-    date: "2025-11-08",
-    time: "11:00 AM",
-    address: "456 Oak Ave, Chicago, IL",
-    status: "completed",
-    amount: "$120",
-    paymentMethod: "Cash",
-    notes: ""
-  },
-  {
-    id: "BK003",
-    customer: { name: "Mike Johnson", email: "mike@example.com", phone: "(555) 345-6789" },
-    service: "Office Cleaning",
-    date: "2025-11-09",
-    time: "1:00 PM",
-    address: "789 Business Blvd, Chicago, IL",
-    status: "completed",
-    amount: "$200",
-    paymentMethod: "Credit Card",
-    notes: "Office closes at 5 PM"
-  },
-  {
-    id: "BK004",
-    customer: { name: "Sarah Williams", email: "sarah@example.com", phone: "(555) 456-7890" },
-    service: "Carpet Cleaning",
-    date: "2025-11-09",
-    time: "3:00 PM",
-    address: "321 Pine St, Chicago, IL",
-    status: "completed",
-    amount: "$150",
-    paymentMethod: "Credit Card",
-    notes: ""
-  },
-  {
-    id: "BK005",
-    customer: { name: "David Brown", email: "david@example.com", phone: "(555) 567-8901" },
-    service: "Move In/Out",
-    date: "2025-11-10",
-    time: "9:00 AM",
-    address: "654 Elm Dr, Chicago, IL",
-    status: "cancelled",
-    amount: "$350",
-    paymentMethod: "Cash",
-    notes: "Customer cancelled due to schedule conflict"
-  },
-];
+// Mock data fallback - Generate dates dynamically
+const getTodayString = () => {
+  const today = new Date();
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+};
+
+const getFutureDateString = (daysAhead: number) => {
+  const date = new Date();
+  date.setDate(date.getDate() + daysAhead);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+};
+
+const getPastDateString = (daysAgo: number) => {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+};
+
+const defaultBookings: any[] = [];
 
 type Booking = typeof defaultBookings[number];
 
@@ -183,6 +140,7 @@ export default function BookingsPage() {
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [activeTab, setActiveTab] = useState("today");
   const { toast } = useToast();
 
 
@@ -210,6 +168,46 @@ export default function BookingsPage() {
   }, [bookings, hydrated]);
 
 
+  // Helper function to check if a date is today
+  const isToday = (dateString: string) => {
+    const today = new Date();
+    const bookingDate = new Date(dateString);
+    return (
+      bookingDate.getDate() === today.getDate() &&
+      bookingDate.getMonth() === today.getMonth() &&
+      bookingDate.getFullYear() === today.getFullYear()
+    );
+  };
+
+  // Helper function to check if a date is in the future
+  const isFuture = (dateString: string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const bookingDate = new Date(dateString);
+    bookingDate.setHours(0, 0, 0, 0);
+    return bookingDate > today;
+  };
+
+  // Helper function to check if a date is in the current month and future
+  const isUpcomingThisMonth = (dateString: string) => {
+    const today = new Date();
+    const bookingDate = new Date(dateString);
+    return (
+      bookingDate > today &&
+      bookingDate.getMonth() === currentDate.getMonth() &&
+      bookingDate.getFullYear() === currentDate.getFullYear()
+    );
+  };
+
+  // Helper function to check if a date is in the past
+  const isPast = (dateString: string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const bookingDate = new Date(dateString);
+    bookingDate.setHours(0, 0, 0, 0);
+    return bookingDate < today;
+  };
+
   const filteredBookings = bookings.filter((booking) => {
     const matchesSearch = 
       booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -218,7 +216,38 @@ export default function BookingsPage() {
     
     const matchesStatus = statusFilter === "all" || booking.status === statusFilter;
     
-    return matchesSearch && matchesStatus;
+    // Tab-based filtering
+    let matchesTab = true;
+    switch (activeTab) {
+      case "today":
+        // Only bookings for today's date
+        matchesTab = isToday(booking.date);
+        break;
+      case "upcoming":
+        // Only future bookings in the current month (for calendar view)
+        matchesTab = isUpcomingThisMonth(booking.date) && booking.status !== "cancelled" && booking.status !== "completed";
+        break;
+      case "unassigned":
+        // All bookings without assigned provider
+        matchesTab = !(booking as any).assignedProvider;
+        break;
+      case "draft":
+        // All pending/draft bookings
+        matchesTab = booking.status === "pending";
+        break;
+      case "cancelled":
+        // Only cancelled bookings
+        matchesTab = booking.status === "cancelled";
+        break;
+      case "history":
+        // Completed and cancelled bookings
+        matchesTab = booking.status === "completed" || booking.status === "cancelled";
+        break;
+      default:
+        matchesTab = true;
+    }
+    
+    return matchesSearch && matchesStatus && matchesTab;
   });
 
   const handleViewDetails = (booking: Booking) => {
@@ -305,9 +334,125 @@ export default function BookingsPage() {
     "July", "August", "September", "October", "November", "December"];
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  // Calculate counts for each tab
+  const todayCount = bookings.filter(b => isToday(b.date)).length;
+  const upcomingCount = bookings.filter(b => isUpcomingThisMonth(b.date) && b.status !== "cancelled" && b.status !== "completed").length;
+  const unassignedCount = bookings.filter(b => !(b as any).assignedProvider).length;
+  const draftCount = bookings.filter(b => b.status === "pending").length;
+  const cancelledCount = bookings.filter(b => b.status === "cancelled").length;
+  const historyCount = bookings.filter(b => b.status === "completed" || b.status === "cancelled").length;
+
+  // Determine if view mode controls should be shown and force list view for draft tab
+  const showViewModeControls = activeTab !== "draft" && activeTab !== "today";
+  const effectiveViewMode = activeTab === "draft" ? "list" : activeTab === "today" ? "schedule" : viewMode;
+
+  // Get unique providers from bookings
+  const uniqueProviders = useMemo(() => {
+    const providers = new Set<string>();
+    bookings.forEach(booking => {
+      if ((booking as any).assignedProvider) {
+        providers.add((booking as any).assignedProvider);
+      }
+    });
+    return Array.from(providers);
+  }, [bookings]);
+
+  // Generate time slots from 6am to 10pm
+  const timeSlots = useMemo(() => {
+    const slots = [];
+    for (let hour = 6; hour <= 22; hour++) {
+      const period = hour >= 12 ? 'pm' : 'am';
+      const displayHour = hour > 12 ? hour - 12 : hour;
+      slots.push({
+        hour,
+        label: `${displayHour}${period}`,
+        time24: `${String(hour).padStart(2, '0')}:00`
+      });
+    }
+    return slots;
+  }, []);
+
+  // Helper to convert time string to hour number
+  const getHourFromTime = (timeStr: string) => {
+    if (!timeStr) return 0;
+    const parts = timeStr.trim().split(' ');
+    if (parts.length < 2) return 0;
+    
+    const [time, period] = parts;
+    const hourParts = time.split(':');
+    if (hourParts.length === 0) return 0;
+    
+    let hour = parseInt(hourParts[0], 10);
+    if (isNaN(hour)) return 0;
+    
+    const upperPeriod = period.toUpperCase();
+    if (upperPeriod === 'PM' && hour !== 12) hour += 12;
+    if (upperPeriod === 'AM' && hour === 12) hour = 0;
+    return hour;
+  };
+
+  // Get bookings for a specific provider and time slot
+  const getBookingsForSlot = (provider: string, hour: number) => {
+    return filteredBookings.filter(booking => {
+      if ((booking as any).assignedProvider !== provider) return false;
+      const bookingHour = getHourFromTime(booking.time);
+      return bookingHour === hour;
+    });
+  };
+
+  // Get unassigned bookings for a time slot
+  const getUnassignedBookingsForSlot = (hour: number) => {
+    return filteredBookings.filter(booking => {
+      if ((booking as any).assignedProvider) return false;
+      const bookingHour = getHourFromTime(booking.time);
+      return bookingHour === hour;
+    });
+  };
+
   return (
     <div className="space-y-6">
+      {/* Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-6 h-auto">
+          <TabsTrigger value="today" className="text-xs sm:text-sm py-2 flex flex-col sm:flex-row items-center gap-1">
+            <span>Today&apos;s Bookings</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-cyan-500 text-white">
+              {todayCount}
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="upcoming" className="text-xs sm:text-sm py-2 flex flex-col sm:flex-row items-center gap-1">
+            <span>Upcoming</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-cyan-500 text-white">
+              {upcomingCount}
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="unassigned" className="text-xs sm:text-sm py-2 flex flex-col sm:flex-row items-center gap-1">
+            <span>Unassigned</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-orange-500 text-white">
+              {unassignedCount}
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="draft" className="text-xs sm:text-sm py-2 flex flex-col sm:flex-row items-center gap-1">
+            <span>Draft/Quote</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-yellow-500 text-white">
+              {draftCount}
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="cancelled" className="text-xs sm:text-sm py-2 flex flex-col sm:flex-row items-center gap-1">
+            <span>Cancelled</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-red-500 text-white">
+              {cancelledCount}
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="history" className="text-xs sm:text-sm py-2 flex flex-col sm:flex-row items-center gap-1">
+            <span>History</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-green-500 text-white">
+              {historyCount}
+            </span>
+          </TabsTrigger>
+        </TabsList>
 
+        <TabsContent value={activeTab} className="space-y-6 mt-6">
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
         <div className="flex-1 flex gap-3">
@@ -333,29 +478,31 @@ export default function BookingsPage() {
               <SelectItem value="cancelled">Cancelled</SelectItem>
             </SelectContent>
           </Select>
-          {/* View Toggle Buttons */}
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === "calendar" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("calendar")}
-              className={viewMode === "calendar" ? "text-white" : ""}
-              style={viewMode === "calendar" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
-              title="Calendar View"
-            >
-              <CalendarIcon className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("list")}
-              className={viewMode === "list" ? "text-white" : ""}
-              style={viewMode === "list" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
-              title="List View"
-            >
-              <List className="h-4 w-4" />
-            </Button>
-          </div>
+          {/* View Toggle Buttons - Hidden for draft tab */}
+          {showViewModeControls && (
+            <div className="flex gap-2">
+              <Button
+                variant={viewMode === "calendar" ? "default" : "outline"}
+                size="icon"
+                onClick={() => setViewMode("calendar")}
+                className={viewMode === "calendar" ? "text-white" : ""}
+                style={viewMode === "calendar" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
+                title="Calendar View"
+              >
+                <CalendarIcon className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "default" : "outline"}
+                size="icon"
+                onClick={() => setViewMode("list")}
+                className={viewMode === "list" ? "text-white" : ""}
+                style={viewMode === "list" ? { background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)' } : {}}
+                title="List View"
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
         </div>
         <div className="flex gap-3">
           <Button 
@@ -378,8 +525,84 @@ export default function BookingsPage() {
       </div>
 
 
+      {/* Day Schedule View - Only for Today's Bookings */}
+      {effectiveViewMode === "schedule" && activeTab === "today" && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Today&apos;s Schedule</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <div className="min-w-full">
+                {/* Header Row */}
+                <div className="grid grid-cols-[80px_1fr_1fr] gap-0 border-b bg-muted/30">
+                  <div className="p-3 border-r font-medium text-sm">Time</div>
+                  <div className="p-3 border-r font-medium text-sm">Unassigned</div>
+                  <div className="p-3 font-medium text-sm">Assigned</div>
+                </div>
+
+                {/* Time Slots */}
+                <div className="space-y-0">
+                  {timeSlots.map((slot) => {
+                    const unassignedBookings = getUnassignedBookingsForSlot(slot.hour);
+                    const allAssignedBookings = filteredBookings.filter(booking => {
+                      if (!(booking as any).assignedProvider) return false;
+                      const bookingHour = getHourFromTime(booking.time);
+                      return bookingHour === slot.hour;
+                    });
+
+                    return (
+                      <div key={slot.hour} className="grid grid-cols-[80px_1fr_1fr] gap-0 border-b hover:bg-muted/20 transition-colors">
+                        {/* Time Column */}
+                        <div className="p-3 border-r text-sm font-medium text-muted-foreground">
+                          {slot.label}
+                        </div>
+                        
+                        {/* Unassigned Column */}
+                        <div className="p-2 border-r flex flex-wrap gap-2 min-h-[60px] items-start">
+                          {unassignedBookings.map(booking => (
+                            <div
+                              key={booking.id}
+                              onClick={() => handleViewDetails(booking)}
+                              className="px-3 py-2 rounded text-xs cursor-pointer hover:opacity-80 transition-opacity inline-block"
+                              style={{ background: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)', color: 'white' }}
+                            >
+                              <div className="font-semibold">{booking.service}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Assigned Column */}
+                        <div className="p-2 flex flex-wrap gap-2 min-h-[60px] items-start">
+                          {allAssignedBookings.map(booking => (
+                            <div
+                              key={booking.id}
+                              onClick={() => handleViewDetails(booking)}
+                              className="px-3 py-2 rounded text-xs cursor-pointer hover:opacity-80 transition-opacity inline-block"
+                              style={{ 
+                                background: booking.status === 'confirmed' 
+                                  ? 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)'
+                                  : 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
+                                color: 'white'
+                              }}
+                            >
+                              <div className="font-semibold">{booking.service}</div>
+                              <div className="text-[10px] opacity-90 mt-0.5">{(booking as any).assignedProvider}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* List View */}
-      {viewMode === "list" && (
+      {effectiveViewMode === "list" && (
         <Card>
         <CardHeader>
           <CardTitle>All Bookings ({filteredBookings.length})</CardTitle>
@@ -398,6 +621,11 @@ export default function BookingsPage() {
                   <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
                     Date & Time
                   </th>
+                  {activeTab === "draft" && (
+                    <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                      Type
+                    </th>
+                  )}
                   <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
                     Status
                   </th>
@@ -433,6 +661,19 @@ export default function BookingsPage() {
                         <div>{booking.date}</div>
                         <div className="text-xs text-muted-foreground">{booking.time}</div>
                       </td>
+                      {activeTab === "draft" && (
+                        <td className="py-3 px-4">
+                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                            (booking as any).bookingType === "draft" 
+                              ? "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                              : (booking as any).bookingType === "quote"
+                              ? "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400"
+                              : "bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
+                          }`}>
+                            {(booking as any).bookingType === "draft" ? "Draft" : (booking as any).bookingType === "quote" ? "Quote" : "Booking"}
+                          </span>
+                        </td>
+                      )}
                       <td className="py-3 px-4">{getStatusBadge(booking.status)}</td>
                       <td className="py-3 px-4 text-sm font-medium text-right">{booking.amount}</td>
                       <td className="py-3 px-4 text-center">
@@ -455,7 +696,7 @@ export default function BookingsPage() {
       )}
 
       {/* Calendar View */}
-      {viewMode === "calendar" && (
+      {effectiveViewMode === "calendar" && (
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -759,6 +1000,8 @@ export default function BookingsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

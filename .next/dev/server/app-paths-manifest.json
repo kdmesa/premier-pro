@@ -1,9 +1,13 @@
 {
+  "/admin/add-booking/page": "app/admin/add-booking/page.js",
+  "/admin/bookings/page": "app/admin/bookings/page.js",
   "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/leads/page": "app/admin/leads/page.js",
   "/admin/login/page": "app/admin/login/page.js",
   "/admin/page": "app/admin/page.js",
-  "/admin/providers/[id]/page": "app/admin/providers/[id]/page.js",
   "/admin/providers/page": "app/admin/providers/page.js",
+  "/admin/reports/page": "app/admin/reports/page.js",
+  "/admin/settings/account/page": "app/admin/settings/account/page.js",
+  "/admin/settings/reserve-slot/page": "app/admin/settings/reserve-slot/page.js",
+  "/admin/settings/staff/page": "app/admin/settings/staff/page.js",
   "/page": "app/page.js"
 }
