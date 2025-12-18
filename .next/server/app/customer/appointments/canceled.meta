@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/customer/layout,_N_T_/customer/appointments/layout,_N_T_/customer/appointments/canceled/layout,_N_T_/customer/appointments/canceled/page,_N_T_/customer/appointments/canceled"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/customer/appointments/canceled/__PAGE__",
+    "/customer/appointments/canceled",
+    "/customer/appointments",
+    "/customer",
+    "/_index",
+    "/_head"
+  ]
+}

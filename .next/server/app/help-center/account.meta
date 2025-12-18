@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/help-center/layout,_N_T_/help-center/account/layout,_N_T_/help-center/account/page,_N_T_/help-center/account"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/help-center/account/__PAGE__",
+    "/help-center/account",
+    "/help-center",
+    "/_index",
+    "/_head"
+  ]
+}
