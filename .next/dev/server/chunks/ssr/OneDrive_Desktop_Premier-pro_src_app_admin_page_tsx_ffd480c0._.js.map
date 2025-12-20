@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/kayed/OneDrive/Desktop/Premier-pro/src/app/admin/page.tsx"],"sourcesContent":["\"use client\";\n\nimport { useRouter } from \"next/navigation\";\nimport { useEffect } from \"react\";\n\nexport default function AdminPage() {\n  const router = useRouter();\n  \n  useEffect(() => {\n    // Redirect to dashboard\n    router.push(\"/admin/dashboard\");\n  }, [router]);\n\n  return null;\n}\n"],"names":[],"mappings":";;;;AAEA;AACA;AAHA;;;AAKe,SAAS;IACtB,MAAM,SAAS,IAAA,wLAAS;IAExB,IAAA,2PAAS,EAAC;QACR,wBAAwB;QACxB,OAAO,IAAI,CAAC;IACd,GAAG;QAAC;KAAO;IAEX,OAAO;AACT"}}]
-}
