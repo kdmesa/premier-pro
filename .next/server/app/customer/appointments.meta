@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/customer/layout,_N_T_/customer/appointments/layout,_N_T_/customer/appointments/page,_N_T_/customer/appointments"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/customer/appointments/__PAGE__",
+    "/customer/appointments",
+    "/customer",
+    "/_index",
+    "/_head"
+  ]
+}

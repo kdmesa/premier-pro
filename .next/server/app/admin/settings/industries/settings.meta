@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/settings/layout,_N_T_/admin/settings/industries/layout,_N_T_/admin/settings/industries/settings/layout,_N_T_/admin/settings/industries/settings/page,_N_T_/admin/settings/industries/settings"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/admin/settings/industries/settings/__PAGE__",
+    "/admin/settings/industries/settings",
+    "/admin/settings/industries",
+    "/admin/settings",
+    "/admin",
+    "/_index",
+    "/_head"
+  ]
+}
