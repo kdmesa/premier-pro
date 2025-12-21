@@ -1,0 +1,787 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Search, 
+  Filter, 
+  Plus,
+  Eye,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  AlertCircle,
+  Mail,
+  Phone,
+  MapPin,
+  List,
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+  Send,
+  UserPlus
+} from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+
+const BOOKINGS_STORAGE_KEY = "adminBookings";
+
+// Mock data fallback
+const defaultBookings = [
+  {
+    id: "BK001",
+    customer: { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" },
+    service: "Deep Cleaning",
+    date: "2025-11-15",
+    time: "9:00 AM",
+    address: "123 Main St, Chicago, IL",
+    status: "confirmed",
+    amount: "$250",
+    paymentMethod: "Credit Card",
+    notes: "Please bring extra cleaning supplies"
+  },
+  {
+    id: "BK002",
+    customer: { name: "Jane Smith", email: "jane@example.com", phone: "(555) 234-5678" },
+    service: "Standard Cleaning",
+    date: "2025-11-08",
+    time: "11:00 AM",
+    address: "456 Oak Ave, Chicago, IL",
+    status: "completed",
+    amount: "$120",
+    paymentMethod: "Cash",
+    notes: ""
+  },
+  {
+    id: "BK003",
+    customer: { name: "Mike Johnson", email: "mike@example.com", phone: "(555) 345-6789" },
+    service: "Office Cleaning",
+    date: "2025-11-09",
+    time: "1:00 PM",
+    address: "789 Business Blvd, Chicago, IL",
+    status: "completed",
+    amount: "$200",
+    paymentMethod: "Credit Card",
+    notes: "Office closes at 5 PM"
+  },
+  {
+    id: "BK004",
+    customer: { name: "Sarah Williams", email: "sarah@example.com", phone: "(555) 456-7890" },
+    service: "Carpet Cleaning",
+    date: "2025-11-09",
+    time: "3:00 PM",
+    address: "321 Pine St, Chicago, IL",
+    status: "completed",
+    amount: "$150",
+    paymentMethod: "Credit Card",
+    notes: ""
+  },
+  {
+    id: "BK005",
+    customer: { name: "David Brown", email: "david@example.com", phone: "(555) 567-8901" },
+    service: "Move In/Out",
+    date: "2025-11-10",
+    time: "9:00 AM",
+    address: "654 Elm Dr, Chicago, IL",
+    status: "cancelled",
+    amount: "$350",
+    paymentMethod: "Cash",
+    notes: "Customer cancelled due to schedule conflict"
+  },
+];
+
+type Booking = typeof defaultBookings[number];
+
+// Mock providers data
+const mockProviders = [
+  { id: "P001", name: "Sarah Johnson", rating: 4.9, completedJobs: 156, specialties: ["Deep Cleaning", "Standard Cleaning"] },
+  { id: "P002", name: "Michael Chen", rating: 4.8, completedJobs: 142, specialties: ["Office Cleaning", "Carpet Cleaning"] },
+  { id: "P003", name: "Emily Rodriguez", rating: 4.7, completedJobs: 128, specialties: ["Move In/Out", "Deep Cleaning"] },
+  { id: "P004", name: "David Kim", rating: 4.9, completedJobs: 189, specialties: ["Standard Cleaning", "Office Cleaning"] },
+  { id: "P005", name: "Jessica Martinez", rating: 4.6, completedJobs: 95, specialties: ["Carpet Cleaning", "Deep Cleaning"] },
+];
+
+type Provider = typeof mockProviders[number];
+
+
+const getStatusBadge = (status: string) => {
+  const styles = {
+    confirmed: "bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400",
+    pending: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400",
+    completed: "bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400",
+    cancelled: "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400",
+  };
+
+  const icons = {
+    confirmed: CheckCircle2,
+    pending: Clock,
+    completed: CheckCircle2,
+    cancelled: XCircle,
+  };
+
+  const Icon = icons[status as keyof typeof icons] || AlertCircle;
+
+  return (
+    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${styles[status as keyof typeof styles]}`}>
+      <Icon className="h-3 w-3" />
+      {status.charAt(0).toUpperCase() + status.slice(1)}
+    </span>
+  );
+};
+
+const getStatusTone = (status: string) => {
+  switch (status) {
+    case "completed":
+      return {
+        light: "bg-green-50",
+        dark: "dark:bg-green-950/70",
+        chip: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+      };
+    case "cancelled":
+      return {
+        light: "bg-red-50",
+        dark: "dark:bg-red-950/70",
+        chip: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+      };
+    case "confirmed":
+      return {
+        light: "bg-blue-50",
+        dark: "dark:bg-blue-950/70",
+        chip: "linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)",
+      };
+    case "pending":
+      return {
+        light: "bg-yellow-50",
+        dark: "dark:bg-yellow-900/60",
+        chip: "linear-gradient(135deg, #fde68a 0%, #f59e42 100%)",
+      };
+    default:
+      return {
+        light: "bg-muted",
+        dark: "dark:bg-muted",
+        chip: "linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)",
+      };
+  }
+};
+
+export default function BookingsPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [bookings, setBookings] = useState<Booking[]>(defaultBookings);
+  const [hydrated, setHydrated] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showProviderDialog, setShowProviderDialog] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const { toast } = useToast();
+
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const stored = localStorage.getItem(BOOKINGS_STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Booking[];
+        if (Array.isArray(parsed)) {
+          setBookings(parsed);
+        }
+      } catch (error) {
+        console.error("Failed to parse stored bookings", error);
+      }
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!hydrated) return;
+    localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(bookings));
+  }, [bookings, hydrated]);
+
+
+  const filteredBookings = bookings.filter((booking) => {
+    const matchesSearch = 
+      booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.service.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesStatus = statusFilter === "all" || booking.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
+
+  const handleViewDetails = (booking: Booking) => {
+    setSelectedBooking(booking);
+    setShowDetails(true);
+  };
+
+  const handleStatusChange = (bookingId: string, newStatus: string) => {
+    setBookings((prev) => {
+      const updated = prev.map((booking) =>
+        booking.id === bookingId ? { ...booking, status: newStatus } : booking
+      );
+      const activeSelection = updated.find((booking) => booking.id === bookingId) || null;
+      setSelectedBooking(activeSelection);
+
+      toast({
+        title: "Status Updated",
+        description: `Booking ${bookingId} status changed to ${newStatus}`,
+      });
+
+      return updated;
+    });
+    setShowDetails(false);
+  };
+
+  const handleAssignProvider = () => {
+    if (!selectedProvider || !selectedBooking) return;
+    
+    setBookings((prev) => {
+      const updated = prev.map((booking) =>
+        booking.id === selectedBooking.id 
+          ? { ...booking, assignedProvider: selectedProvider.name } 
+          : booking
+      );
+      const activeSelection = updated.find((booking) => booking.id === selectedBooking.id) || null;
+      setSelectedBooking(activeSelection);
+      return updated;
+    });
+    
+    toast({
+      title: "Provider Assigned",
+      description: `${selectedProvider.name} has been assigned to booking ${selectedBooking.id}`,
+    });
+    
+    setShowProviderDialog(false);
+    setSelectedProvider(null);
+  };
+
+
+  // Calendar functions
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+    
+    return { daysInMonth, startingDayOfWeek, year, month };
+  };
+
+  const getBookingsForDate = (date: string) => {
+    return bookings.filter((booking) => booking.date === date);
+  };
+
+  const formatDate = (year: number, month: number, day: number) => {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  };
+
+  const navigateMonth = (direction: 'prev' | 'next') => {
+    setCurrentDate(prev => {
+      const newDate = new Date(prev);
+      if (direction === 'prev') {
+        newDate.setMonth(newDate.getMonth() - 1);
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1);
+      }
+      return newDate;
+    });
+  };
+
+  const { daysInMonth, startingDayOfWeek, year, month } = getDaysInMonth(currentDate);
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return (
+    <div className="space-y-6">
+
+      {/* Header Actions */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between">
+        <div className="flex-1 flex gap-3">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search bookings..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 bg-background text-foreground placeholder:text-muted-foreground"
+            />
+          </div>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-40 bg-background text-foreground">
+              <Filter className="h-4 w-4 mr-2 text-muted-foreground" />
+              <SelectValue placeholder="Status" className="text-foreground" />
+            </SelectTrigger>
+            <SelectContent className="bg-background border-border">
+              <SelectItem value="all" className="text-foreground hover:bg-accent">All Status</SelectItem>
+              <SelectItem value="pending" className="text-foreground hover:bg-accent">Pending</SelectItem>
+              <SelectItem value="confirmed" className="text-foreground hover:bg-accent">Confirmed</SelectItem>
+              <SelectItem value="completed" className="text-foreground hover:bg-accent">Completed</SelectItem>
+              <SelectItem value="cancelled" className="text-foreground hover:bg-accent">Cancelled</SelectItem>
+            </SelectContent>
+          </Select>
+          {/* View Toggle Buttons */}
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === "calendar" ? "default" : "outline"}
+              size="icon"
+              onClick={() => setViewMode("calendar")}
+              className={cn(
+                viewMode === "calendar" 
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                  : "bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
+              title="Calendar View"
+            >
+              <CalendarIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant={viewMode === "list" ? "default" : "outline"}
+              size="icon"
+              onClick={() => setViewMode("list")}
+              className={cn(
+                viewMode === "list" 
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                  : "bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
+              title="List View"
+            >
+              <List className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <Button 
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+            title="Send Schedule"
+          >
+            <Send className="h-4 w-4 mr-2" />
+            Send Schedule
+          </Button>
+          <Button 
+            onClick={() => router.push("/admin/add-booking")}
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Booking
+          </Button>
+        </div>
+      </div>
+
+
+      {/* List View */}
+      {viewMode === "list" && (
+        <Card>
+        <CardHeader>
+          <CardTitle>All Bookings ({filteredBookings.length})</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Customer
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Service
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Date & Time
+                  </th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Status
+                  </th>
+                  <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Amount
+                  </th>
+                  <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredBookings.map((booking) => {
+                  const tone = getStatusTone(booking.status);
+                  return (
+                    <tr
+                      key={booking.id}
+                      className={cn(
+                        "border-b border-border transition-colors",
+                        tone.dark,
+                        "text-white",
+                        booking.status === "completed"
+                          ? "hover:bg-green-900/80"
+                          : booking.status === "cancelled"
+                          ? "hover:bg-red-900/80"
+                          : booking.status === "confirmed"
+                          ? "hover:bg-blue-900/80"
+                          : booking.status === "pending"
+                          ? "hover:bg-yellow-900/40"
+                          : "hover:bg-muted/60"
+                      )}
+                    >
+                      <td className="py-3 px-4">
+                        <div className="text-sm font-medium">{booking.customer.name}</div>
+                        <div className="text-xs text-muted-foreground">{booking.customer.email}</div>
+                      </td>
+                      <td className="py-3 px-4 text-sm">{booking.service}</td>
+                      <td className="py-3 px-4 text-sm">
+                        <div>{booking.date}</div>
+                        <div className="text-xs text-muted-foreground">{booking.time}</div>
+                      </td>
+                      <td className="py-3 px-4">{getStatusBadge(booking.status)}</td>
+                      <td className="py-3 px-4 text-sm font-medium text-right">{booking.amount}</td>
+                      <td className="py-3 px-4 text-center">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleViewDetails(booking)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+      )}
+
+      {/* Calendar View */}
+      {viewMode === "calendar" && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>{monthNames[month]} {year}</CardTitle>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => navigateMonth('prev')}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => navigateMonth('next')}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-7 gap-2">
+              {/* Day headers */}
+              {dayNames.map(day => (
+                <div key={day} className="text-center font-semibold text-sm py-2 text-foreground/90">
+                  {day}
+                </div>
+              ))}
+              
+              {/* Empty cells for days before month starts */}
+              {Array.from({ length: startingDayOfWeek }).map((_, index) => (
+                <div key={`empty-${index}`} className="h-24" />
+              ))}
+              
+              {/* Calendar days */}
+              {Array.from({ length: daysInMonth }).map((_, index) => {
+                const day = index + 1;
+                const dateString = formatDate(year, month, day);
+                const dayBookings = getBookingsForDate(dateString);
+                const hasBookings = dayBookings.length > 0;
+                const today = new Date();
+                const isToday = today.getDate() === day && 
+                               today.getMonth() === month && 
+                               today.getFullYear() === year;
+                
+                return (
+                  <div
+                    key={day}
+                    className={cn(
+                      "h-24 rounded-lg p-2 transition-all cursor-pointer border",
+                      isToday 
+                        ? "bg-accent/50 border-primary/50 hover:bg-accent/70"
+                        : "bg-background border-border hover:bg-accent/20"
+                    )}
+                  >
+                    <div className="flex flex-col h-full">
+                      <div className="text-sm font-medium mb-1 text-foreground">
+                        {day}
+                      </div>
+                      {hasBookings && (
+                        <div className="flex-1 space-y-0.5 overflow-y-auto">
+                          {dayBookings.slice(0, 2).map((booking) => {
+                            const tone = getStatusTone(booking.status);
+                            return (
+                              <div
+                                key={booking.id}
+                                onClick={() => handleViewDetails(booking)}
+                                className="text-[10px] px-1 py-0.5 rounded cursor-pointer hover:opacity-80 transition-opacity text-white"
+                                style={{ background: tone.chip }}
+                              >
+                                <div className="truncate font-medium">{booking.time}</div>
+                                <div className="truncate">{booking.service}</div>
+                              </div>
+                            );
+                          })}
+                          {dayBookings.length > 2 && (
+                            <div className="text-[10px] text-muted-foreground text-center">
+                              +{dayBookings.length - 2}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Legend */}
+            <div className="mt-6 flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-blue-100 dark:bg-blue-900/30 border border-blue-200" />
+                <span>Confirmed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-200" />
+                <span>Pending</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-green-100 dark:bg-green-900/30 border border-green-200" />
+                <span>Completed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded bg-red-100 dark:bg-red-900/30 border border-red-200" />
+                <span>Cancelled</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+
+      {/* Booking Details Dialog */}
+      <Dialog open={showDetails} onOpenChange={setShowDetails}>
+        <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Booking Details - {selectedBooking?.id}</DialogTitle>
+            <DialogDescription>
+              View and manage booking information
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedBooking && (
+            <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+              {/* Status */}
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Current Status:</span>
+                {getStatusBadge(selectedBooking.status)}
+              </div>
+
+              {/* Customer Info */}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-sm">Customer Information</h3>
+                <div className="grid gap-2 bg-muted/50 p-3 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm truncate">{selectedBooking.customer.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm">{selectedBooking.customer.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm">{selectedBooking.address}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Service Details */}
+              <div className="space-y-2">
+                <h3 className="font-semibold text-sm">Service Details</h3>
+                <div className="grid gap-2 bg-muted/50 p-3 rounded-lg">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Service:</span>
+                    <span className="text-sm font-medium">{selectedBooking.service}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Date:</span>
+                    <span className="text-sm font-medium">{selectedBooking.date}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Time:</span>
+                    <span className="text-sm font-medium">{selectedBooking.time}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Payment Method:</span>
+                    <span className="text-sm font-medium">{selectedBooking.paymentMethod}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Amount:</span>
+                    <span className="text-sm font-bold">{selectedBooking.amount}</span>
+                  </div>
+                  {(selectedBooking as any).assignedProvider && (
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Assigned Provider:</span>
+                      <span className="text-sm font-medium text-cyan-600">{(selectedBooking as any).assignedProvider}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Notes */}
+              {selectedBooking.notes && (
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-sm">Notes</h3>
+                  <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
+                    {selectedBooking.notes}
+                  </p>
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="space-y-2 pt-2">
+                {/* Assign Provider Button - Only visible for confirmed bookings */}
+                {selectedBooking.status === "confirmed" && (
+                  <Button 
+                    className="w-full"
+                    style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
+                    onClick={() => setShowProviderDialog(true)}
+                  >
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    Assign Provider
+                  </Button>
+                )}
+
+                {/* Status Action Buttons */}
+                <div className="flex gap-2">
+                  {selectedBooking.status === "pending" && (
+                    <Button 
+                      className="flex-1"
+                      style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
+                      onClick={() => handleStatusChange(selectedBooking.id, "confirmed")}
+                    >
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                      Confirm Booking
+                    </Button>
+                  )}
+                  {selectedBooking.status === "confirmed" && (
+                    <Button 
+                      className="flex-1"
+                      style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', color: 'white' }}
+                      onClick={() => handleStatusChange(selectedBooking.id, "completed")}
+                    >
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                      Mark as Completed
+                    </Button>
+                  )}
+                  {(selectedBooking.status === "pending" || selectedBooking.status === "confirmed") && (
+                    <Button 
+                      variant="destructive"
+                      className="flex-1"
+                      onClick={() => handleStatusChange(selectedBooking.id, "cancelled")}
+                    >
+                      <XCircle className="h-4 w-4 mr-2" />
+                      Cancel Booking
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter className="mt-4">
+            <Button variant="outline" onClick={() => setShowDetails(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Provider Assignment Dialog */}
+      <Dialog open={showProviderDialog} onOpenChange={setShowProviderDialog}>
+        <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Assign Provider</DialogTitle>
+            <DialogDescription>
+              Select an available provider for {selectedBooking?.service} on {selectedBooking?.date} at {selectedBooking?.time}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-y-auto pr-2 space-y-2">
+            {mockProviders.map((provider) => (
+              <div
+                key={provider.id}
+                className={`border rounded-lg p-3 cursor-pointer transition-all hover:shadow-md ${
+                  selectedProvider?.id === provider.id
+                    ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/20'
+                    : 'border-border hover:border-cyan-300'
+                }`}
+                onClick={() => setSelectedProvider(provider)}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="font-semibold text-base">{provider.name}</h3>
+                  {selectedProvider?.id === provider.id && (
+                    <CheckCircle2 className="h-5 w-5 text-cyan-500 flex-shrink-0" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <DialogFooter className="mt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setShowProviderDialog(false);
+                setSelectedProvider(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={!selectedProvider}
+              style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}
+              onClick={handleAssignProvider}
+            >
+              Assign Provider
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
