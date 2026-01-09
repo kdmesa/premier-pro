@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
@@ -131,20 +132,16 @@ const Customers = () => {
   });
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+  fetchCustomers();
+}, []);
 
-    const stored = localStorage.getItem(CUSTOMERS_STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as Customer[];
-        if (Array.isArray(parsed)) {
-          setCustomers(parsed);
-        }
-      } catch (error) {
-        console.error("Failed to parse stored customers", error);
-      }
-    }
-  }, []);
+async function fetchCustomers() {
+  const { data, error } = await supabase.from('customers').select('*').order('join_date', { ascending: false });
+  if (!error && data) {
+    setCustomers(data);
+  }
+}
+
 
   // Open modal if query parameter is present
   useEffect(() => {
@@ -202,32 +199,42 @@ const Customers = () => {
     setShowEditCustomer(false);
   };
 
-  const handleAddCustomer = () => {
-    // Here you would typically make an API call to save the customer
-    const now = new Date();
-    const newEntry: Customer = {
-      id: `CUST${Date.now()}`,
-      name: newCustomer.name,
-      email: newCustomer.email,
-      phone: newCustomer.phone,
-      address: newCustomer.address || "",
-      joinDate: now.toISOString().slice(0, 10),
-      totalBookings: 0,
-      totalSpent: "$0",
-      status: "active",
-      lastBooking: "-",
-    };
-
-    setCustomers((prev) => [newEntry, ...prev]);
-
-    toast({
-      title: "Customer Added",
-      description: `${newCustomer.name} has been added successfully.`,
-    });
-
-    setNewCustomer({ name: "", email: "", phone: "", address: "" });
-    setShowAddCustomer(false);
+  const handleAddCustomer = async () => {
+  const now = new Date();
+  const newEntry = {
+    id: `CUST${Date.now()}`,
+    name: newCustomer.name,
+    email: newCustomer.email,
+    phone: newCustomer.phone,
+    address: newCustomer.address || "",
+    join_date: now.toISOString().slice(0, 10),
+    total_bookings: 0,
+    total_spent: 0,
+    status: "active",
+    last_booking: null
   };
+
+  const { error } = await supabase.from('customers').insert([newEntry]);
+  if (error) {
+    toast({
+      title: "Error",
+      description: `Failed to add customer: ${error.message}`,
+      variant: "destructive"
+    });
+    return;
+  }
+
+  toast({
+    title: "Customer Added",
+    description: `${newCustomer.name} has been added successfully.`,
+  });
+
+  setNewCustomer({ name: "", email: "", phone: "", address: "" });
+  setShowAddCustomer(false);
+
+  // Refetch customers from Supabase
+  fetchCustomers();
+};
 
   const getStatusBadge = (status: string) => {
     return status === "active" ? (
@@ -394,82 +401,89 @@ const Customers = () => {
 
       {/* Customer Details Dialog */}
       <Dialog open={showDetails} onOpenChange={setShowDetails}>
-        <DialogContent className="max-w-2xl bg-gray-900/95 backdrop-blur-xl border-cyan-500/30 text-white">
-          <DialogHeader>
-            <DialogTitle>Customer Details - {selectedCustomer?.id}</DialogTitle>
-            <DialogDescription>
-              View customer information and booking history
-            </DialogDescription>
-          </DialogHeader>
-
-          {selectedCustomer && (
-            <div className="space-y-6">
-              {/* Customer Info */}
-              <div className="space-y-3">
-                <h3 className="font-semibold text-sm">Personal Information</h3>
-                <div className="grid gap-3 bg-muted/50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{selectedCustomer.email}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{selectedCustomer.phone}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{selectedCustomer.address}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">Member Since</span>
-                  </div>
-                  <p className="text-lg font-bold">{selectedCustomer.joinDate}</p>
-                </div>
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">Last Booking</span>
-                  </div>
-                  <p className="text-lg font-bold">{selectedCustomer.lastBooking}</p>
-                </div>
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">Total Bookings</span>
-                  </div>
-                  <p className="text-lg font-bold">{selectedCustomer.totalBookings}</p>
-                </div>
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">Total Spent</span>
-                  </div>
-                  <p className="text-lg font-bold">{selectedCustomer.totalSpent}</p>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-2">
-                <Button className="flex-1" style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}>
-                  <Mail className="h-4 w-4 mr-2" />
-                  Send Email
-                </Button>
-                <Button variant="outline" className="flex-1">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  View Bookings
-                </Button>
-              </div>
+        <DialogContent
+  className="max-w-2xl rounded-2xl p-0 overflow-hidden border border-border shadow-xl
+    bg-white dark:bg-[#181F2A] text-gray-900 dark:text-gray-100"
+  style={{
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+    background: 'linear-gradient(135deg, rgba(255,255,255,0.97) 0%, rgba(240,240,255,0.92) 100%)',
+    backdropFilter: 'blur(10px)',
+  }}
+>
+  <DialogHeader className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-8 pt-8 pb-4 border-b border-border">
+    <DialogTitle className="text-lg font-bold text-gray-900 dark:text-cyan-200">
+      Customer Details - {selectedCustomer?.id}
+    </DialogTitle>
+    <DialogDescription className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+      View customer information and booking history
+    </DialogDescription>
+  </DialogHeader>
+  <div className="px-8 py-6">
+    {selectedCustomer && (
+      <div className="space-y-8">
+        {/* Customer Info */}
+        <section>
+          <h3 className="font-semibold text-base mb-3 text-cyan-700 dark:text-cyan-300">Personal Information</h3>
+          <div className="grid gap-3 bg-gray-50 dark:bg-[#232E3D] p-4 rounded-xl border border-border">
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-cyan-500 dark:text-cyan-300" />
+              <span className="text-base font-medium break-all">{selectedCustomer.email}</span>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-cyan-500 dark:text-cyan-300" />
+              <span className="text-base">{selectedCustomer.phone}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-cyan-500 dark:text-cyan-300" />
+              <span className="text-base">{selectedCustomer.address}</span>
+            </div>
+          </div>
+        </section>
+        {/* Stats */}
+        <section>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white dark:bg-[#232E3D] p-4 rounded-xl border border-border flex flex-col items-start">
+              <div className="flex items-center gap-2 mb-1">
+                <Calendar className="h-4 w-4 text-cyan-400" />
+                <span className="text-xs text-gray-500 dark:text-gray-400">Member Since</span>
+              </div>
+              <span className="text-lg font-bold text-gray-900 dark:text-cyan-100">{selectedCustomer.joinDate}</span>
+            </div>
+            <div className="bg-white dark:bg-[#232E3D] p-4 rounded-xl border border-border flex flex-col items-start">
+              <div className="flex items-center gap-2 mb-1">
+                <Calendar className="h-4 w-4 text-cyan-400" />
+                <span className="text-xs text-gray-500 dark:text-gray-400">Last Booking</span>
+              </div>
+              <span className="text-lg font-bold text-gray-900 dark:text-cyan-100">{selectedCustomer.lastBooking}</span>
+            </div>
+            <div className="bg-white dark:bg-[#232E3D] p-4 rounded-xl border border-border flex flex-col items-start">
+              <div className="flex items-center gap-2 mb-1">
+                <TrendingUp className="h-4 w-4 text-cyan-400" />
+                <span className="text-xs text-gray-500 dark:text-gray-400">Total Bookings</span>
+              </div>
+              <span className="text-lg font-bold text-gray-900 dark:text-cyan-100">{selectedCustomer.totalBookings}</span>
+            </div>
+            <div className="bg-white dark:bg-[#232E3D] p-4 rounded-xl border border-border flex flex-col items-start">
+              <div className="flex items-center gap-2 mb-1">
+                <DollarSign className="h-4 w-4 text-cyan-400" />
+                <span className="text-xs text-gray-500 dark:text-gray-400">Total Spent</span>
+              </div>
+              <span className="text-lg font-bold text-gray-900 dark:text-cyan-100">{selectedCustomer.totalSpent}</span>
+            </div>
+          </div>
+        </section>
+        {/* Actions */}
+        <section className="flex gap-2 pt-2">
+          <Button className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold shadow" size="lg">
+            <Mail className="h-4 w-4 mr-2" />
+            Send Email
+          </Button>
+        </section>
+      </div>
+    )}
+  </div>
+</DialogContent>
+</Dialog>
 
       {/* Edit Customer Dialog */}
       <Dialog open={showEditCustomer} onOpenChange={setShowEditCustomer}>

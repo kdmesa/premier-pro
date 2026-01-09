@@ -1,4 +1,4 @@
-import { industryDetails, servicesByIndustry } from "../barber-landing-data";
+import { industryDetails, servicesByIndustry } from "./barber-landing-data";
 import { Home, Scissors } from 'lucide-react';
 
 export default function BarberLandingPage() {
@@ -14,7 +14,7 @@ export default function BarberLandingPage() {
             <Scissors className="h-9 w-9 text-cyan-600" />
             <div className="flex flex-col">
               <span className="text-base font-bold text-slate-900 tracking-wide">
-                Orbit Barber Booking
+                Orbyt Barber Booking
               </span>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default function BarberLandingPage() {
         </div>
       </section>
       <footer className="py-8 text-center text-slate-400">
-        &copy; {new Date().getFullYear()} Orbit Barber Booking. All rights reserved.
+        &copy; {new Date().getFullYear()} Orbyt Barber Booking. All rights reserved.
       </footer>
     </main>
   );

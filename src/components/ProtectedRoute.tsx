@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,14 +13,50 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check if user is authenticated (in real app, verify JWT token)
-    const authStatus = localStorage.getItem("adminAuth") === "true";
-    setIsAuthenticated(authStatus);
+    const checkAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+          router.push("/auth/login");
+          setIsAuthenticated(false);
+          return;
+        }
 
-    if (!authStatus) {
-      // Redirect to admin login if not authenticated
-      router.push("/admin/login");
-    }
+        // Check if user has completed onboarding
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('id', session.user.id)
+          .single();
+
+        if (!profile) {
+          router.push("/auth/onboarding");
+          setIsAuthenticated(false);
+          return;
+        }
+
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error('Auth check error:', error);
+        router.push("/auth/login");
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        router.push("/auth/login");
+        setIsAuthenticated(false);
+      } else {
+        setIsAuthenticated(true);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [router]);
 
   // Show loading state while checking authentication

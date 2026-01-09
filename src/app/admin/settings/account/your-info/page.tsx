@@ -120,24 +120,24 @@ export default function YourInfoPage() {
         <CardHeader>
           <div className="flex items-center gap-2">
             <Building2 className="h-5 w-5 text-primary" />
-            <CardTitle>Your info</CardTitle>
+            <CardTitle>Business Info</CardTitle>
           </div>
           <CardDescription>
-            Update your company information and profile details. Changes will be reflected throughout the admin dashboard.
+            Update your business information and company details. Changes will be reflected throughout the admin dashboard.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Company Information Section */}
+          {/* Business Details Section */}
           <div className="space-y-4 border-b pb-6 mb-6">
-            <h3 className="text-lg font-medium">Company Information</h3>
+            <h3 className="text-lg font-medium">Business Details</h3>
             
-            {/* Company Name */}
+            {/* Business Name */}
             <div className="space-y-2">
-              <Label htmlFor="companyName" className="text-sm font-medium">Company Name</Label>
+              <Label htmlFor="businessName" className="text-sm font-medium">Business Name</Label>
               <div className="max-w-md">
                 <Input
-                  id="companyName"
-                  placeholder="Enter your company name"
+                  id="businessName"
+                  placeholder="Enter your business name"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   className="w-full"
@@ -182,31 +182,44 @@ export default function YourInfoPage() {
             {logoError && <div className="text-xs text-red-600">{logoError}</div>}
           </div>
 
-          {/* Details form */}
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            <div className="space-y-2">
-              <Label htmlFor="first-name">First name</Label>
-              <Input id="first-name" placeholder="First name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="last-name">Last name</Label>
-              <Input id="last-name" placeholder="Last name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email address</Label>
-              <Input id="email" type="email" placeholder="you@example.com" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone no.</Label>
-              <Input id="phone" placeholder="+1 (555) 000-0000" />
-            </div>
-            <div className="space-y-2 col-span-1">
-              <Label htmlFor="address">Address</Label>
-              <Input id="address" placeholder="Type address" />
-            </div>
-            <div className="space-y-2 col-span-1">
-              <Label htmlFor="apt">Apt no.</Label>
-              <Input id="apt" placeholder="Apt no." />
+          {/* Business Contact Information */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium">Business Contact Information</h3>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="business-email">Business Email</Label>
+                <Input id="business-email" type="email" placeholder="business@example.com" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="business-phone">Business Phone</Label>
+                <Input id="business-phone" placeholder="+1 (555) 000-0000" />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="business-address">Business Address</Label>
+                <Input id="business-address" placeholder="Enter business address" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="business-city">City</Label>
+                <Input id="business-city" placeholder="City" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="business-zip">ZIP Code</Label>
+                <Input id="business-zip" placeholder="ZIP Code" />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="business-website">Website</Label>
+                <Input id="business-website" placeholder="https://yourbusiness.com" />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="business-description">Business Description</Label>
+                <textarea
+                  id="business-description"
+                  placeholder="Describe your business services..."
+                  className="w-full min-h-[100px] p-3 border rounded-md resize-none"
+                  rows={3}
+                />
+              </div>
             </div>
           </div>
 

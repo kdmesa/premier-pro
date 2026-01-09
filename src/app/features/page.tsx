@@ -15,7 +15,7 @@ export default function FeaturesPage() {
                 alt="Orbit Booking logo"
                 className="h-10 w-10"
               />
-              <span className="text-xl font-bold text-gray-900">Orbit Booking</span>
+              <span className="text-xl font-bold text-gray-900">Orbyt Booking</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
               <Link href="/#features" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">Features</Link>
@@ -24,7 +24,7 @@ export default function FeaturesPage() {
               <Link href="/#contact" className="text-sm font-medium text-gray-700 hover:text-primary transition-colors">Contact Us</Link>
             </nav>
             <div className="flex items-center space-x-4">
-              <Link href="/admin/login" className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
+              <Link href="/auth/login" className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
                 Log In
               </Link>
             </div>
@@ -89,7 +89,7 @@ export default function FeaturesPage() {
               </span>
               <span className="text-center font-medium text-gray-800">Dashboard</span>
             </a>
-            <a href="/admin/login" className="flex flex-col items-center gap-2 rounded-xl border bg-primary text-primary-foreground p-3 hover:bg-primary/90 transition-shadow">
+            <a href="/auth/login" className="flex flex-col items-center gap-2 rounded-xl border bg-primary text-primary-foreground p-3 hover:bg-primary/90 transition-shadow">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground text-lg">
                 🚀
               </span>

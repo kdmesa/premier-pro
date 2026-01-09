@@ -43,6 +43,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLogo } from "@/contexts/LogoContext";
 import defaultLogo from "@/assets/orbit.png";
 import { useWebsiteConfig } from "@/hooks/useWebsiteConfig";
+import { supabase } from "@/lib/supabaseClient";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -252,13 +253,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     },
   ];
 
-  const handleLogout = () => {
-    // Clear authentication
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("adminAuth");
-      localStorage.removeItem("adminEmail");
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.push("/auth/login");
+    } catch (error) {
+      console.error('Logout error:', error);
+      router.push("/auth/login");
     }
-    router.push("/admin/login");
   };
 
   const toggleTheme = () => {

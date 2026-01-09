@@ -42,73 +42,26 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 
-const BOOKINGS_STORAGE_KEY = "adminBookings";
+import { supabase } from "@/lib/supabaseClient";
 
-// Mock data fallback
-const defaultBookings = [
-  {
-    id: "BK001",
-    customer: { name: "John Doe", email: "john@example.com", phone: "(555) 123-4567" },
-    service: "Deep Cleaning",
-    date: "2025-11-15",
-    time: "9:00 AM",
-    address: "123 Main St, Chicago, IL",
-    status: "confirmed",
-    amount: "$250",
-    paymentMethod: "Credit Card",
-    notes: "Please bring extra cleaning supplies"
-  },
-  {
-    id: "BK002",
-    customer: { name: "Jane Smith", email: "jane@example.com", phone: "(555) 234-5678" },
-    service: "Standard Cleaning",
-    date: "2025-11-08",
-    time: "11:00 AM",
-    address: "456 Oak Ave, Chicago, IL",
-    status: "completed",
-    amount: "$120",
-    paymentMethod: "Cash",
-    notes: ""
-  },
-  {
-    id: "BK003",
-    customer: { name: "Mike Johnson", email: "mike@example.com", phone: "(555) 345-6789" },
-    service: "Office Cleaning",
-    date: "2025-11-09",
-    time: "1:00 PM",
-    address: "789 Business Blvd, Chicago, IL",
-    status: "completed",
-    amount: "$200",
-    paymentMethod: "Credit Card",
-    notes: "Office closes at 5 PM"
-  },
-  {
-    id: "BK004",
-    customer: { name: "Sarah Williams", email: "sarah@example.com", phone: "(555) 456-7890" },
-    service: "Carpet Cleaning",
-    date: "2025-11-09",
-    time: "3:00 PM",
-    address: "321 Pine St, Chicago, IL",
-    status: "completed",
-    amount: "$150",
-    paymentMethod: "Credit Card",
-    notes: ""
-  },
-  {
-    id: "BK005",
-    customer: { name: "David Brown", email: "david@example.com", phone: "(555) 567-8901" },
-    service: "Move In/Out",
-    date: "2025-11-10",
-    time: "9:00 AM",
-    address: "654 Elm Dr, Chicago, IL",
-    status: "cancelled",
-    amount: "$350",
-    paymentMethod: "Cash",
-    notes: "Customer cancelled due to schedule conflict"
-  },
-];
+// Bookings are now loaded from Supabase only.
 
-type Booking = typeof defaultBookings[number];
+// Define Booking type based on Supabase schema
+interface Booking {
+  id: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  service: string;
+  date: string;
+  time: string;
+  address: string;
+  status: string;
+  amount: number | string;
+  payment_method?: string;
+  notes?: string;
+  assignedProvider?: string;
+}
 
 // Mock providers data
 const mockProviders = [
@@ -187,8 +140,8 @@ export default function BookingsPage() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [bookings, setBookings] = useState<Booking[]>(defaultBookings);
-  const [hydrated, setHydrated] = useState(false);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showProviderDialog, setShowProviderDialog] = useState(false);
@@ -199,33 +152,27 @@ export default function BookingsPage() {
 
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const stored = localStorage.getItem(BOOKINGS_STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as Booking[];
-        if (Array.isArray(parsed)) {
-          setBookings(parsed);
-        }
-      } catch (error) {
-        console.error("Failed to parse stored bookings", error);
+    async function fetchBookings() {
+      setLoading(true);
+      const { data, error } = await supabase.from('bookings').select('*').order('date', { ascending: false });
+      if (error) {
+        console.error('Failed to fetch bookings from Supabase', error);
+        setBookings([]);
+      } else {
+        setBookings(data || []);
       }
+      setLoading(false);
     }
-    setHydrated(true);
+    fetchBookings();
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!hydrated) return;
-    localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(bookings));
-  }, [bookings, hydrated]);
+  // No localStorage sync needed; bookings are live from Supabase.
 
 
   const filteredBookings = bookings.filter((booking) => {
     const matchesSearch = 
       booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      booking.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       booking.service.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesStatus = statusFilter === "all" || booking.status === statusFilter;
@@ -238,46 +185,60 @@ export default function BookingsPage() {
     setShowDetails(true);
   };
 
-  const handleStatusChange = (bookingId: string, newStatus: string) => {
-    setBookings((prev) => {
-      const updated = prev.map((booking) =>
-        booking.id === bookingId ? { ...booking, status: newStatus } : booking
-      );
-      const activeSelection = updated.find((booking) => booking.id === bookingId) || null;
-      setSelectedBooking(activeSelection);
-
+  const handleStatusChange = async (bookingId: string, newStatus: string) => {
+    const { error } = await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId);
+    if (error) {
       toast({
-        title: "Status Updated",
-        description: `Booking ${bookingId} status changed to ${newStatus}`,
+        title: "Error",
+        description: `Failed to update booking status: ${error.message}`,
+        variant: "destructive",
       });
-
-      return updated;
-    });
+      return;
+    }
+    setBookings((prev) => {
+  const updated = prev.map((booking) =>
+    booking.id === bookingId ? { ...booking, status: newStatus } : booking
+  );
+  const activeSelection = updated.find((booking) => booking.id === bookingId) || null;
+  setSelectedBooking(activeSelection);
+  return updated;
+});
+toast({
+  title: "Status Updated",
+  description: `Booking ${bookingId} status changed to ${newStatus}`,
+});
     setShowDetails(false);
   };
 
-  const handleAssignProvider = () => {
-    if (!selectedProvider || !selectedBooking) return;
-    
-    setBookings((prev) => {
-      const updated = prev.map((booking) =>
-        booking.id === selectedBooking.id 
-          ? { ...booking, assignedProvider: selectedProvider.name } 
-          : booking
-      );
-      const activeSelection = updated.find((booking) => booking.id === selectedBooking.id) || null;
-      setSelectedBooking(activeSelection);
-      return updated;
-    });
-    
+
+  const handleAssignProvider = async () => {
+  if (!selectedProvider || !selectedBooking) return;
+  const { error } = await supabase.from('bookings').update({ assignedProvider: selectedProvider.name }).eq('id', selectedBooking.id);
+  if (error) {
     toast({
-      title: "Provider Assigned",
-      description: `${selectedProvider.name} has been assigned to booking ${selectedBooking.id}`,
+      title: "Error",
+      description: `Failed to assign provider: ${error.message}`,
+      variant: "destructive",
     });
-    
-    setShowProviderDialog(false);
-    setSelectedProvider(null);
-  };
+    return;
+  }
+  setBookings((prev) => {
+    const updated = prev.map((booking) =>
+      booking.id === selectedBooking.id
+        ? { ...booking, assignedProvider: selectedProvider.name }
+        : booking
+    );
+    const activeSelection = updated.find((booking) => booking.id === selectedBooking.id) || null;
+    setSelectedBooking(activeSelection);
+    return updated;
+  });
+  toast({
+    title: "Provider Assigned",
+    description: `${selectedProvider.name} has been assigned to booking ${selectedBooking.id}`,
+  });
+  setShowProviderDialog(false);
+  setSelectedProvider(null);
+};
 
 
   // Calendar functions
@@ -447,8 +408,8 @@ export default function BookingsPage() {
                       )}
                     >
                       <td className="py-3 px-4">
-                        <div className="text-sm font-medium">{booking.customer.name}</div>
-                        <div className="text-xs text-muted-foreground">{booking.customer.email}</div>
+                        <div className="text-sm font-medium">{booking.customer_name}</div>
+                        <div className="text-xs text-muted-foreground">{booking.customer_email}</div>
                       </td>
                       <td className="py-3 px-4 text-sm">{booking.service}</td>
                       <td className="py-3 px-4 text-sm">
@@ -616,11 +577,11 @@ export default function BookingsPage() {
                 <div className="grid gap-2 bg-muted/50 p-3 rounded-lg">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm truncate">{selectedBooking.customer.email}</span>
+                    <span className="text-sm truncate">{selectedBooking.customer_email}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm">{selectedBooking.customer.phone}</span>
+                    <span className="text-sm">{selectedBooking.customer_phone}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
@@ -647,7 +608,7 @@ export default function BookingsPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Payment Method:</span>
-                    <span className="text-sm font-medium">{selectedBooking.paymentMethod}</span>
+                    <span className="text-sm font-medium">{selectedBooking.payment_method}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Amount:</span>

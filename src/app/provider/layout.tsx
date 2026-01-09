@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/lib/supabaseClient";
 
 const navigation = [
   { name: "Dashboard", href: "/provider/dashboard", icon: LayoutDashboard },
@@ -40,32 +41,56 @@ export default function ProviderLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    // Check authentication
-    const isAuthenticated = localStorage.getItem("providerAuth");
-    if (!isAuthenticated) {
-      router.push("/admin/login");
-      return;
-    }
+    const checkAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+          router.push("/auth/login");
+          return;
+        }
 
-    // Get provider name
-    const name = localStorage.getItem("providerName");
-    if (name) {
-      setProviderName(name);
-    }
+        // Get provider name from profile
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profile?.full_name) {
+          setProviderName(profile.full_name);
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        router.push("/auth/login");
+      }
+    };
+
+    checkAuth();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        router.push("/auth/login");
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("providerAuth");
-    localStorage.removeItem("providerEmail");
-    localStorage.removeItem("providerName");
-    localStorage.removeItem("userRole");
-    
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-    });
-    
-    router.push("/admin/login");
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+      });
+      
+      router.push("/auth/login");
+    } catch (error) {
+      console.error('Logout error:', error);
+      router.push("/auth/login");
+    }
   };
 
   return (
@@ -96,7 +121,7 @@ export default function ProviderLayout({
             <div className="flex items-center gap-3">
               <img src="/images/orbit.png" alt="Orbit Booking" className="h-10 w-10" />
               <div>
-                <h1 className="text-lg font-bold" style={{ color: '#0C2B4E' }}>Orbit Booking</h1>
+                <h1 className="text-lg font-bold" style={{ color: '#0C2B4E' }}>Orbyt Booking</h1>
                 <p className="text-xs text-muted-foreground">Provider Portal</p>
               </div>
             </div>

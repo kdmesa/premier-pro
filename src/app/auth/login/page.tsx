@@ -14,74 +14,97 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Loader2, Mail, Lock, Shield, Eye, EyeOff } from "lucide-react";
+import { Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
 
-// Admin login schema
-const adminLoginSchema = z.object({
+// Login schema
+const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-const AdminLogin = () => {
+export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof adminLoginSchema>>({
-    resolver: zodResolver(adminLoginSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof adminLoginSchema>) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Demo credentials check (replace with real authentication)
-      if (values.email === "admin@orbitbooking.com" && values.password === "admin123") {
-        // Store auth token (in real app, use proper token management)
-        localStorage.setItem("adminAuth", "true");
-        localStorage.setItem("adminEmail", values.email);
-        localStorage.setItem("userRole", "admin");
-        
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        // Handle specific error cases
+        if (error.message.includes('Invalid login credentials')) {
+          throw new Error('Invalid email or password');
+        } else if (error.message.includes('Email not confirmed')) {
+          throw new Error('Please confirm your email first. Check your inbox for the confirmation link.');
+        } else {
+          throw error;
+        }
+      }
+
+      if (data.user) {
+        // Check if user has completed onboarding by looking for profile
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('full_name, business_id, role')
+          .eq('id', data.user.id)
+          .single();
+
+        // If no profile exists, user hasn't completed onboarding
+        if (!profile) {
+          toast({
+            title: "Welcome!",
+            description: "Please complete your business setup to continue.",
+          });
+          setTimeout(() => {
+            router.push("/auth/onboarding");
+          }, 500);
+          return;
+        }
+
+        // Get business details
+        const { data: business, error: businessError } = await supabase
+          .from('businesses')
+          .select('id, name, is_active')
+          .eq('id', profile.business_id)
+          .single();
+
         toast({
           title: "Login Successful!",
-          description: "Welcome to Orbit Booking Admin Dashboard",
+          description: `Welcome back${profile?.full_name ? ', ' + profile.full_name : ''}!`,
         });
-        
-        // Redirect to admin dashboard
+
+        // Set business context if available
+        if (business?.id) {
+          localStorage.setItem('currentBusinessId', business.id);
+        }
+
+        // User has completed onboarding, go to dashboard
         setTimeout(() => {
-          router.push("/admin");
+          router.push("/admin/dashboard");
         }, 500);
-      } else if (values.email === "provider@orbitbooking.com" && values.password === "provider123") {
-        // Provider login
-        localStorage.setItem("providerAuth", "true");
-        localStorage.setItem("providerEmail", values.email);
-        localStorage.setItem("providerName", "John Smith");
-        localStorage.setItem("userRole", "provider");
-        
-        toast({
-          title: "Login Successful!",
-          description: "Welcome to your Provider Dashboard",
-        });
-        
-        // Redirect to provider dashboard
-        setTimeout(() => {
-          router.push("/provider/dashboard");
-        }, 500);
-      } else {
-        throw new Error("Invalid credentials");
       }
       
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Login error:', error);
       toast({
         title: "Login Failed",
-        description: "Invalid email or password. Please try again.",
+        description: error.message || "An error occurred during login. Please try again.",
         variant: "destructive",
       });
     }
@@ -90,34 +113,15 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Admin Login Card */}
+        {/* Login Card */}
         <div className="bg-card border border-border rounded-2xl shadow-2xl p-8">
           {/* Logo and Header */}
           <div className="text-center mb-8">
             <div className="flex justify-center mb-4">
-              <div className="relative">
-                <img src="/images/orbit.png" alt="Orbit Booking" className="h-20 w-20" />
-                <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-1.5">
-                  <Shield className="h-4 w-4 text-primary-foreground" />
-                </div>
-              </div>
+              <img src="/images/orbit.png" alt="Orbit Booking" className="h-20 w-20" />
             </div>
-            <h1 className="text-3xl font-bold mb-2" style={{ color: '#0C2B4E' }}>Orbit Booking</h1>
-            <p className="text-muted-foreground text-sm">Admin Dashboard Login</p>
-          </div>
-
-          {/* Demo Credentials Info */}
-          <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-lg space-y-3">
-            <div>
-              <p className="text-xs font-semibold text-primary mb-1">Admin Credentials:</p>
-              <p className="text-xs text-muted-foreground">Email: admin@orbitbooking.com</p>
-              <p className="text-xs text-muted-foreground">Password: admin123</p>
-            </div>
-            <div className="border-t border-primary/20 pt-2">
-              <p className="text-xs font-semibold text-primary mb-1">Provider Credentials:</p>
-              <p className="text-xs text-muted-foreground">Email: provider@orbitbooking.com</p>
-              <p className="text-xs text-muted-foreground">Password: provider123</p>
-            </div>
+            <h1 className="text-3xl font-bold mb-2" style={{ color: '#0C2B4E' }}>Orbyt Booking</h1>
+            <p className="text-muted-foreground text-sm">Sign in to your account</p>
           </div>
 
           {/* Login Form */}
@@ -183,6 +187,9 @@ const AdminLogin = () => {
                   <input type="checkbox" className="rounded border-border" />
                   <span className="text-muted-foreground">Remember me</span>
                 </label>
+                <Link href="/auth/resend" className="text-sm text-primary hover:underline">
+                  Resend confirmation
+                </Link>
               </div>
 
               <Button 
@@ -197,38 +204,52 @@ const AdminLogin = () => {
                     Signing in...
                   </>
                 ) : (
-                  <>
-                    <Shield className="mr-2 h-5 w-5" />
-                    Sign In to Admin Panel
-                  </>
+                  'Sign In'
                 )}
               </Button>
+
+              <div className="space-y-4 pt-2">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">
+                      Or continue with
+                    </span>
+                  </div>
+                </div>
+                
+                <Button 
+                  variant="outline" 
+                  type="button" 
+                  className="w-full h-11 text-base border-primary/50 hover:border-primary"
+                  onClick={() => router.push('/auth/signup')}
+                >
+                  Create an account
+                </Button>
+                
+                <p className="text-center text-sm text-muted-foreground">
+                  Already have an account?{' '}
+                  <Link href="/auth/signup" className="text-primary hover:underline font-medium">
+                    Sign up
+                  </Link>
+                </p>
+              </div>
             </form>
           </Form>
-
-          {/* Security Notice */}
-          <div className="mt-6 p-3 bg-muted/50 rounded-lg">
-            <div className="flex items-start gap-2">
-              <Shield className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-              <p className="text-xs text-muted-foreground">
-                This is a secure admin area. All login attempts are monitored and logged.
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Back to Website */}
         <p className="text-center text-sm text-muted-foreground mt-6">
-          <button 
-            onClick={() => router.push("/")}
+          <Link 
+            href="/"
             className="text-primary hover:underline font-medium"
           >
             ← Back to Website
-          </button>
+          </Link>
         </p>
       </div>
     </div>
   );
-};
-
-export default AdminLogin;
+}

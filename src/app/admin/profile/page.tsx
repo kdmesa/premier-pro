@@ -1,23 +1,25 @@
-"use client";
+'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Building2, Shield, CreditCard, FileText, Gift, User, Save, Briefcase } from "lucide-react";
-import YourInfoPage from "./your-info/page";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
 import { 
+  User, 
   Mail, 
   Phone, 
   Building, 
+  Save, 
   ArrowLeft,
+  Shield,
   Bell,
   Palette,
   Globe,
@@ -31,8 +33,10 @@ import {
   Calendar,
   Clock
 } from "lucide-react";
+import Link from "next/link";
 
-export default function AccountSettingsPage() {
+export default function AdminProfilePage() {
+  const router = useRouter();
   const [adminEmail, setAdminEmail] = useState("");
   const [adminName, setAdminName] = useState("");
   const [adminPhone, setAdminPhone] = useState("");
@@ -48,6 +52,7 @@ export default function AccountSettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [activeTab, setActiveTab] = useState("profile");
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
   const [profileCompletion, setProfileCompletion] = useState(0);
 
@@ -135,6 +140,8 @@ export default function AccountSettingsPage() {
     switch (role) {
       case 'owner':
         return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
+      case 'super-admin':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
       case 'admin':
         return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
       case 'manager':
@@ -150,6 +157,8 @@ export default function AccountSettingsPage() {
     switch (role) {
       case 'owner':
         return '👑';
+      case 'super-admin':
+        return '⚡';
       case 'admin':
         return '🛡️';
       case 'manager':
@@ -170,66 +179,86 @@ export default function AccountSettingsPage() {
       alert("Password must be at least 8 characters long!");
       return;
     }
+    // Handle password change logic here
     alert("Password changed successfully!");
     setNewPassword("");
     setConfirmPassword("");
   };
 
   return (
-    <div className="space-y-6">
-      <Tabs defaultValue="your-info" className="w-full">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="your-info" className="flex items-center gap-2">
-            <Briefcase className="h-4 w-4" />
-            <span>Business Info</span>
-          </TabsTrigger>
-          <TabsTrigger value="profile" className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            <span>Profile</span>
-          </TabsTrigger>
-          <TabsTrigger value="earn-rewards" className="flex items-center gap-2">
-            <Gift className="h-4 w-4" />
-            <span>Rewards</span>
-          </TabsTrigger>
-          <TabsTrigger value="billing" className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4" />
-            <span>Billing</span>
-          </TabsTrigger>
-          <TabsTrigger value="subscription-plans" className="flex items-center gap-2">
-            <Shield className="h-4 w-4" />
-            <span>Plans</span>
-          </TabsTrigger>
-          <TabsTrigger value="invoices" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            <span>Invoices</span>
-          </TabsTrigger>
-        </TabsList>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <Link 
+            href="/admin/dashboard"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Dashboard
+          </Link>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Profile Settings
+              </h1>
+              <p className="text-muted-foreground mt-2 text-lg">
+                Manage your personal information, security, and preferences
+              </p>
+            </div>
+            <div className="text-right">
+              <Badge variant="outline" className="mb-2">
+                Admin Account
+              </Badge>
+              <div className="text-sm text-muted-foreground">
+                Member since {new Date().getFullYear()}
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <TabsContent value="your-info" className="pt-6">
-          <YourInfoPage />
-        </TabsContent>
-
-        <TabsContent value="profile" className="pt-6">
-          <div className="space-y-6">
-            {/* Profile Completion */}
-            <Card className="border-l-4 border-l-blue-500">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
-                      <User className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <span className="font-medium">Profile Completion</span>
-                  </div>
-                  <span className="text-sm font-medium">{profileCompletion}%</span>
+        {/* Profile Completion */}
+        <Card className="mb-6 border-l-4 border-l-blue-500">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                  <User className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <Progress value={profileCompletion} className="h-2" />
-                <p className="text-xs text-muted-foreground mt-2">
-                  Complete your profile to get the most out of your admin experience
-                </p>
-              </CardContent>
-            </Card>
+                <span className="font-medium">Profile Completion</span>
+              </div>
+              <span className="text-sm font-medium">{profileCompletion}%</span>
+            </div>
+            <Progress value={profileCompletion} className="h-2" />
+            <p className="text-xs text-muted-foreground mt-2">
+              Complete your profile to get the most out of your admin experience
+            </p>
+          </CardContent>
+        </Card>
 
+        {/* Main Content */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              Profile
+            </TabsTrigger>
+            <TabsTrigger value="security" className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
+              Security
+            </TabsTrigger>
+            <TabsTrigger value="notifications" className="flex items-center gap-2">
+              <Bell className="h-4 w-4" />
+              Notifications
+            </TabsTrigger>
+            <TabsTrigger value="preferences" className="flex items-center gap-2">
+              <Palette className="h-4 w-4" />
+              Preferences
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Profile Tab */}
+          <TabsContent value="profile" className="space-y-6">
             <div className="grid gap-6 lg:grid-cols-3">
               {/* Profile Overview Card */}
               <Card className="lg:col-span-1">
@@ -400,6 +429,7 @@ export default function AccountSettingsPage() {
                       className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     >
                       <option value="owner">Owner</option>
+                      <option value="super-admin">Super Admin</option>
                       <option value="admin">Admin</option>
                       <option value="manager">Manager</option>
                       <option value="staff">Staff</option>
@@ -426,8 +456,10 @@ export default function AccountSettingsPage() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
 
-            {/* Security Section */}
+          {/* Security Tab */}
+          <TabsContent value="security" className="space-y-6">
             <div className="grid gap-6 lg:grid-cols-2">
               <Card>
                 <CardHeader>
@@ -489,14 +521,59 @@ export default function AccountSettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Bell className="h-5 w-5" />
-                    Notification Preferences
+                    <Shield className="h-5 w-5" />
+                    Two-Factor Authentication
                   </CardTitle>
                   <CardDescription>
-                    Manage how you receive notifications
+                    Add an extra layer of security to your account
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div>
+                      <h4 className="font-medium">Two-Factor Authentication</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Add an extra layer of security to your account
+                      </p>
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Active Sessions</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="h-8 w-8 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                            <Globe className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">Current Session</p>
+                            <p className="text-xs text-muted-foreground">{navigator.userAgent.split(" ")[0]}</p>
+                          </div>
+                        </div>
+                        <Badge variant="secondary">Active</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Notifications Tab */}
+          <TabsContent value="notifications" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="h-5 w-5" />
+                  Notification Preferences
+                </CardTitle>
+                <CardDescription>
+                  Manage how you receive notifications
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="space-y-1">
                       <h4 className="font-medium">Email Notifications</h4>
@@ -521,6 +598,45 @@ export default function AccountSettingsPage() {
                       onCheckedChange={setPushNotifications}
                     />
                   </div>
+                </div>
+                
+                <Separator />
+                
+                <div className="space-y-4">
+                  <h4 className="font-medium">Notification Types</h4>
+                  <div className="grid gap-3">
+                    {[
+                      "New booking requests",
+                      "Booking confirmations",
+                      "Customer messages",
+                      "System updates",
+                      "Security alerts"
+                    ].map((type) => (
+                      <div key={type} className="flex items-center justify-between p-3 border rounded-lg">
+                        <span className="text-sm">{type}</span>
+                        <Switch defaultChecked={type !== "System updates"} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Preferences Tab */}
+          <TabsContent value="preferences" className="space-y-6">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Palette className="h-5 w-5" />
+                    Appearance
+                  </CardTitle>
+                  <CardDescription>
+                    Customize your interface appearance
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="space-y-1">
                       <h4 className="font-medium">Dark Mode</h4>
@@ -533,125 +649,92 @@ export default function AccountSettingsPage() {
                       onCheckedChange={setDarkMode}
                     />
                   </div>
+                  <div className="space-y-2">
+                    <Label>Language</Label>
+                    <select className="w-full p-2 border rounded-md">
+                      <option>English</option>
+                      <option>Spanish</option>
+                      <option>French</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Timezone</Label>
+                    <select className="w-full p-2 border rounded-md">
+                      <option>UTC-8 (Pacific Time)</option>
+                      <option>UTC-5 (Eastern Time)</option>
+                      <option>UTC+0 (GMT)</option>
+                    </select>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Display Settings</CardTitle>
+                  <CardDescription>
+                    Configure your display preferences
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Default Page</Label>
+                    <select className="w-full p-2 border rounded-md">
+                      <option>Dashboard</option>
+                      <option>Bookings</option>
+                      <option>Customers</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Items per page</Label>
+                    <select className="w-full p-2 border rounded-md">
+                      <option>10</option>
+                      <option>25</option>
+                      <option>50</option>
+                      <option>100</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="space-y-1">
+                      <h4 className="font-medium">Compact View</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Show more items in lists
+                      </p>
+                    </div>
+                    <Switch />
+                  </div>
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+        </Tabs>
 
-            {/* Save Actions */}
-            <div className="flex items-center justify-between p-6 bg-card rounded-lg border">
-              <div className="flex items-center gap-2">
-                {saveStatus === "success" && (
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check className="h-4 w-4" />
-                    <span className="text-sm">Changes saved successfully</span>
-                  </div>
-                )}
-                {saveStatus === "error" && (
-                  <div className="flex items-center gap-2 text-red-600">
-                    <X className="h-4 w-4" />
-                    <span className="text-sm">Error saving changes</span>
-                  </div>
-                )}
+        {/* Save Actions */}
+        <div className="flex items-center justify-between mt-8 p-6 bg-card rounded-lg border">
+          <div className="flex items-center gap-2">
+            {saveStatus === "success" && (
+              <div className="flex items-center gap-2 text-green-600">
+                <Check className="h-4 w-4" />
+                <span className="text-sm">Changes saved successfully</span>
               </div>
-              <div className="flex gap-4">
-                <Button onClick={handleSave} disabled={isLoading} className="min-w-[120px]">
-                  <Save className="h-4 w-4 mr-2" />
-                  {isLoading ? "Saving..." : "Save Changes"}
-                </Button>
+            )}
+            {saveStatus === "error" && (
+              <div className="flex items-center gap-2 text-red-600">
+                <X className="h-4 w-4" />
+                <span className="text-sm">Error saving changes</span>
               </div>
-            </div>
+            )}
           </div>
-        </TabsContent>
-
-        <TabsContent value="earn-rewards" className="pt-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Gift className="h-5 w-5 text-primary" />
-                <CardTitle>Earn Rewards</CardTitle>
-              </div>
-              <CardDescription>Configure referral codes and loyalty rewards</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm text-muted-foreground">
-                Placeholder content for rewards configuration.
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="billing" className="pt-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <CreditCard className="h-5 w-5 text-primary" />
-                <CardTitle>Billing</CardTitle>
-              </div>
-              <CardDescription>Manage your payment methods</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="card-name">Cardholder Name</Label>
-                  <Input id="card-name" placeholder="Name on card" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="card-number">Card Number</Label>
-                  <Input id="card-number" placeholder="•••• •••• •••• ••••" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="exp">Expiry</Label>
-                  <Input id="exp" placeholder="MM/YY" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="cvc">CVC</Label>
-                  <Input id="cvc" placeholder="CVC" />
-                </div>
-              </div>
-              <Button className="mt-4" style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}>
-                <Save className="h-4 w-4 mr-2" />
-                Save Billing
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="subscription-plans" className="pt-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-primary" />
-                <CardTitle>Subscription plans</CardTitle>
-              </div>
-              <CardDescription>View or change your plan</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3 text-sm text-muted-foreground">
-                <p>Current plan: Starter (placeholder)</p>
-                <div className="flex gap-2">
-                  <Button variant="outline">Manage Plan</Button>
-                  <Button style={{ background: 'linear-gradient(135deg, #00BCD4 0%, #00D4E8 100%)', color: 'white' }}>Upgrade</Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="invoices" className="pt-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-primary" />
-                <CardTitle>Invoices</CardTitle>
-              </div>
-              <CardDescription>Download or view past invoices</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm text-muted-foreground">No invoices yet. This is a placeholder.</div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={() => router.back()}>
+              Cancel
+            </Button>
+            <Button onClick={handleSave} disabled={isLoading} className="min-w-[120px]">
+              <Save className="h-4 w-4 mr-2" />
+              {isLoading ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

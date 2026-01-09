@@ -12,7 +12,7 @@ export default function AdminLayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === '/admin/login';
+  const isLoginPage = pathname === '/auth/login';
   const isWebsiteBuilder = pathname === '/admin/website-builder';
 
   // Don't protect the login page
