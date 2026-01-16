@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabaseClient';
+import { useBusiness } from '@/contexts/BusinessContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -31,29 +33,44 @@ type Discount = {
   active: boolean;
 };
 
-const MOCK_DISCOUNTS: Discount[] = [
-  {
-    id: '1',
-    name: 'Happy Hour',
-    description: 'Afternoon special',
-    discountType: 'percentage',
-    discountValue: '15',
-    startDate: '2023-12-01',
-    endDate: '2023-12-31',
-    startTime: '14:00',
-    endTime: '16:00',
-    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-    appliesTo: 'all',
-    services: '',
-    categories: '',
-    active: true,
-  },
-  // Add more mock data as needed
-];
 
 export function DailyDiscountsForm() {
   const { toast } = useToast();
-  const [discounts, setDiscounts] = useState<Discount[]>(MOCK_DISCOUNTS);
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
+  const { currentBusiness } = useBusiness();
+
+  // Load discounts from Supabase
+  useEffect(() => {
+    if (!currentBusiness?.id) return;
+    const fetchDiscounts = async () => {
+      const { data, error } = await supabase
+        .from('marketing_daily_discounts')
+        .select('*')
+        .eq('business_id', currentBusiness.id)
+        .order('created_at', { ascending: false });
+      if (!error && data) {
+        setDiscounts(
+          data.map((d: any) => ({
+            id: d.id,
+            name: d.name,
+            description: d.description,
+            discountType: d.discount_type,
+            discountValue: d.discount_value.toString(),
+            startDate: d.start_date || '',
+            endDate: d.end_date || '',
+            startTime: d.start_time || '',
+            endTime: d.end_time || '',
+            days: d.days || [],
+            appliesTo: d.applies_to || '',
+            services: d.services || '',
+            categories: d.categories || '',
+            active: d.active,
+          }))
+        );
+      }
+    };
+    fetchDiscounts();
+  }, [currentBusiness]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -130,44 +147,111 @@ export function DailyDiscountsForm() {
     setShowForm(true);
   };
 
-  const handleDelete = (id: string) => {
-    setDiscounts(discounts.filter(d => d.id !== id));
-    toast({
-      title: 'Discount deleted',
-      description: 'The discount has been removed.',
-      variant: 'default',
-    });
-  };
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const discountData = {
-      ...form,
-      id: editingId || Date.now().toString(),
-    };
-
-    if (editingId) {
-      // Update existing discount
-      setDiscounts(discounts.map(d => d.id === editingId ? discountData : d));
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase
+      .from('marketing_daily_discounts')
+      .delete()
+      .eq('id', id)
+      .eq('business_id', currentBusiness?.id || '');
+    if (!error) {
+      setDiscounts((prev) => prev.filter(d => d.id !== id));
       toast({
-        title: 'Discount updated',
-        description: `${form.name} has been updated.`,
-        variant: 'default',
-      });
-    } else {
-      // Add new discount
-      setDiscounts([...discounts, discountData]);
-      toast({
-        title: 'Discount created',
-        description: `${form.name} has been added.`,
+        title: 'Discount deleted',
+        description: 'The discount has been removed.',
         variant: 'default',
       });
     }
-    
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentBusiness?.id) {
+      toast({ title: 'Error', description: 'No business selected', variant: 'destructive' });
+      return;
+    }
+    const payload = {
+      business_id: currentBusiness.id,
+      name: form.name,
+      description: form.description,
+      discount_type: form.discountType,
+      discount_value: parseFloat(form.discountValue),
+      start_date: form.startDate || null,
+      end_date: form.endDate || null,
+      start_time: form.startTime || null,
+      end_time: form.endTime || null,
+      days: form.days,
+      applies_to: form.appliesTo,
+      services: form.services,
+      categories: form.categories,
+      active: form.active,
+    };
+    if (editingId) {
+      // Update existing discount
+      const { error } = await supabase
+        .from('marketing_daily_discounts')
+        .update(payload)
+        .eq('id', editingId)
+        .eq('business_id', currentBusiness.id);
+      if (!error) {
+        setDiscounts(discounts.map(d => d.id === editingId ? {
+          id: editingId,
+          name: payload.name,
+          description: payload.description,
+          discountType: payload.discount_type,
+          discountValue: payload.discount_value.toString(),
+          startDate: payload.start_date || '',
+          endDate: payload.end_date || '',
+          startTime: payload.start_time || '',
+          endTime: payload.end_time || '',
+          days: payload.days || [],
+          appliesTo: payload.applies_to || '',
+          services: payload.services || '',
+          categories: payload.categories || '',
+          active: payload.active,
+        } : d));
+        toast({
+          title: 'Discount updated',
+          description: `${form.name} has been updated.`,
+          variant: 'default',
+        });
+      }
+    } else {
+      // Add new discount
+      const { data, error } = await supabase
+        .from('marketing_daily_discounts')
+        .insert(payload)
+        .select();
+      if (!error && data) {
+        setDiscounts((prev) => [
+          {
+            id: data[0].id,
+            name: payload.name,
+            description: payload.description,
+            discountType: payload.discount_type,
+            discountValue: payload.discount_value.toString(),
+            startDate: payload.start_date || '',
+            endDate: payload.end_date || '',
+            startTime: payload.start_time || '',
+            endTime: payload.end_time || '',
+            days: payload.days || [],
+            appliesTo: payload.applies_to || '',
+            services: payload.services || '',
+            categories: payload.categories || '',
+            active: payload.active,
+          },
+          ...prev,
+        ]);
+        toast({
+          title: 'Discount created',
+          description: `${form.name} has been added.`,
+          variant: 'default',
+        });
+      }
+    }
     resetForm();
     setShowForm(false);
   };
+
 
   const formatTimeRange = (start: string, end: string) => {
     return `${formatTime(start)} - ${formatTime(end)}`;

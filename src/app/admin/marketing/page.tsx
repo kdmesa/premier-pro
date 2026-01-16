@@ -12,10 +12,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from '@/lib/supabaseClient';
+import { useBusiness } from '@/contexts/BusinessContext';
 import Link from "next/link";
 
 type Coupon = {
   id: string;
+  name: string;
   code: string;
   description: string;
   discount: string;
@@ -67,7 +70,7 @@ const GIFT_CARDS_KEY = 'marketingGiftCards';
 const SCRIPTS_KEY = 'marketingScripts';
 const CUSTOMERS_STORAGE_KEY = 'adminCustomers';
 const EMAIL_CAMPAIGNS_KEY = 'emailCampaigns';
-const COUPONS_KEY = 'marketingCoupons';
+// Supabase replaces localStorage for coupons
 
 export default function MarketingPage() {
   const { toast } = useToast();
@@ -94,98 +97,32 @@ export default function MarketingPage() {
   const [showPreview, setShowPreview] = useState(false);
   const [customerSearchTerm, setCustomerSearchTerm] = useState('');
   const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const { currentBusiness } = useBusiness();
 
-  // Load and seed local data for gift cards and scripts
+  // Load coupons from Supabase (multitenant)
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    try {
-      const storedGiftCards = JSON.parse(localStorage.getItem(GIFT_CARDS_KEY) || '[]') as GiftCard[];
-      if (Array.isArray(storedGiftCards) && storedGiftCards.length > 0) {
-        setGiftCards(storedGiftCards);
-      } else {
-        const seed: GiftCard[] = [
-          { id: 'GC-001', name: 'New Customer Gift', code: 'WELCOME50', amount: 50, active: true },
-          { id: 'GC-002', name: 'Holiday Gift', code: 'HOLIDAY100', amount: 100, active: false },
-        ];
-        setGiftCards(seed);
-        localStorage.setItem(GIFT_CARDS_KEY, JSON.stringify(seed));
+    if (!currentBusiness?.id) return;
+    const fetchCoupons = async () => {
+      const { data, error } = await supabase
+        .from('marketing_coupons')
+        .select('*')
+        .eq('business_id', currentBusiness.id)
+        .order('created_at', { ascending: false });
+      if (!error && data) {
+        setCoupons(
+          data.map((c: any) => ({
+            id: c.id,
+            name: c.name || '',
+            code: c.code,
+            description: c.description,
+            discount: c.discount_type === 'percentage' ? `${c.discount_value}%` : `$${c.discount_value}`,
+            status: c.active ? 'active' : 'inactive',
+          }))
+        );
       }
-    } catch {
-      // ignore
-    }
-
-    try {
-      const storedScripts = JSON.parse(localStorage.getItem(SCRIPTS_KEY) || '[]') as Script[];
-      if (Array.isArray(storedScripts) && storedScripts.length > 0) {
-        setScripts(storedScripts);
-        setSelectedScriptId(storedScripts[0]?.id ?? null);
-      } else {
-        const now = new Date().toISOString();
-        const seed: Script[] = [
-          {
-            id: 'SC-001',
-            title: 'Cold call – new leads',
-            category: 'Cold Calling',
-            content:
-              "Hi [Name], this is [Your Name] from [Company]. We work with busy homeowners in [City] to keep their homes consistently clean.\n\nI'm calling because we're helping clients save time with online booking and automatic reminders. Would you be open to a quick 2‑minute overview to see if it could work for you?",
-            updatedAt: now,
-          },
-          {
-            id: 'SC-002',
-            title: 'Follow‑up after quote',
-            category: 'Follow-up',
-            content:
-              "Hi [Name], it's [Your Name] from [Company]. I just wanted to follow up on the quote we sent for your cleaning on [Date].\n\nDo you have any questions about the service or schedule that I can answer for you today?",
-            updatedAt: now,
-          },
-        ];
-        setScripts(seed);
-        setSelectedScriptId(seed[0].id);
-        localStorage.setItem(SCRIPTS_KEY, JSON.stringify(seed));
-      }
-    } catch {
-      // ignore
-    }
-
-    // Load customers for email campaigns
-    try {
-      const storedCustomers = JSON.parse(localStorage.getItem(CUSTOMERS_STORAGE_KEY) || '[]') as Customer[];
-      if (Array.isArray(storedCustomers) && storedCustomers.length > 0) {
-        setCustomers(storedCustomers);
-      }
-    } catch {
-      // ignore
-    }
-
-    // Load saved campaigns
-    try {
-      const storedCampaigns = JSON.parse(localStorage.getItem(EMAIL_CAMPAIGNS_KEY) || '[]') as EmailCampaign[];
-      if (Array.isArray(storedCampaigns)) {
-        setCampaigns(storedCampaigns);
-      }
-    } catch {
-      // ignore
-    }
-
-    // Load coupons
-    try {
-      const storedCoupons = JSON.parse(localStorage.getItem(COUPONS_KEY) || '[]') as Coupon[];
-      if (Array.isArray(storedCoupons) && storedCoupons.length > 0) {
-        setCoupons(storedCoupons);
-      } else {
-        const seed: Coupon[] = [
-          { id: '1', code: 'WELCOME10', description: 'New users', discount: '10%', status: 'active' },
-          { id: '2', code: 'SAVE5', description: 'Fixed off', discount: '$5.00', status: 'active' },
-          { id: '3', code: 'OLD50', description: 'Expired campaign', discount: '50%', status: 'inactive' },
-        ];
-        setCoupons(seed);
-        localStorage.setItem(COUPONS_KEY, JSON.stringify(seed));
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
+    };
+    fetchCoupons();
+  }, [currentBusiness]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -198,10 +135,33 @@ export default function MarketingPage() {
     return coupon.status === couponTab && matchesSearch;
   });
 
-  const saveCoupons = (next: Coupon[]) => {
-    setCoupons(next);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(COUPONS_KEY, JSON.stringify(next));
+  // Add a new coupon to Supabase
+  const addCoupon = async (coupon: Omit<Coupon, 'id'>) => {
+    if (!currentBusiness?.id) return;
+    const discount_type = coupon.discount.includes('%') ? 'percentage' : 'fixed';
+    const discount_value = parseFloat(coupon.discount.replace(/[^\d.]/g, ''));
+    const { data, error } = await supabase
+      .from('marketing_coupons')
+      .insert({
+        business_id: currentBusiness.id,
+        code: coupon.code,
+        description: coupon.description,
+        discount_type,
+        discount_value,
+        active: coupon.status === 'active',
+      })
+      .select();
+    if (!error && data) {
+      setCoupons((prev) => [
+        {
+          id: data[0].id,
+          code: data[0].code,
+          description: data[0].description,
+          discount: data[0].discount_type === 'percentage' ? `${data[0].discount_value}%` : `$${data[0].discount_value}`,
+          status: data[0].active ? 'active' : 'inactive',
+        },
+        ...prev,
+      ]);
     }
   };
 
@@ -212,17 +172,24 @@ export default function MarketingPage() {
     }
   };
 
-  const handleDeleteCoupon = (id: string) => {
+  const handleDeleteCoupon = async (id: string) => {
     const coupon = coupons.find(c => c.id === id);
-    if (coupon && confirm(`Are you sure you want to delete coupon "${coupon.code}"?`)) {
-      const next = coupons.filter(c => c.id !== id);
-      saveCoupons(next);
+    if (!coupon) return;
+    if (!confirm(`Are you sure you want to delete coupon "${coupon.code}"?`)) return;
+    const { error } = await supabase
+      .from('marketing_coupons')
+      .delete()
+      .eq('id', id)
+      .eq('business_id', currentBusiness?.id || '');
+    if (!error) {
+      setCoupons((prev) => prev.filter(c => c.id !== id));
       toast({
         title: 'Coupon Deleted',
         description: `Coupon "${coupon.code}" has been deleted.`,
       });
     }
   };
+
 
   const saveGiftCards = (next: GiftCard[]) => {
     setGiftCards(next);
@@ -495,6 +462,7 @@ Premier Pro Cleaners`);
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead>Name</TableHead>
                           <TableHead>Code</TableHead>
                           <TableHead>Description</TableHead>
                           <TableHead>Discount</TableHead>
@@ -505,6 +473,7 @@ Premier Pro Cleaners`);
                         {filteredCoupons.length > 0 ? (
                           filteredCoupons.map((coupon) => (
                             <TableRow key={coupon.id}>
+                              <TableCell className="font-medium">{coupon.name}</TableCell>
                               <TableCell className="font-medium">{coupon.code}</TableCell>
                               <TableCell>{coupon.description}</TableCell>
                               <TableCell>{coupon.discount}</TableCell>
@@ -532,7 +501,7 @@ Premier Pro Cleaners`);
                           ))
                         ) : (
                           <TableRow>
-                            <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                            <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
                               No coupons found. Create your first coupon to get started.
                             </TableCell>
                           </TableRow>
@@ -547,6 +516,7 @@ Premier Pro Cleaners`);
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead>Name</TableHead>
                           <TableHead>Code</TableHead>
                           <TableHead>Description</TableHead>
                           <TableHead>Discount</TableHead>
@@ -557,6 +527,7 @@ Premier Pro Cleaners`);
                         {filteredCoupons.length > 0 ? (
                           filteredCoupons.map((coupon) => (
                             <TableRow key={coupon.id}>
+                              <TableCell className="font-medium">{coupon.name}</TableCell>
                               <TableCell className="font-medium">{coupon.code}</TableCell>
                               <TableCell>{coupon.description}</TableCell>
                               <TableCell>{coupon.discount}</TableCell>
@@ -584,7 +555,7 @@ Premier Pro Cleaners`);
                           ))
                         ) : (
                           <TableRow>
-                            <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                            <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
                               No inactive coupons found.
                             </TableCell>
                           </TableRow>

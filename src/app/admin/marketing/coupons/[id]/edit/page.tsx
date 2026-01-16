@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient';
+import { useBusiness } from '@/contexts/BusinessContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,6 +32,7 @@ export default function EditCouponPage() {
   const params = useParams();
   const couponId = params.id as string;
   
+  const { currentBusiness } = useBusiness();
   const [form, setForm] = useState({
     name: '',
     code: '',
@@ -84,41 +87,41 @@ export default function EditCouponPage() {
   }, [industries, activeIndustry]);
 
   useEffect(() => {
-    // Load coupon data
-    try {
-      const storedCoupons = JSON.parse(localStorage.getItem(COUPONS_KEY) || '[]') as Coupon[];
-      const coupon = storedCoupons.find(c => c.id === couponId);
-      
-      if (coupon) {
-        // Parse discount value and type
+    // Load coupon data from Supabase
+    const fetchCoupon = async () => {
+      if (!currentBusiness?.id) return;
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('marketing_coupons')
+        .select('*')
+        .eq('id', couponId)
+        .eq('business_id', currentBusiness.id)
+        .single();
+      if (!error && data) {
         let discountValue = '';
-        let discountType = 'percentage';
+        let discountType = data.discount_type;
         let discountUnit: 'amount' | 'percent' = 'percent';
-        
-        if (coupon.discount.includes('%')) {
-          discountValue = coupon.discount.replace('%', '');
-          discountType = 'percentage';
+        if (data.discount_type === 'percentage') {
+          discountValue = data.discount_value.toString();
           discountUnit = 'percent';
-        } else if (coupon.discount.includes('$')) {
-          discountValue = coupon.discount.replace('$', '').replace('.00', '');
-          discountType = 'fixed';
+        } else {
+          discountValue = data.discount_value.toString();
           discountUnit = 'amount';
         }
-
         setForm({
-          name: coupon.description,
-          code: coupon.code,
-          description: coupon.description,
+          name: data.name,
+          code: data.code,
+          description: data.description,
           discountType,
           discountValue,
-          startDate: '',
-          endDate: '',
-          usageLimit: '',
-          minOrder: '',
-          active: coupon.status === 'active',
-          facebookCoupon: false,
-          allowGiftCards: false,
-          allowReferrals: false,
+          startDate: data.start_date || '',
+          endDate: data.end_date || '',
+          usageLimit: data.usage_limit ? data.usage_limit.toString() : '',
+          minOrder: data.min_order ? data.min_order.toString() : '',
+          active: data.active,
+          facebookCoupon: data.facebook_coupon || false,
+          allowGiftCards: data.allow_gift_cards || false,
+          allowReferrals: data.allow_referrals || false,
         });
         setDiscountUnit(discountUnit);
       } else {
@@ -129,17 +132,10 @@ export default function EditCouponPage() {
         });
         router.push('/admin/marketing');
       }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to load coupon',
-        variant: 'destructive',
-      });
-      router.push('/admin/marketing');
-    } finally {
       setLoading(false);
-    }
-  }, [couponId, router, toast]);
+    };
+    fetchCoupon();
+  }, [couponId, router, toast, currentBusiness]);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -148,43 +144,52 @@ export default function EditCouponPage() {
     setForm((s) => ({ ...s, [name]: value }));
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    if (!currentBusiness?.id) {
+      toast({ title: 'Error', description: 'No business selected', variant: 'destructive' });
+      return;
+    }
     try {
-      const storedCoupons = JSON.parse(localStorage.getItem(COUPONS_KEY) || '[]') as Coupon[];
-      const discount = discountUnit === 'percent' 
-        ? `${form.discountValue}%` 
-        : `$${form.discountValue}`;
-      
-      const updatedCoupons = storedCoupons.map(coupon => 
-        coupon.id === couponId 
-          ? {
-              ...coupon,
-              code: form.code,
-              description: form.description,
-              discount,
-              status: form.active ? 'active' as const : 'inactive' as const,
-            }
-          : coupon
-      );
-      
-      localStorage.setItem(COUPONS_KEY, JSON.stringify(updatedCoupons));
-      
+      const discount_type = form.discountType;
+      const discount_value = parseFloat(form.discountValue);
+      const { error } = await supabase
+        .from('marketing_coupons')
+        .update({
+          name: form.name,
+          code: form.code,
+          description: form.description,
+          discount_type,
+          discount_value,
+          start_date: form.startDate || null,
+          end_date: form.endDate || null,
+          usage_limit: form.usageLimit ? parseInt(form.usageLimit) : null,
+          min_order: form.minOrder ? parseFloat(form.minOrder) : null,
+          active: form.active,
+          facebook_coupon: form.facebookCoupon,
+          allow_gift_cards: form.allowGiftCards,
+          allow_referrals: form.allowReferrals,
+        })
+        .eq('id', couponId)
+        .eq('business_id', currentBusiness.id);
+      if (error) {
+        toast({ title: 'Error', description: error.message, variant: 'destructive' });
+        return;
+      }
       toast({ 
         title: 'Coupon updated', 
         description: `Code ${form.code} has been updated successfully.` 
       });
-      
       router.push('/admin/marketing');
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: 'Error',
-        description: 'Failed to update coupon',
+        description: error.message || 'Failed to update coupon',
         variant: 'destructive',
       });
     }
   };
+
 
   if (loading) {
     return (

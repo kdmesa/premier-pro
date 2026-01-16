@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient';
+import { useBusiness } from '@/contexts/BusinessContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,6 +19,7 @@ import { ArrowLeft } from 'lucide-react';
 export default function NewCouponPage() {
   const { toast } = useToast();
   const router = useRouter();
+  const { currentBusiness } = useBusiness();
   const [form, setForm] = useState({
     name: '',
     code: '',
@@ -76,11 +79,44 @@ export default function NewCouponPage() {
     setForm((s) => ({ ...s, [name]: value }));
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: 'Coupon saved', description: `Code ${form.code || '(no code)'} created/updated.` });
-    // TODO: integrate API
+    if (!currentBusiness?.id) {
+      toast({ title: 'Error', description: 'No business selected', variant: 'destructive' });
+      return;
+    }
+    try {
+      const discount_type = form.discountType;
+      const discount_value = parseFloat(form.discountValue);
+      const { data, error } = await supabase
+        .from('marketing_coupons')
+        .insert({
+          name: form.name,
+          business_id: currentBusiness.id,
+          code: form.code,
+          description: form.description,
+          discount_type,
+          discount_value,
+          start_date: form.startDate || null,
+          end_date: form.endDate || null,
+          usage_limit: form.usageLimit ? parseInt(form.usageLimit) : null,
+          min_order: form.minOrder ? parseFloat(form.minOrder) : null,
+          active: form.active,
+          facebook_coupon: form.facebookCoupon,
+          allow_gift_cards: form.allowGiftCards,
+          allow_referrals: form.allowReferrals,
+        });
+      if (error) {
+        toast({ title: 'Error', description: error.message, variant: 'destructive' });
+        return;
+      }
+      toast({ title: 'Coupon saved', description: `Code ${form.code || '(no code)'} created.` });
+      router.push('/admin/marketing');
+    } catch (err: any) {
+      toast({ title: 'Error', description: err.message || 'Failed to save coupon', variant: 'destructive' });
+    }
   };
+
 
   return (
     <div className="space-y-6">
