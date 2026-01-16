@@ -49,7 +49,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 
 import { supabase } from "@/lib/supabaseClient";
+<<<<<<< HEAD
 import { SendScheduleDialog } from "@/components/admin/SendScheduleDialog";
+=======
+>>>>>>> 52f19ee6161038f0a2f0c1a09a3f82afc9a4eddc
 
 // Bookings are now loaded from Supabase only.
 
@@ -173,7 +176,10 @@ export default function BookingsPage() {
   const [showProviderDialog, setShowProviderDialog] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "calendar">("calendar");
+<<<<<<< HEAD
   const [showSendScheduleDialog, setShowSendScheduleDialog] = useState(false);
+=======
+>>>>>>> 52f19ee6161038f0a2f0c1a09a3f82afc9a4eddc
 
   // Auto-set view mode based on active tab
   useEffect(() => {
@@ -438,7 +444,10 @@ toast({
         </div>
         <div className="flex gap-3">
           <Button 
+<<<<<<< HEAD
             onClick={() => setShowSendScheduleDialog(true)}
+=======
+>>>>>>> 52f19ee6161038f0a2f0c1a09a3f82afc9a4eddc
             className="bg-primary text-primary-foreground hover:bg-primary/90"
             title="Send Schedule"
           >
@@ -949,6 +958,7 @@ toast({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+<<<<<<< HEAD
 
       {/* Send Schedule Dialog */}
       <SendScheduleDialog
@@ -957,6 +967,8 @@ toast({
         bookings={bookings}
         providers={mockProviders}
       />
+=======
+>>>>>>> 52f19ee6161038f0a2f0c1a09a3f82afc9a4eddc
     </div>
   );
 }
