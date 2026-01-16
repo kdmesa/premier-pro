@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Search, PlusCircle, Mail, Send, Users, Eye } from 'lucide-react';
+import { Search, PlusCircle, Mail, Send, Users, Eye, Edit, Trash2 } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { DailyDiscountsForm } from "@/components/admin/marketing/DailyDiscountsForm";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -67,6 +67,7 @@ const GIFT_CARDS_KEY = 'marketingGiftCards';
 const SCRIPTS_KEY = 'marketingScripts';
 const CUSTOMERS_STORAGE_KEY = 'adminCustomers';
 const EMAIL_CAMPAIGNS_KEY = 'emailCampaigns';
+const COUPONS_KEY = 'marketingCoupons';
 
 export default function MarketingPage() {
   const { toast } = useToast();
@@ -92,6 +93,7 @@ export default function MarketingPage() {
   const [campaigns, setCampaigns] = useState<EmailCampaign[]>([]);
   const [showPreview, setShowPreview] = useState(false);
   const [customerSearchTerm, setCustomerSearchTerm] = useState('');
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
 
   // Load and seed local data for gift cards and scripts
   useEffect(() => {
@@ -165,23 +167,62 @@ export default function MarketingPage() {
     } catch {
       // ignore
     }
+
+    // Load coupons
+    try {
+      const storedCoupons = JSON.parse(localStorage.getItem(COUPONS_KEY) || '[]') as Coupon[];
+      if (Array.isArray(storedCoupons) && storedCoupons.length > 0) {
+        setCoupons(storedCoupons);
+      } else {
+        const seed: Coupon[] = [
+          { id: '1', code: 'WELCOME10', description: 'New users', discount: '10%', status: 'active' },
+          { id: '2', code: 'SAVE5', description: 'Fixed off', discount: '$5.00', status: 'active' },
+          { id: '3', code: 'OLD50', description: 'Expired campaign', discount: '50%', status: 'inactive' },
+        ];
+        setCoupons(seed);
+        localStorage.setItem(COUPONS_KEY, JSON.stringify(seed));
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
 
-  const coupons: Coupon[] = [
-    { id: '1', code: 'WELCOME10', description: 'New users', discount: '10%', status: 'active' },
-    { id: '2', code: 'SAVE5', description: 'Fixed off', discount: '$5.00', status: 'active' },
-    { id: '3', code: 'OLD50', description: 'Expired campaign', discount: '50%', status: 'inactive' },
-  ];
-
+  
   const filteredCoupons = coupons.filter(coupon => {
     const matchesSearch = coupon.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          coupon.description.toLowerCase().includes(searchTerm.toLowerCase());
     return coupon.status === couponTab && matchesSearch;
   });
+
+  const saveCoupons = (next: Coupon[]) => {
+    setCoupons(next);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(COUPONS_KEY, JSON.stringify(next));
+    }
+  };
+
+  const handleEditCoupon = (id: string) => {
+    const coupon = coupons.find(c => c.id === id);
+    if (coupon) {
+      window.location.href = `/admin/marketing/coupons/${id}/edit`;
+    }
+  };
+
+  const handleDeleteCoupon = (id: string) => {
+    const coupon = coupons.find(c => c.id === id);
+    if (coupon && confirm(`Are you sure you want to delete coupon "${coupon.code}"?`)) {
+      const next = coupons.filter(c => c.id !== id);
+      saveCoupons(next);
+      toast({
+        title: 'Coupon Deleted',
+        description: `Coupon "${coupon.code}" has been deleted.`,
+      });
+    }
+  };
 
   const saveGiftCards = (next: GiftCard[]) => {
     setGiftCards(next);
@@ -457,6 +498,7 @@ Premier Pro Cleaners`);
                           <TableHead>Code</TableHead>
                           <TableHead>Description</TableHead>
                           <TableHead>Discount</TableHead>
+                          <TableHead className="w-[120px]">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -466,11 +508,31 @@ Premier Pro Cleaners`);
                               <TableCell className="font-medium">{coupon.code}</TableCell>
                               <TableCell>{coupon.description}</TableCell>
                               <TableCell>{coupon.discount}</TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-1">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleEditCoupon(coupon.id)}
+                                    className="h-8 w-8 p-0"
+                                  >
+                                    <Edit className="h-3 w-3" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="text-red-600 h-8 w-8 p-0 hover:bg-red-50"
+                                    onClick={() => handleDeleteCoupon(coupon.id)}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              </TableCell>
                             </TableRow>
                           ))
                         ) : (
                           <TableRow>
-                            <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                            <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
                               No coupons found. Create your first coupon to get started.
                             </TableCell>
                           </TableRow>
@@ -488,6 +550,7 @@ Premier Pro Cleaners`);
                           <TableHead>Code</TableHead>
                           <TableHead>Description</TableHead>
                           <TableHead>Discount</TableHead>
+                          <TableHead className="w-[120px]">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -497,11 +560,31 @@ Premier Pro Cleaners`);
                               <TableCell className="font-medium">{coupon.code}</TableCell>
                               <TableCell>{coupon.description}</TableCell>
                               <TableCell>{coupon.discount}</TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-1">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleEditCoupon(coupon.id)}
+                                    className="h-8 w-8 p-0"
+                                  >
+                                    <Edit className="h-3 w-3" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="text-red-600 h-8 w-8 p-0 hover:bg-red-50"
+                                    onClick={() => handleDeleteCoupon(coupon.id)}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              </TableCell>
                             </TableRow>
                           ))
                         ) : (
                           <TableRow>
-                            <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                            <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
                               No inactive coupons found.
                             </TableCell>
                           </TableRow>
