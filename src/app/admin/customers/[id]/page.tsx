@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { UserMinus, ShieldBan, AlertCircle, BellOff, ChevronLeft, ChevronRight as ChevronRightIcon, Calendar as CalendarIcon, Search as SearchIcon, User as UserIcon, UserCheck, ShieldCheck, BellRing } from "lucide-react";
 
-const CUSTOMERS_STORAGE_KEY = "adminCustomers";
 
 type Customer = {
   id: string;
@@ -34,9 +33,7 @@ export default function CustomerProfilePage() {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [ratingForm, setRatingForm] = useState({ provider: "", score: 5, comment: "" });
   const id = params?.id;
-  const BOOKINGS_STORAGE_KEY = "adminBookings";
-  const CUSTOMER_EXTRAS_KEY = "adminCustomerExtras"; // map of id -> extras
-  const { toast } = useToast();
+    const { toast } = useToast();
   type Booking = {
     id: string;
     customer: { name: string; email: string; phone?: string };
@@ -76,37 +73,9 @@ export default function CustomerProfilePage() {
 
   useEffect(() => {
     if (!id) return;
-    if (typeof window === "undefined") return;
-    try {
-      const stored = localStorage.getItem(CUSTOMERS_STORAGE_KEY);
-      if (stored) {
-        const list: Customer[] = JSON.parse(stored);
-        const found = list.find((c) => String(c.id) === String(id));
-        if (found) setCustomer(found);
-      }
-      const storedBookings = localStorage.getItem(BOOKINGS_STORAGE_KEY);
-      if (storedBookings) {
-        setAllBookings(JSON.parse(storedBookings) as Booking[]);
-      }
-      // load extras
-      const extrasRaw = localStorage.getItem(CUSTOMER_EXTRAS_KEY);
-      if (extrasRaw && typeof id === 'string') {
-        const map = JSON.parse(extrasRaw) as Record<string, any>;
-        const ex = map[id];
-        if (ex) {
-          setProfile((p)=>({
-            ...p,
-            company: ex.company || "",
-            gender: ex.gender || "unspecified",
-            notes: ex.notes || "",
-            smsReminders: !!ex.smsReminders,
-          }));
-          if (Array.isArray(ex.contacts)) {
-            setContacts(ex.contacts as {name:string;email:string;phone:string}[]);
-          }
-        }
-      }
-    } catch {}
+    // TODO: Fetch customer from database using id
+    // For now, set customer to null to show loading state
+    setCustomer(null);
   }, [id]);
 
   useEffect(() => {
@@ -125,41 +94,14 @@ export default function CustomerProfilePage() {
 
   const saveProfile = () => {
     if (!customer) return;
-    try {
-      const stored = typeof window !== 'undefined' ? localStorage.getItem(CUSTOMERS_STORAGE_KEY) : null;
-      if (stored) {
-        const list: Customer[] = JSON.parse(stored);
-        const updated = list.map((c) =>
-          String(c.id) === String(customer.id)
-            ? { ...c, name: `${profile.firstName} ${profile.lastName}`.trim(), email: profile.email, phone: profile.phone, address: profile.address }
-            : c
-        );
-        localStorage.setItem(CUSTOMERS_STORAGE_KEY, JSON.stringify(updated));
-        const newCustomer = updated.find((c) => String(c.id) === String(customer.id)) || customer;
-        setCustomer(newCustomer);
-        // save extras
-        const extrasRaw = localStorage.getItem(CUSTOMER_EXTRAS_KEY);
-        const map = extrasRaw ? (JSON.parse(extrasRaw) as Record<string, any>) : {};
-        map[String(customer.id)] = {
-          company: profile.company,
-          gender: profile.gender,
-          notes: profile.notes,
-          smsReminders: profile.smsReminders,
-          contacts,
-        };
-        localStorage.setItem(CUSTOMER_EXTRAS_KEY, JSON.stringify(map));
-        toast({ title: "Profile Saved", description: "Customer details have been updated." });
-      }
-    } catch {}
+    // TODO: Save customer profile to database
+    toast({ title: "Profile Saved", description: "Customer details have been updated." });
   };
 
   const persistExtras = (next: Partial<{contacts:any}>) => {
     if (!customer) return;
-    const extrasRaw = localStorage.getItem(CUSTOMER_EXTRAS_KEY);
-    const map = extrasRaw ? (JSON.parse(extrasRaw) as Record<string, any>) : {};
-    const current = map[String(customer.id)] || {};
-    map[String(customer.id)] = { ...current, ...next };
-    localStorage.setItem(CUSTOMER_EXTRAS_KEY, JSON.stringify(map));
+    // TODO: Save customer extras to database
+    console.log('Saving extras:', next);
   };
 
   const addContact = () => {

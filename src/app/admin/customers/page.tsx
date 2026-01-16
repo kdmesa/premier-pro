@@ -135,12 +135,19 @@ const Customers = () => {
 
   useEffect(() => {
     fetchCustomers();
-  }, []);
+  }, [currentBusiness?.id]);
 
   async function fetchCustomers() {
+    if (!currentBusiness?.id) {
+      console.log('No business context, using mock data');
+      setCustomers(defaultCustomers);
+      return;
+    }
+
     const { data, error } = await supabase
       .from('customers')
       .select('*')
+      .eq('business_id', currentBusiness.id)
       .order('join_date', { ascending: false });
       
     if (error) {
@@ -150,7 +157,7 @@ const Customers = () => {
         console.log('Customers table not found, using mock data');
         toast({
           title: "Database Setup Required",
-          description: "Please run the SQL script to create the customers table.",
+          description: "Please run SQL script to create customers table.",
           variant: "destructive"
         });
         setCustomers(defaultCustomers);
@@ -190,11 +197,7 @@ const Customers = () => {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(CUSTOMERS_STORAGE_KEY, JSON.stringify(customers));
-  }, [customers]);
-
+  
   const filteredCustomers = customers.filter((customer) => {
     const matchesSearch = 
       customer.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -240,9 +243,18 @@ const Customers = () => {
   };
 
   const handleAddCustomer = async () => {
+  if (!currentBusiness?.id) {
+    toast({
+      title: "Error",
+      description: "No business context found. Please select a business first.",
+      variant: "destructive"
+    });
+    return;
+  }
+
   const now = new Date();
   const newEntry = {
-    id: `CUST${Date.now()}`,
+    business_id: currentBusiness.id,
     name: newCustomer.name,
     email: newCustomer.email,
     phone: newCustomer.phone,
